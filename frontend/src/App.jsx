@@ -21,7 +21,7 @@ export default function App(){
           <AuthProvider>
             <Router>
               <Navbar />
-              <main className="flex-grow-0">
+              <main className="flex-grow-0 h-100">
               <Routes>
                   <Route path={routes.HOMEPAGE_URL} element={<Home/>} />
                   <Route path={routes.USER_LOGIN_URL} element={<Login />}/>

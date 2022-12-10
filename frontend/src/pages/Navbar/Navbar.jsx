@@ -4,6 +4,7 @@ import LinkItem from "./LinkItem";
 import UserDropdown from "./UserDropdown";
 
 import {navbarItems} from "../../constants/navbarItems";
+import ProcessDropdown from "./ProcessDropdown";
 
 export default function Navbar(){
     return(
@@ -22,7 +23,9 @@ export default function Navbar(){
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                     <ul className="navbar-nav">
                             {navbarItems.map(item => <LinkItem key = {item.path} path={item.path} linkname={item.linkName}/>)}
+                            <ProcessDropdown />
                             <UserDropdown />
+                            
                     </ul>
                 </div>
             </div>

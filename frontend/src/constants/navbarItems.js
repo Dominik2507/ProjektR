@@ -1,10 +1,10 @@
 export const navbarItems = [{
     path: "/",
     linkName: "Home"
-},{
+}/*,{
     path: "/create",
     linkName: "Create process"
-}]
+}*/]
 
 export const notLoggedInItems = [{
     path: "/login",
@@ -20,4 +20,20 @@ export const loggedInItems = [{
 }, {
     path: "/logout",
     linkName: "Log out"
+}];
+
+export const processItemsLoggedIn = [{
+    path: "/create",
+    linkName: "Create Process"
+}, {
+    path: "/profile#my",
+    linkName: "My process"
+}, {
+    path: "/processAll",
+    linkName: "View all process"
+}];
+
+export const processItemsNotLoggedIn = [{
+    path: "/processAll",
+    linkName: "View all process"
 }];

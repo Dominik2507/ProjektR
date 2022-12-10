@@ -5,3 +5,11 @@
     height: 100vh;
     justify-content: space-between;
 }
+
+.background-color-1{
+    background-color: rgb(230, 230, 246);
+}
+
+.background-color-0{
+    background-color: white;
+}
