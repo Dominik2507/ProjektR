@@ -7,9 +7,8 @@ export default function Input({type,name,placeholder,value,handleChange,error}){
     let className = error ? "form-control is-invalid item" : "form-control item"
 
     return(
-        <div className = "col-lg-8">
 
-            <div className="form-floating mb-2 input-container">
+            <div className="form-floating w-100">
                 <input
                     className={className}
                     type = {type}
@@ -27,7 +26,6 @@ export default function Input({type,name,placeholder,value,handleChange,error}){
                         {error.message}
                     </div>
                 }
-            </div>
 
 
 

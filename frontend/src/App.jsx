@@ -14,6 +14,7 @@ import Footer from "./pages/Footer/Footer";
 import "./App.css"
 import AuthProvider from "./context/AuthContext";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import CreateProcess from "./pages/CreateProcess/CreateProcess";
 
 export default function App(){
   return(
@@ -24,6 +25,7 @@ export default function App(){
               <main className="flex-grow-0 h-100">
               <Routes>
                   <Route path={routes.HOMEPAGE_URL} element={<Home/>} />
+                  <Route path={routes.CREATE_PROCESS_URL} element={<CreateProcess />} />
                   <Route path={routes.USER_LOGIN_URL} element={<Login />}/>
                   <Route path={routes.USER_REGISTRATION_URL} element={<Registration />} />
                   <Route path={routes.NOT_FOUND} element={<PageNotFound />} />
