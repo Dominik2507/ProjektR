@@ -3,5 +3,6 @@ export const routes = {
     CREATE_PROCESS_URL: "/createProcess",
     USER_REGISTRATION_URL: "/registration",
     USER_LOGIN_URL: "/login",
-    NOT_FOUND: "*"
+    NOT_FOUND: "*",
+    PROCESS_ALL: "/processAll"
 };
