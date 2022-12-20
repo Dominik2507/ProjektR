@@ -1,0 +1,26 @@
+[
+    {
+        "processId": 1,
+        "name": "Process 1",
+        "start_datetime": "2022-07-01",
+        "end_datetime": null,
+        "description": "Opis procesa",
+        "userId": 1
+    },
+    {
+        "processId": 2,
+        "name": "Process 2",
+        "start_datetime": "2022-07-01",
+        "end_datetime": null,
+        "description": "Opis procesa 2",
+        "userId": 2
+    },
+    {
+        "processId": 3,
+        "name": "Process 3",
+        "start_datetime": "2022-07-01",
+        "end_datetime": null,
+        "description": "Opis procesa 3",
+        "userId": 3
+    }
+]
