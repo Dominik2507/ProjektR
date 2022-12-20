@@ -15,6 +15,7 @@ import "./App.css"
 import AuthProvider from "./context/AuthContext";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import CreateProcess from "./pages/CreateProcess/CreateProcess";
+import CreateProcessProvider from "./context/CreateProcessContext";
 
 export default function App(){
   return(
@@ -22,10 +23,13 @@ export default function App(){
           <AuthProvider>
             <Router>
               <Navbar />
-              <main className="flex-grow-0 h-100">
+              <main className="flex-grow-0 min-h-screen">
               <Routes>
                   <Route path={routes.HOMEPAGE_URL} element={<Home/>} />
-                  <Route path={routes.CREATE_PROCESS_URL} element={<CreateProcess />} />
+                  <Route path={routes.CREATE_PROCESS_URL} element={
+                      <CreateProcessProvider>
+                          <CreateProcess />
+                      </CreateProcessProvider>} />
                   <Route path={routes.USER_LOGIN_URL} element={<Login />}/>
                   <Route path={routes.USER_REGISTRATION_URL} element={<Registration />} />
                   <Route path={routes.NOT_FOUND} element={<PageNotFound />} />

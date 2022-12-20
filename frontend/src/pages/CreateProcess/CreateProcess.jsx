@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Modal from "../../components/Modal/Modal";
 import ModalHeader from "../../components/Modal/ModalHeader";
 import CreateProcessModalBody from "./CreateProcessModalBody";
@@ -7,22 +7,17 @@ import Sidebar from "../../components/Sidebar";
 import CreatePhaseToolbar from "./CreatePhaseToolbar";
 
 import "./CreateProcess.css"
+import {nanoid} from "nanoid";
+import {CreateProcessContext} from "../../context/CreateProcessContext";
+import {modalInputs} from "../../constants/paramInputs";
 
 export default function CreateProcess(){
     const [modalActive, setModalActive] = useState(true);
     const [err, setErr] = useState(null);
-    const [createProcessInfo, setCreateProcessInfo] = useState([{
-        name: "processName",
-        value: "",
-    },{
-        name: "processDescription",
-        value: "",
-    }])
-    const [processId, setProcessId] = useState();
+    const [createProcessInfo, setCreateProcessInfo] = useState(modalInputs);
 
-    const handleClose = () => {
-        setModalActive(false);
-    }
+    const {setProcessInfo} = useContext(CreateProcessContext);
+
 
     const handleSave = () => {
         setErr(null);
@@ -34,7 +29,15 @@ export default function CreateProcess(){
             return;
         }
 
+
         //TODO: Save process to DB and return and save process id
+        let saveObj = {
+            id: nanoid(),
+            processName : createProcessInfo[0].value,
+            processDescription: createProcessInfo[1].value
+        };
+
+        setProcessInfo(saveObj);
 
         setModalActive(false);
 
@@ -44,15 +47,15 @@ export default function CreateProcess(){
         <React.Fragment>
             {modalActive &&
                 <Modal>
-                    <ModalHeader title="Create process" closeModal={handleClose}/>
+                    <ModalHeader title="Create process" closeModal={() => setModalActive(false)}/>
                     <CreateProcessModalBody err={err} createProcessInfo={createProcessInfo} setCreateProcessInfo={setCreateProcessInfo}/>
-                    <ModalFooter handleSave={handleSave} handleClose={handleClose} />
+                    <ModalFooter handleSave={handleSave} handleClose={() => setModalActive(false)} />
                 </Modal>
             }
 
             <Sidebar>
                 <div className="processSidebar">
-                    <CreatePhaseToolbar processId = {processId}/>
+                    <CreatePhaseToolbar />
                 </div>
             </Sidebar>
 

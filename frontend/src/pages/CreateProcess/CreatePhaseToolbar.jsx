@@ -1,59 +1,20 @@
-import React, {useState} from "react";
+import React from "react";
 import CreatePhase from "./CreatePhase";
 import CreateComponent from "./CreateComponent";
 import Dropdown from "../../components/Dropdown";
-import {paramInputs} from "../../constants/paramInputs";
 
-export default function CreatePhaseToolbar({processId}){
+export default function CreatePhaseToolbar(){
 
-    const [phases, setPhases] = useState([]);
-    const [component, setComponent] = useState([]);
-    const [phaseParameterInfo, setPhaseParameterInfo] = useState([{
-        name: "parameterName",
-        value: "",
-        placeholder: "Parameter name",
-    },{
-        name: "unit",
-        value: "",
-        placeholder: "Unit",
-    },{
-        name: "minimumValue",
-        value: "",
-        placeholder: "Minimum value",
-    },{
-        name: "maxValue",
-        value: "",
-        placeholder: "Maximum value",
-    }]);
-    const [componentParameterInfo, setComponentParameterInfo] = useState([{
-        name: "parameterName",
-        value: "",
-        placeholder: "Parameter name",
-    },{
-        name: "unit",
-        value: "",
-        placeholder: "Unit",
-    },{
-        name: "minimumValue",
-        value: "",
-        placeholder: "Minimum value",
-    },{
-        name: "maxValue",
-        value: "",
-        placeholder: "Maximum value",
-    }]);
 
     return(
         <React.Fragment>
             <Dropdown name="Phase">
-                <CreatePhase processId={processId} setPhases={setPhases} parameterInfo={phaseParameterInfo} setParameterInfo={setPhaseParameterInfo} />
+                <CreatePhase />
             </Dropdown>
-            {
-                phases &&
-                <Dropdown name="Component">
-                    <CreateComponent setComponent = {setComponent} phases={phases} parameterInfo={componentParameterInfo} setParameterInfo={setComponentParameterInfo} />
-                </Dropdown>
-            }
+            <Dropdown name="Component">
+                <CreateComponent />
+            </Dropdown>
+
         </React.Fragment>
     )
 }

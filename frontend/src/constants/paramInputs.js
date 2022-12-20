@@ -33,3 +33,11 @@ export const componentParamInputs = [{
     value: "",
     placeholder: "Maximum value",
 }];
+
+export const modalInputs = [{
+    name: "processName",
+    value: "",
+},{
+    name: "processDescription",
+    value: "",
+}];

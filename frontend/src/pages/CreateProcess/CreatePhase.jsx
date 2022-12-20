@@ -1,16 +1,20 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import Input from "../../components/Form/Input";
 import Button from "../../components/Form/Button";
 import Textarea from "../../components/Form/Textarea";
 import ParameterInput from "../../components/ParameterInput";
 import Dropdown from "../../components/Dropdown";
 import {nanoid} from "nanoid";
+import {CreateProcessContext} from "../../context/CreateProcessContext";
 
-export default function CreatePhase({processId,setPhases,parameterInfo,setParameterInfo}){
+export default function CreatePhase(){
     const [phaseName, setPhaseName] = useState("");
     const [phaseDescription, setPhaseDescription] = useState("");
     const [err, setErr] = useState(null);
     const [allParameters, setAllParameters] = useState([]);
+
+    const {setAllPhases} = useContext(CreateProcessContext);
+
 
     const handleAddPhase = () => {
         if(phaseName === "") {
@@ -26,16 +30,11 @@ export default function CreatePhase({processId,setPhases,parameterInfo,setParame
             id:nanoid(),
             phaseName,
             phaseDescription,
-            params: allParameters
+            parameters: allParameters
         };
 
-        console.table(obj.params);
-        console.log(obj);
 
-
-        setPhases(prevSetPhase => [...prevSetPhase, obj]);
-
-
+        setAllPhases(prevSetPhase => [...prevSetPhase, obj]);
 
         setPhaseName("");
         setPhaseDescription("");
@@ -60,7 +59,7 @@ export default function CreatePhase({processId,setPhases,parameterInfo,setParame
                 handleChange={(e) => setPhaseDescription(e.target.value)}
                 />
             <Dropdown name="Phase parameter">
-                <ParameterInput parameterInfo = {parameterInfo} setParameterInfo = {setParameterInfo} setAllParameters={setAllParameters}/>
+                <ParameterInput setAllParameters={setAllParameters}/>
             </Dropdown>
             <Button placeholder="Add phase" handleClick={handleAddPhase} />
         </React.Fragment>
