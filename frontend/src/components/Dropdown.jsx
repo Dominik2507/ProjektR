@@ -4,8 +4,8 @@ import "./Dropdown.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-export default function Dropdown({children,name}){
-    const [dropdownActive, setDropdownActive] = useState(false);
+export default function Dropdown({children,name, active=false}){
+    const [dropdownActive, setDropdownActive] = useState(active);
 
     const handleClick = () =>  setDropdownActive(prevDropdownActive => !prevDropdownActive);
 

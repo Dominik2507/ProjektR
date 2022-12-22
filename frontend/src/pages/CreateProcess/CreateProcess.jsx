@@ -10,12 +10,13 @@ import "./CreateProcess.css"
 import {nanoid} from "nanoid";
 import {CreateProcessContext} from "../../context/CreateProcessContext";
 import {modalInputs} from "../../constants/paramInputs";
+import ViewPhasesToolbar from "./ViewPhasesToolbar";
 
 export default function CreateProcess(){
     const [modalActive, setModalActive] = useState(true);
     const [err, setErr] = useState(null);
     const [createProcessInfo, setCreateProcessInfo] = useState(modalInputs);
-
+    const [process, setProcess]=useState({"phases": [{"id": 1, "name": "phase1","params":[], "components": [{"id": 1, "name": "component1", "params": []}]}]})
     const {setProcessInfo} = useContext(CreateProcessContext);
 
 
@@ -54,8 +55,9 @@ export default function CreateProcess(){
             }
 
             <Sidebar>
+                <h4 id={createProcessInfo[0].name}>{createProcessInfo[0].value}</h4>
                 <div className="processSidebar">
-                    <CreatePhaseToolbar />
+                    <ViewPhasesToolbar process={process} setProcess={setProcess}/>
                 </div>
             </Sidebar>
 
