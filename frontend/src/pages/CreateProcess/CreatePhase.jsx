@@ -7,14 +7,22 @@ import Dropdown from "../../components/Dropdown";
 import {nanoid} from "nanoid";
 import {CreateProcessContext} from "../../context/CreateProcessContext";
 
-export default function CreatePhase(){
-    const [phaseName, setPhaseName] = useState("");
-    const [phaseDescription, setPhaseDescription] = useState("");
+export default function CreatePhase({process, setProcess, setShowDropDown, phase=null, setEdit=null}){
+    const [phaseName, setPhaseName] = useState(phase?.name || "");
+    const [phaseDescription, setPhaseDescription] = useState(phase?.description || "");
     const [err, setErr] = useState(null);
-    const [allParameters, setAllParameters] = useState([]);
+    const [allParameters, setAllParameters] = useState(phase?.params || []);
 
     const {setAllPhases} = useContext(CreateProcessContext);
 
+
+    const calcId= function(){
+        let maxId=0;
+        for(let phase of process.phases){
+            maxId= maxId > phase.id ? maxId : phase.id; 
+        }
+        return maxId+1;
+    }
 
     const handleAddPhase = () => {
         if(phaseName === "") {
@@ -25,6 +33,34 @@ export default function CreatePhase(){
             return;
         }
         //TODO: CREATE PHASE IN DB AND STORE PHASE ID
+        if(phase){
+            let temp=process.phases
+            let index=temp.indexOf(phase)
+            temp[index]={
+                "id": phase.id,
+                "name": phaseName,
+                "description": phaseDescription,
+                "params": allParameters,
+                "components": phase.components
+
+            }
+            setProcess({...process, "phases": temp})
+            setEdit(false);
+
+        }else{
+            let temp=process.phases
+            temp.push(
+                {
+                    "id": calcId(), 
+                    "name":phaseName,
+                    "description": phaseDescription,
+                    "params": allParameters,
+                    "components":[]
+                }
+            );
+        }
+        
+        setShowDropDown(false)
         //TODO: REPLACE nanoId() WITH ID SAVED IN DB
         let obj = {
             id:nanoid(),
@@ -61,7 +97,8 @@ export default function CreatePhase(){
             <Dropdown name="Phase parameter">
                 <ParameterInput setAllParameters={setAllParameters}/>
             </Dropdown>
-            <Button placeholder="Add phase" handleClick={handleAddPhase} />
+            <Button placeholder={phase ? "Save changes" : "Add phase"} handleClick={handleAddPhase} />
+            <Button placeholder={"Cancel"} handleClick={()=>{phase ? setEdit(false) : setShowDropDown(false)}}/>
         </React.Fragment>
             )
 }
