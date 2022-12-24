@@ -10,6 +10,38 @@ module.exports = class User{
         this.userId=userId;
     }
 
+    static async getUserFavProcess(userId){
+        const sql = `
+            select favorite_templates.*, name, start_datetime, end_datetime,description
+            from favorite_templates
+            JOIN process ON process.processid = favorite_templates.processid
+            WHERE favorite_templates.userid = $1
+        `;
+
+        try{
+            const result =await db.query(sql,[userId]);
+            console.log(result);
+            return result.rows;
+        }catch (e){
+            console.log(e);
+            return null;
+        }
+    }
+
+    static async getUserProcess(userId){
+        const sql = `
+            SELECT * FROM process where userid = $1;
+        `;
+
+        try{
+            const result =await db.query(sql,[userId]);
+            return result.rows;
+        }catch (e){
+            console.log(e);
+            return null;
+        }
+    }
+
     static async deleteFav(processId, userId){
         const sql = `
             DELETE FROM favorite_templates

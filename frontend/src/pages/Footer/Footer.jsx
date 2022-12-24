@@ -6,7 +6,7 @@ import {faFacebook,faInstagram,faTwitter} from "@fortawesome/free-brands-svg-ico
 export default function Footer(){
     return(
         <footer
-            className="text-center text-lg-start text-white"
+            className="text-center text-lg-start text-white mt-auto"
             style={{
                 backgroundColor : "#45526e"
             }}
