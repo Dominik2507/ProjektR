@@ -16,7 +16,29 @@ router.get("/all", (req, res, next) => {
   })();
 });
 
+router.get("/user/:userid", (req,res) => {
+  (async () => {
 
+    let userId=parseInt(req.params.userid);
+    console.log(userId);
+    if(Number.isNaN(userId)){
+      res.status(400)
+      res.send("Please check your request, id should be number")
+      return;
+    }
+
+    let result = await Process.getUserProcess(userId);
+
+    if(!result){
+      res.status(501);
+      res.send("Server error. Try again later");
+      return;
+    }
+
+    res.send(result);
+
+  })();
+});
 
 router.get("/:id", (req, res, next) => {
     (async () => {

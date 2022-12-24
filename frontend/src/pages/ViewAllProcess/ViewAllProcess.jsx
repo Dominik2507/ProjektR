@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from "react";
-import ProcessInlineView from "./ProcessInlineView";
+import ProcessInlineView from "../../components/ProcessInlineView/ProcessInlineView";
 import SearchBar from "../../components/Form/SearchBar";
 import axios from "axios";
 import {backend_paths} from "../../constants/paths";
@@ -28,7 +28,7 @@ export default function ViewAllProcess(){
         if(currentUser) getAllFavProcesses();
     }, []);
 
-    const handleToogleFav = (id) => {
+    const handleToggleFav = (id) => {
 
         const favProcess = {
             processId: id,
@@ -81,7 +81,7 @@ export default function ViewAllProcess(){
         <div className="d-flex flex-column mx-auto w-100">
 
             <div className="container mt-5 w-50">
-                {getSearchedProcess().map((process,index) => <ProcessInlineView key = {index} process={process} handleToogleFav = {handleToogleFav} isFavourite = {checkFav(process.processid)}/> ) }
+                {getSearchedProcess().map((process,index) => <ProcessInlineView key = {index} process={process} handleToogleFav = {handleToggleFav} isFavourite = {checkFav(process.processid)}/> ) }
             </div>
 
         </div>

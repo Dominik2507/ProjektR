@@ -9,7 +9,7 @@ import {AuthContext} from "../../context/AuthContext";
 
 export default function ProcessInlineView({process,handleToogleFav,isFavourite}){
     const { currentUser } = useContext(AuthContext);
-    const time = `${process.start_datetime } - ${process.end_datetime ? process.end_datetime : "Ongoing"}`;
+    const time = `${process.start_datetime.slice(0,10) } - ${process.end_datetime ? process.end_datetime.slice(0,10) : "Ongoing"}`;
 
     return (
         <div className="card my-3 w-100 mw-100 mx-auto">

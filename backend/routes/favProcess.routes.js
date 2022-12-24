@@ -22,6 +22,30 @@ router.get("/:id", (req,res) => {
     })();
 })
 
+router.get("/user/:userid", (req,res) => {
+    (async () => {
+
+        let userId=parseInt(req.params.userid);
+
+        if(Number.isNaN(userId)){
+            res.status(400)
+            res.send("Please check your request, id should be number")
+            return;
+        }
+
+        let result = await Process.getUserFavProcess(userId);
+        console.log(result);
+        if(!result){
+            res.status(501);
+            res.send("Server error. Try again later");
+            return;
+        }
+
+        res.send(result);
+
+    })();
+});
+
 router.post("/", (req,res) => {
     (async () => {
         let processId = req.body.processId;
