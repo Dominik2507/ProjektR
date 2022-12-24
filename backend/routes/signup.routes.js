@@ -14,7 +14,6 @@ router.post("/", (req, res, next) => {
     let user = new User(req.body.firstName, req.body.lastName,req.body.email, req.body.password);
 
     let result = await user.insertNewUser();
-
     if (!result) {
       res.status(501);
       res.send("Problems with sign in.Please try again later.");

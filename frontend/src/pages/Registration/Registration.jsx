@@ -13,6 +13,7 @@ import User from "../../model/User";
 import "../Login/Login.css";
 
 import {AuthContext} from "../../context/AuthContext";
+import {routes} from "../../constants/paths";
 
 export default function Registration(){
     const [inputs, setInputs] = useState(registrationInputs);
@@ -56,7 +57,7 @@ export default function Registration(){
 
         if(response === "ok") {
             inputs.forEach(input => input.value = "");
-            navigate("/");
+            navigate(routes.USER_LOGIN_URL);
         }
 
         setServerError(response);

@@ -1,6 +1,7 @@
 import React, { createContext, useState } from "react";
 
 import axios from "axios";
+import {backend_paths} from "../constants/paths";
 
 export const AuthContext = createContext(null);
 
@@ -8,14 +9,14 @@ export default function AuthProvider({children}){
     const [currentUser, setCurrentUser] = useState(null);
 
     const signup = async (user) => {
-        const url = "http://localhost:3001/registration";
-        return axios.post(url,user, {
+
+        return axios.post(backend_paths.SIGNUP_URL,user, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
             .then(res => {
-                setCurrentUser(user.email);
+                setCurrentUser(user);
                 return res.data;
             })
             .catch(err => err.response.data);
@@ -26,15 +27,13 @@ export default function AuthProvider({children}){
 
     const login = async (user) => {
 
-
-        const url = "http://localhost:3001/login";
-        return axios.post(url,user, {
+        return axios.post(backend_paths.LOGIN_URL,user, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
             .then(res => {
-                setCurrentUser(user.email);
+                setCurrentUser(res.data);
                 return res.data;
             })
             .catch(err => err.response.data);

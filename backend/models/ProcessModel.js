@@ -10,6 +10,55 @@ module.exports = class User{
         this.userId=userId;
     }
 
+    static async deleteFav(processId, userId){
+        const sql = `
+            DELETE FROM favorite_templates
+            WHERE processid = $1 AND userid = $2; 
+        `;
+
+        try{
+            const result = await db.query(sql,[processId,userId]);
+            return !!result.rows;
+
+        }catch (e){
+            console.log(e);
+            return false;
+        }
+
+    }
+
+    static async saveFav(processId,userId){
+        const sql = `
+        INSERT INTO favorite_templates
+        (processid, userid)
+        VALUES 
+        ($1,$2);
+        `;
+
+        try{
+            const result = await db.query(sql,[processId,userId]);
+            return !!result.rows;
+
+        }catch (e){
+            console.log(e);
+            return false;
+        }
+    }
+
+    static async getFavProcesses(id){
+        let sql = `
+            SELECT processId FROM favorite_templates WHERE userid = $1
+        `;
+
+        try{
+            let result = await db.query(sql,[id]);
+            return result.rows;
+        }catch (e){
+            console.log(e);
+            return false;
+        }
+    }
+
 
     async insertNewProcess(){
         let sql = `

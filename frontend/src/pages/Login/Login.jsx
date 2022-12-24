@@ -33,7 +33,7 @@ export default function Login(){
     const handleClick = async (e) => {
         e.preventDefault();
 
-        let user = new User(inputs[0].value, inputs[1].value, undefined);
+        let user = new User(inputs[0].value, undefined,undefined,inputs[1].value);
 
         let err = loginValidation(user);
 
@@ -44,7 +44,10 @@ export default function Login(){
 
         let response = await login(user);
 
-        if(response === "ok") navigate("/");
+        if(response.userid) {
+            inputs.forEach(input => input.value = "");
+            navigate("/")
+        }
 
         setServerError(response);
 
