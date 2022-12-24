@@ -33,4 +33,7 @@ export const processItemsLoggedIn = [{
 export const processItemsNotLoggedIn = [{
     path: "/createProcess",
     linkName: "Create Process"
+},{
+    path: "/processAll",
+    linkName: "View all process"
 }];
