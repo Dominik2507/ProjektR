@@ -32,11 +32,7 @@ module.exports = class User{
 
         try {
             let result = await db.query(sql, [email, password]);
-
-            if (result.rowCount === 0)
-                return "Incorrect password";
-
-            return null;
+            return result.rows;
 
         } catch (e){
             return false;
@@ -53,7 +49,8 @@ module.exports = class User{
 
         try{
             let result = await db.query(sql, [this.firstName,this.lastName,this.email, this.password]);
-            return result.rowCount > 0;
+
+            return result.rowCount;
         }catch (e){
             console.log(e);
             return false;

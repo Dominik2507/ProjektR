@@ -26,7 +26,7 @@ const sql_create_process = `
         processId SERIAL NOT NULL,
         name VARCHAR(50) NOT NULL,
         start_datetime TIMESTAMP NOT NULL,
-        end_datetime TIMESTAMP NOT NULL,
+        end_datetime TIMESTAMP,
         description VARCHAR(200) NOT NULL,
         userId INT NOT NULL,
         PRIMARY KEY (processId),
@@ -39,7 +39,7 @@ const sql_create_process_phase = `
     CREATE TABLE process_phase(
         phaseId SERIAL NOT NULL,
         start_datetime TIMESTAMP NOT NULL,
-        end_datetime TIMESTAMP NOT NULL,
+        end_datetime TIMESTAMP ,
         description VARCHAR(200) NOT NULL,
         active CHAR(1) NOT NULL,
         processId INT NOT NULL,

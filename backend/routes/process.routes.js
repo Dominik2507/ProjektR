@@ -16,6 +16,8 @@ router.get("/all", (req, res, next) => {
   })();
 });
 
+
+
 router.get("/:id", (req, res, next) => {
     (async () => {
       let id=parseInt(req.params.id);
