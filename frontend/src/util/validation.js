@@ -9,6 +9,18 @@ export const registerValidation = (user) => {
             message : "Invalid email"
         });
 
+    if(user.firstName === "")
+        err.push({
+            name : "firstName",
+            message : "First name empty"
+        });
+
+    if(user.lastName === "")
+        err.push({
+            name : "lastName",
+            message : "Last name empty"
+        });
+
     if(user.password.length < 8)
         err.push({
              name : "password",

@@ -1,7 +1,9 @@
 const db = require("../db/index");
 
 module.exports = class User{
-    constructor(email,password){
+    constructor(firstName, lastName, email,password){
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
     }
@@ -44,13 +46,13 @@ module.exports = class User{
     async insertNewUser(){
         let sql = `
         INSERT INTO user_data 
-        (email,password)
+        (firstName,lastName, email,password)
         VALUES
-        ($1,$2);
+        ($1,$2,$3,$4);
         `;
 
         try{
-            let result = await db.query(sql, [this.email, this.password]);
+            let result = await db.query(sql, [this.firstName,this.lastName,this.email, this.password]);
             return result.rowCount > 0;
         }catch (e){
             console.log(e);
