@@ -37,7 +37,13 @@ export default function Registration(){
     const handleClick = async (e) => {
         e.preventDefault();
 
-        let user = new User(inputs[0].value, inputs[1].value,inputs[2].value);
+        let user = new User(
+            inputs[0].value,
+            inputs[1].value,
+            inputs[2].value,
+            inputs[3].value,
+            inputs[4].value
+        );
 
         let err = registerValidation(user);
 
@@ -48,7 +54,10 @@ export default function Registration(){
 
         let response = await signup(user);
 
-        if(response === "ok") navigate("/");
+        if(response === "ok") {
+            inputs.forEach(input => input.value = "");
+            navigate("/");
+        }
 
         setServerError(response);
 

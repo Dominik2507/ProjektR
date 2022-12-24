@@ -7,6 +7,18 @@ export const registrationInputs = [
     },
     {
         value: "",
+        placeholder: "First name",
+        type: "text",
+        name: "firstName"
+    },
+    {
+        value: "",
+        placeholder: "Last name",
+        type: "text",
+        name: "lastName"
+    },
+    {
+        value: "",
         placeholder: "Password",
         type: "password",
         name: "password"

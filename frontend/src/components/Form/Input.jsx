@@ -8,7 +8,7 @@ export default function Input({type,name,placeholder,value,handleChange,error}){
 
     return(
 
-            <div className="form-floating w-100">
+            <div className="form-floating d-flex justify-content-center  w-100">
                 <input
                     className={className}
                     type = {type}
@@ -20,7 +20,7 @@ export default function Input({type,name,placeholder,value,handleChange,error}){
                     required
                 />
 
-                <label htmlFor={name}>{placeholder}</label>
+                <label className="label" htmlFor={name}>{placeholder}</label>
                 {error &&
                     <div className="invalid-feedback">
                         {error.message}
