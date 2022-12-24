@@ -1,0 +1,35 @@
+.form{
+    position: relative;
+}
+.row {
+    max-width: 300px;
+}
+.search-icon{
+    position: absolute;
+    top:10px;
+    left: 20px;
+    color: #9ca3af;
+}
+
+.form span{
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    padding: 2px;
+    border-left: 1px solid #d1d5db;
+}
+
+.left-pan{
+    padding-left: 7px;
+}
+
+.form-input{
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.form-input:focus{
+
+    box-shadow: none;
+    border:none;
+}

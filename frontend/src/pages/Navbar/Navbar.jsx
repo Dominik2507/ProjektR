@@ -9,7 +9,7 @@ import ProcessDropdown from "./ProcessDropdown";
 export default function Navbar(){
     return(
         <nav
-            className="navbar navbar-expand-lg navbar-dark"
+            className="navbar navbar-expand-lg navbar-dark position-relative"
             style={{
                 backgroundColor: "#45526e"
             }}

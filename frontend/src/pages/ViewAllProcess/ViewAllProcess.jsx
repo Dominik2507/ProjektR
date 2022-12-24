@@ -1,21 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import processList from "../../assets/textData/publicProcess.json"
 import ProcessInlineView from "./ProcessInlineView";
+import SearchBar from "../../components/Form/SearchBar";
 
 export default function ViewAllProcess(){
-    let rows=[];
-    for(let process of processList){
-        rows.push(
-            <ProcessInlineView process={process}/>
-        )
+    const [searchValue, setSearchValue] = useState("");
+
+    const getSearchedProcess = () => {
+        return  processList.filter(process => process.name.startsWith(searchValue));
     }
+
+    const handleChange = (e) => {
+        setSearchValue(e.target.value);
+    }
+
     return(
-        <div className="d-flex flex-column justify-content-start">
-            <h1>Procesi</h1>
-            <div>
-                 {rows}
+        <React.Fragment>
+            <div className="position-absolute w-75 top-10 end-0">
+                <SearchBar value = {searchValue} setValue = {handleChange}/>
+            </div>
+
+        <div className="d-flex flex-column mx-auto w-100">
+
+            <div className="container mt-5 w-50">
+                {getSearchedProcess().map(process => <ProcessInlineView key = {process.processId} process={process}/> ) }
             </div>
            
         </div>
+        </React.Fragment>
     )
 }
