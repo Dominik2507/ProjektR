@@ -15,5 +15,13 @@
 
 .invalid-feedback{
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
+}
+
+.floating{
+    position: relative;
+}
+
+.form-floating > .label{
+    left: 30px;
 }

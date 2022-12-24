@@ -11,6 +11,8 @@ const pool = new Pool({
 const sql_create_user = `
   CREATE TABLE user_data(
     userId SERIAL NOT NULL,
+    firstName VARCHAR NOT NULL,
+    lastName VARCHAR NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(100) NOT NULL,
     PRIMARY KEY (userId),
@@ -100,24 +102,17 @@ const sql_create_parameter = `
 );
 `;
 
-//TODO: fix
-
-const sql_create_sessions = `
-CREATE TABLE session (
-    sid varchar NOT NULL COLLATE "default",
-    sess json NOT NULL,
-    expire timestamp(6) NOT NULL
-  )
-  WITH (OIDS=FALSE);`;
-
-const sql_create_session_index1 = `
-    ALTER TABLE session ADD CONSTRAINT session_pkey 
-    PRIMARY KEY (sid) NOT DEFERRABLE INITIALLY IMMEDIATE;
+const sql_create_blockchain = `
+  CREATE TABLE blockchain(
+    id SERIAL NOT NULL,
+    phaseId INT NOT NULL ,
+    transactionId VARCHAR(200) NOT NULL,
+    
+    PRIMARY KEY (id),
+    FOREIGN KEY (phaseId) REFERENCES process_phase(phaseId)
+  );
 `;
 
-const sql_create_session_index2 = `
-CREATE INDEX IDX_session_expire ON session(expire);
-`;
 
 let tables = [
   sql_create_user,
@@ -127,7 +122,7 @@ let tables = [
   sql_create_process_component,
   sql_create_parameter,
   sql_create_parameter_log,
-  sql_create_sessions,
+  sql_create_blockchain,
 ];
 
 let table_names = [
@@ -139,9 +134,9 @@ let table_names = [
   "parameter",
   "parameter_log",
   "sessions",
+  "blockchain",
 ];
 
-let indexes = [sql_create_session_index1, sql_create_session_index2];
 
 (async () => {
   console.log("Creating tables");
@@ -153,17 +148,6 @@ let indexes = [sql_create_session_index1, sql_create_session_index2];
     } catch (err) {
       console.log("Error creating table " + table_names[i]);
       return console.log(err.message);
-    }
-  }
-
-  console.log("Creating indexes");
-  for (let i = 0; i < indexes.length; i++) {
-    try {
-      await pool.query(indexes[i], []);
-      console.log("Index " + i + " created.");
-    } catch (e) {
-      console.log("Failed to create index " + i + ".");
-      return console.log(e.message);
     }
   }
 

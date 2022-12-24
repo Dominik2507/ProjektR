@@ -11,7 +11,7 @@ router.post("/", (req, res, next) => {
       return;
     }
 
-    let user = new User(req.body.email, req.body.password);
+    let user = new User(req.body.firstName, req.body.lastName,req.body.email, req.body.password);
 
     let result = await user.insertNewUser();
 
