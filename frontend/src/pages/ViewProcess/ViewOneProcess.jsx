@@ -27,8 +27,9 @@ export default function ViewOneProcess(){
     return (
         <React.Fragment>
             <Sidebar>
-                <h4>{process?.name}</h4>
+                
                 <div className="processSidebar">
+                    <h4 className="m-3">{process?.name}</h4>
                     <ViewPhasesToolbar process={process} setProcess={setProcess} viewMode={true}/>
                 </div>
             </Sidebar>

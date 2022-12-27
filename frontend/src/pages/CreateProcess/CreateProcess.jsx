@@ -55,8 +55,9 @@ export default function CreateProcess(){
             }
 
             <Sidebar>
-                <h4 id={createProcessInfo[0].name}>{createProcessInfo[0].value}</h4>
+                
                 <div className="processSidebar">
+                    <h4 className="m-3" id={createProcessInfo[0].name}>{createProcessInfo[0].value}</h4>
                     <ViewPhasesToolbar process={process} setProcess={setProcess}/>
                 </div>
             </Sidebar>

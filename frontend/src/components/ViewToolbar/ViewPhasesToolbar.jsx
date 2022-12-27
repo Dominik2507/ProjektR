@@ -5,6 +5,7 @@ import Dropdown from "../Dropdown";
 import CreatePhaseToolbar from "../../pages/CreateProcess/CreatePhaseToolbar";
 import ViewSinglePhaseToolbar from "./ViewSinglePhaseToolbar";
 import { useState } from "react";
+import Button from "../Form/Button";
 
 export default function ViewPhasesToolbar({process, setProcess, viewMode}){
 
@@ -13,7 +14,7 @@ export default function ViewPhasesToolbar({process, setProcess, viewMode}){
     let rows=[];
     for(let phase of process.phases || []){
         rows.push(
-            <div key={phase.phaseid}  className={ phase.phaseid%2==0 ? "bg-danger" : "bg-success"}>
+            <div key={phase.phaseid}>
                 <ViewSinglePhaseToolbar key={phase.phaseid} process={process} phase={phase} setProcess={setProcess} viewMode={viewMode}/>
             </div>
         )
@@ -27,7 +28,16 @@ export default function ViewPhasesToolbar({process, setProcess, viewMode}){
                     
                  <CreatePhaseToolbar process={process} setProcess={setProcess} setShowDropDown={setShowDropDown}/> 
                  : 
-                 <>{!viewMode ? <button onClick={()=> setShowDropDown(true)}> Add phase</button>: ""}</>
+                 <>
+                    {!viewMode ? 
+                        <div className="d-flex w-100 flex-column justify-content-center align-items-center">
+                            <Button placeholder="Add phase" handleClick={()=> setShowDropDown(true)}/>
+                        </div>
+                        : 
+                        <></>
+                    }
+                </>
+                 
                 
             }
             

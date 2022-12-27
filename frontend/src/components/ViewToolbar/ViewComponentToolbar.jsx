@@ -3,6 +3,7 @@ import CreatePhase from "../../pages/CreateProcess/CreatePhase";
 import CreateComponent from "../../pages/CreateProcess/CreateComponent";
 import Dropdown from "../Dropdown";
 import { useState } from "react";
+import Button from "../Form/Button";
 
 
 export default function ViewComponentToolbar({component, phase,process, setProcess, viewMode}){
@@ -36,7 +37,7 @@ export default function ViewComponentToolbar({component, phase,process, setProce
                 
                 : 
                 
-                <>
+                <section className="p-2">
                     <div>O komponenti: {component.description || "Treba dodati opis komponente u bazu"}</div>
                     <div>Params: {!component.params ?  "no params" : ""}</div>
                     {rows}
@@ -45,12 +46,19 @@ export default function ViewComponentToolbar({component, phase,process, setProce
                             <Dropdown name="Component">
                                 <CreateComponent phase={phase} process={process} setProcess={setProcess} setShowDropDown={setShowDropDown} />
                             </Dropdown> : <></>
-
                     }
-                    <button hidden={viewMode} onClick={()=> deleteComponent()}> Remove component</button>
-                    <button hidden={viewMode} onClick={()=> setEdit(true)}> Edit component</button>
+                    {
+                        !viewMode ? 
+                            <div className="d-flex mx-1 flex-column align-items-center">
+                                <Button placeholder="Remove component" handleClick={()=> deleteComponent()}/>
+                                <Button placeholder="Edit component" handleClick={()=> setEdit(true)}/>
+                            </div>
+                        : 
+                            <></>
+                    }
+                    
                 
-                </>  
+                </section>  
                }
             </Dropdown>
 

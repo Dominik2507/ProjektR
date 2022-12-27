@@ -93,12 +93,17 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
                 value={phaseDescription}
                 placeholder="Phase description"
                 handleChange={(e) => setPhaseDescription(e.target.value)}
-                />
-            <Dropdown name="Phase parameter">
-                <ParameterInput setAllParameters={setAllParameters}/>
-            </Dropdown>
-            <Button placeholder={phase ? "Save changes" : "Add phase"} handleClick={handleAddPhase} />
-            <Button placeholder={"Cancel"} handleClick={()=>{phase ? setEdit(false) : setShowDropDown(false)}}/>
+            />
+            
+            <div className="m-3">
+                <Dropdown name="Phase parameter">
+                    <ParameterInput setAllParameters={setAllParameters}/>
+                </Dropdown>
+            </div>
+            <div className="d-flex w-100 flex-column align-items-center">
+                <Button placeholder={phase ? "Save changes" : "Add phase"} handleClick={handleAddPhase} />
+                <Button placeholder={"Cancel"} handleClick={()=>{phase ? setEdit(false) : setShowDropDown(false)}}/>
+            </div>
         </React.Fragment>
             )
 }

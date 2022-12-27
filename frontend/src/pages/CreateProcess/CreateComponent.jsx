@@ -98,12 +98,16 @@ export default function CreateComponent({process, setProcess, phase, component=n
             />
             <div>Params</div>
             {rows}
-            <Dropdown name="Add a parameter">
-                <ParameterInput params={allParameters} setAllParameters={setAllParameters} />
-            </Dropdown>
+            <div className="m-3">
+                <Dropdown name="Add a parameter">
+                    <ParameterInput params={allParameters} setAllParameters={setAllParameters} />
+                </Dropdown>
+            </div>
             { false ? <Select options={allPhases} selected={phaseSelectValue} setSelected={setPhaseSelectValue} /> : ""}
-            <Button placeholder={component ? "Save changes" : "Add component"} handleClick={handleSave}/>
-            <Button placeholder={"Cancel"} handleClick={()=>{component ? setEdit(false) : setShowDropDown(false)}}/>
+            <div className="d-flex w-100 flex-column align-items-center">
+                <Button placeholder={component ? "Save changes" : "Add component"} handleClick={handleSave}/>
+                <Button placeholder={"Cancel"} handleClick={()=>{component ? setEdit(false) : setShowDropDown(false)}}/>
+            </div>
         </React.Fragment>
     );
 

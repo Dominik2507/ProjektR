@@ -4,6 +4,7 @@ import CreateComponent from "../../pages/CreateProcess/CreateComponent";
 import Dropdown from "../Dropdown";
 import ViewComponentToolbar from "./ViewComponentToolbar";
 import { useState } from "react";
+import Button from "../Form/Button";
 
 export default function ViewSinglePhaseToolbar({phase, process, setProcess, viewMode}){
    const [showDropDown, setShowDropDown]=useState(false);
@@ -39,7 +40,7 @@ export default function ViewSinglePhaseToolbar({phase, process, setProcess, view
                 
                 : 
                 
-                <>
+                <section className="p-2">
                     <div>O fazi: {phase.description}</div>
                     <div>Phase parameters:</div>
                     {phaseParams}
@@ -50,16 +51,24 @@ export default function ViewSinglePhaseToolbar({phase, process, setProcess, view
                             <Dropdown name="Component" active="true">
                                 <CreateComponent phase={phase} process={process} setProcess={setProcess} setShowDropDown={setShowDropDown} />
                             </Dropdown> : 
-                            <>
-                                <button hidden={viewMode}  onClick={()=> setShowDropDown(true)}> Add component</button>            
-                            </>
+                            <div className="d-flex mx-4 flex-column align-items-center">
+                                {!viewMode ? <Button placeholder="Add component" handleClick={()=> setShowDropDown(true)}/> :<></>}
+                                            
+                            </div>
 
                     }
                     
-                    <button hidden={viewMode} onClick={()=> deletePhase()}> Remove phase</button>
-                    <button hidden={viewMode} onClick={()=> setEdit(true)}> Edit phase</button>
+                    {
+                        !viewMode ? 
+                            <div className="d-flex mx-4 flex-column align-items-center">
+                                <Button placeholder="Remove phase" handleClick={()=> deletePhase()}/>
+                                <Button placeholder={"Edit phase"} handleClick={()=> setEdit(true)}/>
+                            </div>
+                        : 
+                            <></>
+                    }
                 
-                </>  
+                </section>  
                }
             </Dropdown>
             

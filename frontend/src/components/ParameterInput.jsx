@@ -51,14 +51,15 @@ export default function ParameterInput({params,setAllParameters}){
     return(
         <React.Fragment>
 
-                <Input
-                    type="text"
-                    name="paramName"
-                    handleChange={(e) => setParamName(e.target.value)}
-                    value={paramName}
-                    placeholder="Parameter name"
-                    error={err}
-                />
+            <Input
+                type="text"
+                name="paramName"
+                handleChange={(e) => setParamName(e.target.value)}
+                value={paramName}
+                placeholder="Parameter name"
+                error={err}
+            />
+
             <Input
                 type="text"
                 name="paramDesc"
@@ -86,8 +87,10 @@ export default function ParameterInput({params,setAllParameters}){
                 error={null}
             />
 
-
-            <Button placeholder="Add parameter" handleClick={handleSave} />
+            <div className="d-flex mx-1 flex-column align-items-center">
+                <Button placeholder="Add parameter" handleClick={handleSave} />
+            </div>
+            
         </React.Fragment>
 
     )
