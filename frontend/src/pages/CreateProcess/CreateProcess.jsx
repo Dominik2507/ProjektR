@@ -10,13 +10,13 @@ import "./CreateProcess.css"
 import {nanoid} from "nanoid";
 import {CreateProcessContext} from "../../context/CreateProcessContext";
 import {modalInputs} from "../../constants/paramInputs";
-import ViewPhasesToolbar from "./ViewPhasesToolbar";
+import ViewPhasesToolbar from "../../components/ViewToolbar/ViewPhasesToolbar";
 
 export default function CreateProcess(){
     const [modalActive, setModalActive] = useState(true);
     const [err, setErr] = useState(null);
     const [createProcessInfo, setCreateProcessInfo] = useState(modalInputs);
-    const [process, setProcess]=useState({"phases": [{"id": 1, "name": "phase1","params":[], "components": [{"id": 1, "name": "component1", "params": []}]}]})
+    const [process, setProcess]=useState({"phases": [{"phaseid": 1, "name": "phase1","params":[], "components": [{"componentid": 1, "name": "component1", "params": []}]}]})
     const {setProcessInfo} = useContext(CreateProcessContext);
 
 
@@ -33,7 +33,7 @@ export default function CreateProcess(){
 
         //TODO: Save process to DB and return and save process id
         let saveObj = {
-            id: nanoid(),
+            processid: nanoid(),
             processName : createProcessInfo[0].value,
             processDescription: createProcessInfo[1].value
         };

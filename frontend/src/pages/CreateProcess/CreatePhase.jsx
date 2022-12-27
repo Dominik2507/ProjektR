@@ -19,7 +19,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
     const calcId= function(){
         let maxId=0;
         for(let phase of process.phases){
-            maxId= maxId > phase.id ? maxId : phase.id; 
+            maxId= maxId > phase.phaseid ? maxId : phase.phaseid; 
         }
         return maxId+1;
     }
@@ -37,7 +37,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
             let temp=process.phases
             let index=temp.indexOf(phase)
             temp[index]={
-                "id": phase.id,
+                "phaseid": phase.id,
                 "name": phaseName,
                 "description": phaseDescription,
                 "params": allParameters,
@@ -51,7 +51,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
             let temp=process.phases
             temp.push(
                 {
-                    "id": calcId(), 
+                    "phaseid": calcId(), 
                     "name":phaseName,
                     "description": phaseDescription,
                     "params": allParameters,
@@ -63,7 +63,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
         setShowDropDown(false)
         //TODO: REPLACE nanoId() WITH ID SAVED IN DB
         let obj = {
-            id:nanoid(),
+            phaseid:nanoid(),
             phaseName,
             phaseDescription,
             parameters: allParameters

@@ -16,7 +16,7 @@ export default function ParameterInput({params,setAllParameters}){
 
         const calcId= function(){
             let maxId=0;
-            for(let param of params){
+            for(let param of params || []){
                 maxId= maxId > param.id ? maxId : param.id; 
             }
             return maxId+1;
@@ -31,14 +31,18 @@ export default function ParameterInput({params,setAllParameters}){
         }
 
         let obj = {
-            "id": calcId(),
+            "parameterid": calcId(),
             paramName,
             paramDesc,
             minValue,
             maxValue
         };
-
-        setAllParameters([...params, obj]);
+        if(params){
+            setAllParameters([...params, obj]);
+        }else{
+            setAllParameters([obj]);
+        }
+        
         setParamName("");
         setMaxValue("");
         setMinValue("");

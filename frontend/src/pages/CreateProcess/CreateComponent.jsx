@@ -20,7 +20,7 @@ export default function CreateComponent({process, setProcess, phase, component=n
     const calcId= function(){
         let maxId=0;
         for(let component of phase.components){
-            maxId= maxId > component.id ? maxId : component.id; 
+            maxId= maxId > component.componentid ? maxId : component.componentid; 
         }
         return maxId+1;
     }
@@ -43,7 +43,7 @@ export default function CreateComponent({process, setProcess, phase, component=n
         if(component){
             let indexC=temp[indexP].components.indexOf(component)
             temp[indexP].components[indexC]={
-                "id": component.id,
+                "componentid": component.id,
                 "name": componentName,
                 "params": [...allParameters]
             }
@@ -52,7 +52,7 @@ export default function CreateComponent({process, setProcess, phase, component=n
         }else{
             temp[indexP].components.push(
                 {
-                    "id": calcId(),
+                    "componentid": calcId(),
                     "name": componentName,
                     "params": [...allParameters]
                 }
@@ -79,9 +79,9 @@ export default function CreateComponent({process, setProcess, phase, component=n
     let rows=[];
     for(let param of allParameters){
         rows.push(
-        <div key={param.id}>
+        <div key={param.parameterid}>
             {param.paramName + " [" + param.minValue + "-"+ param.maxValue + "]"}
-            <button onClick={()=>{setAllParameters(allParameters.filter((p => p.id!==param.id)))}} className="bg-danger mx-2"><FontAwesomeIcon icon={faTrash}/></button>
+            <button onClick={()=>{setAllParameters(allParameters.filter((p => p.id!==param.parameterid)))}} className="bg-danger mx-2"><FontAwesomeIcon icon={faTrash}/></button>
         </div>)
     }
 

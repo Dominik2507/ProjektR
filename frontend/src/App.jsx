@@ -16,8 +16,9 @@ import AuthProvider from "./context/AuthContext";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import CreateProcess from "./pages/CreateProcess/CreateProcess";
 import CreateProcessProvider from "./context/CreateProcessContext";
-import ViewAllProcess from "./pages/ViewAllProcess/ViewAllProcess";
+import ViewAllProcess from "./pages/ViewProcess/ViewAllProcess";
 import Profile from "./pages/Profile/Profile";
+import ViewOneProcess from "./pages/ViewProcess/ViewOneProcess";
 
 export default function App(){
   return(
@@ -35,6 +36,8 @@ export default function App(){
                   <Route path={routes.USER_LOGIN_URL} element={<Login />}/>
                   <Route path={routes.USER_REGISTRATION_URL} element={<Registration />} />
                     <Route path={routes.PROFILE_URL} element={<Profile />} />
+                    <Route path={routes.PROCESS_BY_ID} element={<ViewOneProcess />} />
+                      
                   <Route path={routes.PROCESS_ALL} element={<ViewAllProcess/>} />
                   <Route path={routes.NOT_FOUND} element={<PageNotFound />} />
               </Routes>

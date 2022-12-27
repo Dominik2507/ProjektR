@@ -111,7 +111,7 @@ module.exports = class User{
 
     static async getProcess(id){
         let sql = `
-        SELECT * FROM process where userid = $1;
+        SELECT * FROM process_with_phases where processid = $1;
         `;
 
         try{
@@ -121,11 +121,13 @@ module.exports = class User{
             console.log(e);
             return false;
         }
+
     }
+
 
     static async getProcessOfUser(id){
         let sql = `
-        SELECT * FROM process where processid = $1;
+        SELECT * FROM process where userid = $1;
         `;
 
         try{

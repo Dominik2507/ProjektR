@@ -3,7 +3,7 @@ import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 
 import {faClock, faPencil, faStar as faStarFull} from "@fortawesome/free-solid-svg-icons";
-import {faStar} from "@fortawesome/free-regular-svg-icons"
+//import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthContext} from "../../context/AuthContext";
 
@@ -18,7 +18,7 @@ export default function ProcessInlineView({process,handleToogleFav,isFavourite})
                 {currentUser &&
                 <FontAwesomeIcon
                     onClick={() => handleToogleFav(process.processid)}
-                    icon={isFavourite ? faStarFull: faStar}
+                    icon={isFavourite ? faStarFull: faClock}//faStar}
                     style={{
                         cursor: "pointer"
                 }} />}
@@ -33,7 +33,7 @@ export default function ProcessInlineView({process,handleToogleFav,isFavourite})
                     <p className="card-text">{process.description}</p>
                 </span>
                 <div className="d-flex">
-                    <Link to={`process/${process.id}`} className="btn btn-outline-info mt-3 " >See more detailed</Link>
+                    <Link to={`process/${process.processid}`} className="btn btn-outline-info mt-3 " >See more detailed</Link>
                 </div>
           </div>
         </div>
