@@ -39,6 +39,20 @@ class ProcessPhase {
       return null;
     }
   }
+
+  static async GetProcessPhase() {
+    const sql = `
+			SELECT * FROM process_phase WHERE phaseid = $1;
+		`;
+
+    try {
+      const result = await db.query(sql, [this.phaseid]);
+      return result.rows[0];
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
 }
 
 module.exports = { ProcessPhase: ProcessPhase };
