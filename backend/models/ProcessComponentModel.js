@@ -26,6 +26,20 @@ class ProcessComponent {
       return null;
     }
   }
+
+  static async getProcessComponentsByProcessPhaseId() {
+    const sql = `
+			SELECT * FROM process_component WHERE has_componentid = $1;
+		`;
+
+    try {
+      const result = await db.query(sql, [this.has_componentid]);
+      return result.rows;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
 }
 
 module.exports = { ProcessComponent: ProcessComponent };
