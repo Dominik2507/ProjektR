@@ -19,6 +19,7 @@ import CreateProcessProvider from "./context/CreateProcessContext";
 import ViewAllProcess from "./pages/ViewProcess/ViewAllProcess";
 import Profile from "./pages/Profile/Profile";
 import ViewOneProcess from "./pages/ViewProcess/ViewOneProcess";
+import ProcessView from "./pages/ProcessView/ProcessView";
 
 export default function App(){
   return(
@@ -40,6 +41,9 @@ export default function App(){
                       
                   <Route path={routes.PROCESS_ALL} element={<ViewAllProcess/>} />
                   <Route path={routes.NOT_FOUND} element={<PageNotFound />} />
+
+                  <Route path={routes.PROCESS_VIEW} element={<ProcessView/>} />
+                  
               </Routes>
               </main>
               <Footer />
