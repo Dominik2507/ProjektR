@@ -158,6 +158,29 @@ class Process {
       return false;
     }
   }
+
+  async addProcess() {
+    let sql = `
+        INSERT INTO process 
+        (name,start_datetime, end_datetime, description, userId)
+        VALUES
+        ($1,$2,$3,$4,$5);
+        `;
+
+    try {
+      let result = await db.query(sql, [
+        this.name,
+        this.start_datetime,
+        this.end_datetime,
+        this.description,
+        this.userId,
+      ]);
+      return result;
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  }
 }
 
 module.exports = { Process: Process };
