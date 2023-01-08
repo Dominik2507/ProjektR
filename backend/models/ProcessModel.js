@@ -159,12 +159,12 @@ class Process {
     }
   }
 
-  async addProcess() {
+  async addProcess(phases) {
     let sql = `
         INSERT INTO process 
         (name,start_datetime, end_datetime, description, userId)
         VALUES
-        ($1,$2,$3,$4,$5);
+        ($1,$2,$3,$4,$5); RETURNING processid;
         `;
 
     try {
@@ -175,6 +175,48 @@ class Process {
         this.description,
         this.userId,
       ]);
+      this.processid = result.rows[0].processid;
+
+      phases.forEach(async (phase) => {
+        const phaseSql = `INSERT INTO phase (start_datetime, end_datetime, description, active, processid)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING phaseid;`;
+        const phaseResult = await db.query(phaseSql, [
+          phase.start_datetime,
+          phase.end_datetime,
+          phase.description,
+          phase.active,
+          this.processid,
+        ]);
+        const phaseId = phaseResult.rows[0].phaseid;
+
+        phase.components.forEach(async (component) => {
+          const componentSql = `INSERT INTO process_component (name, phaseid, has_componentid)
+          VALUES ($1, $2, $3)
+          RETURNING componentid;`;
+          const componentResult = await db.query(componentSql, [
+            component.name,
+            phaseId,
+            phaseId,
+          ]);
+          const componentId = componentResult.rows[0].componentid;
+
+          component.parameters.forEach(async (parameter) => {
+            const parameterSql = `INSERT INTO parameter (name, unit, max_value, min_value, componentid, processid, phaseid)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+            const parameterResult = await db.query(parameterSql, [
+              parameter.name,
+              parameter.unit,
+              parameter.max_value,
+              parameter.min_value,
+              componentId,
+              this.processid,
+              phaseId,
+            ]);
+          });
+        });
+      });
+
       return result;
     } catch (e) {
       console.log(e);

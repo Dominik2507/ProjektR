@@ -87,15 +87,26 @@ router.get("/user/:id", (req, res, next) => {
 
 router.post("/create", (req, res, next) => {
   (async () => {
+    let {
+      processid,
+      name,
+      start_datetime,
+      end_datetime,
+      description,
+      userId,
+      phases,
+    } = req.body;
+
     let process = new Process(
-      req.body.name,
-      req.body.start_datetime,
-      req.body.end_datetime,
-      req.body.description,
-      req.body.userid
+      null,
+      name,
+      start_datetime,
+      end_datetime,
+      description,
+      userId
     );
 
-    let result = await user.insertNewUser();
+    const result = await process.addProcess(phases);
 
     if (!result) {
       res.status(501);
