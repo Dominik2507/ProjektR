@@ -14,7 +14,7 @@
     position: fixed;
     right: 250px;
     width: 0;
-    height: 81.25%;
+    height: 100%;
     margin-right: -250px;
     overflow-y: auto;
     background: whitesmoke;
@@ -29,10 +29,7 @@
     position: absolute;
 }
 
-#wrapper {
-    padding-right: 250px;
-}
-
-#sidebar-wrapper {
-    width: 250px;
+.closing-icon{
+    top: 0;
+    left: 0;
 }

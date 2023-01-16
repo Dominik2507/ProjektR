@@ -1,9 +1,8 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, { useState} from "react";
 import Input from "../../components/Form/Input";
-import Button from "../../components/Form/Button";
-import "./inputParams.css"
+import "./inputParamsToolbar.css"
 
-const InputParams = ({params,setAllParameters}) => {   
+const InputParamsToolbar = ({phaseid, processid,setAllParameters, handleClose}) => {
 
     const [err, setErr] = useState(null);
 
@@ -15,14 +14,6 @@ const InputParams = ({params,setAllParameters}) => {
     const handleSave = () => {
         setErr(null);
 
-        const calcId= function(){
-            let maxId=0;
-            for(let param of params || []){
-                maxId= maxId > param.id ? maxId : param.id; 
-            }
-            return maxId+1;
-        }
-
         if(paramName === ""){
             setErr({
                 name: "paramName",
@@ -32,17 +23,34 @@ const InputParams = ({params,setAllParameters}) => {
         }
 
         let obj = {
-            "parameterid": calcId(),
-            paramName,
+            processid,
+            phaseid,
+            name: paramName,
             paramDesc,
             minValue,
             maxValue
         };
-        if(params){
-            setAllParameters([...params, obj]);
-        }else{
-            setAllParameters([obj]);
-        }
+
+
+        setAllParameters(prevParams => {
+            let newArr = [...prevParams];
+            let index = -1;
+            for(let i = 0;  i < newArr.length; i++) {
+                if(newArr[i][0].phaseid === phaseid){
+                    index = i;
+                    break;
+                }
+            }
+
+
+
+            if(index === -1){
+                newArr.push([obj]);
+            }else {
+                newArr[index].push(obj);
+            }
+            return newArr;
+        });
         
         setParamName("");
         setMaxValue("");
@@ -53,9 +61,9 @@ const InputParams = ({params,setAllParameters}) => {
 
     return(
        <React.Fragment>
-        
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav nav navbar-inverse">
+        <div id="sidebar-wrapper" className="px-5 w-auto overflow-hidden position-absolute top-0 right-0 h-100 d-flex align-items-center">
+
+            <ul className="w-100 sidebar-nav nav navbar-inverse d-flex flex-column align-items-center justify-content-center w-100 mt-3">
                 <li>
                     <Input
                     type="text"
@@ -96,17 +104,16 @@ const InputParams = ({params,setAllParameters}) => {
                     error={null}
                     />
                 </li>
-                <li>
-                    <div className="d-flex mx-1 flex-column align-items-center">
-                        <Button placeholder="Save" handleClick={handleSave} />
-                    </div>
+                <li className="d-flex">
+                    <button  onClick={handleSave} className="btn btn-success me-3" >Save</button>
+                    <button  onClick={handleClose} className="btn btn-danger">Close</button>
                 </li>
             </ul>
         </div>
-        
+
         </React.Fragment>
 
     )
 }
 
-export default InputParams
+export default InputParamsToolbar

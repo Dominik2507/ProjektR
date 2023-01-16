@@ -27,7 +27,7 @@ export default function App(){
           <AuthProvider>
             <Router>
               <Navbar />
-              <main className="">
+              <main className="position-relative h-100">
               <Routes>
                   <Route path={routes.HOMEPAGE_URL} element={<Home/>} />
                   <Route path={routes.CREATE_PROCESS_URL} element={
@@ -40,7 +40,6 @@ export default function App(){
                   <Route path={routes.PROCESS_BY_ID} element={<ViewOneProcess />} />
                   <Route path={routes.PROCESS_ALL} element={<ViewAllProcess/>} />
                   <Route path={routes.NOT_FOUND} element={<PageNotFound />} />
-
                   <Route path={routes.PROCESS_VIEW} element={<ProcessView />} />
                   
               </Routes>

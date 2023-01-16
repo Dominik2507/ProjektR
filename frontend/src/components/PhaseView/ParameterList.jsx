@@ -1,9 +1,10 @@
 import React from "react";
+import {nanoid} from "nanoid";
 
 export default function ParameterList({ values }){
     return (
-        <ul className="list-group list-group-flush">
-            {values.map(value => <li className="list-group-item">{value}</li>)}
+        <ul className="list-group list-group-flush text-start">
+            {values.map(value => <li key={nanoid()} className="list-group-item">{value.name}</li>)}
         </ul>
     )
 }
