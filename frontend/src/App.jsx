@@ -36,13 +36,12 @@ export default function App(){
                       </CreateProcessProvider>} />
                   <Route path={routes.USER_LOGIN_URL} element={<Login />}/>
                   <Route path={routes.USER_REGISTRATION_URL} element={<Registration />} />
-                    <Route path={routes.PROFILE_URL} element={<Profile />} />
-                    <Route path={routes.PROCESS_BY_ID} element={<ViewOneProcess />} />
-                      
+                  <Route path={routes.PROFILE_URL} element={<Profile />} />
+                  <Route path={routes.PROCESS_BY_ID} element={<ViewOneProcess />} />
                   <Route path={routes.PROCESS_ALL} element={<ViewAllProcess/>} />
                   <Route path={routes.NOT_FOUND} element={<PageNotFound />} />
 
-                  <Route path={routes.PROCESS_VIEW} element={<ProcessView/>} />
+                  <Route path={routes.PROCESS_VIEW} element={<ProcessView />} />
                   
               </Routes>
               </main>
