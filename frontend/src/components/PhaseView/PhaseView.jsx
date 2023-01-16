@@ -1,20 +1,56 @@
 import React from "react";
 
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import {faCalendar, faPencil, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function PhaseView(){
+import dayjs from "dayjs";
+import ParameterList from "./ParameterList";
+import ComponentList from "./ComponentList";
+import {nanoid} from "nanoid";
+
+export default function PhaseView({ phase,num }){
+
+
+    const handleComponentToolbar = (component) => {
+        console.log(component);
+    }
+
+    const handleParameterToolbar = (phaseId) => {
+        console.log(phaseId);
+    }
+
     return(
-        <div className="card">
+        <div className={phase.active === "t" ? "card border border-success" : "card"}>
             <div className="card-header fw-bold fst-italic">
-                Title
+                {`Phase #${num}`}
             </div>
             <div className="card-body">
                 <span className="d-flex flex-row align-items-center justify-content-start">
                     <FontAwesomeIcon icon={faCalendar} className="me-3"/>
-                    <p className="card-text">16/01/2023 - 23/01/2023</p>
+                    <p className="card-text">{dayjs(phase.start_datetime).format("DD/MM/YYYY")} - {dayjs(phase.end_datetime).format("DD/MM/YYYY")}</p>
                 </span>
-
+                <span className="d-flex flex-row align-items-center justify-content-start">
+                    <FontAwesomeIcon icon={faPencil} className="me-3"/>
+                    <p className="card-text">{phase.description}</p>
+                </span>
+                <div className="d-flex flex-column align-items-start gap-3 mt-1">
+                {phase.params &&
+                    <div>
+                        <ParameterList values={phase.params} />
+                    </div>
+                }
+                    <FontAwesomeIcon
+                        icon={faSquarePlus}
+                        style={{cursor:"pointer"}}
+                        title="Add new parameter to this phase."
+                        onClick={() => handleParameterToolbar(phase.phaseid)}
+                    />
+                </div>
+                {phase.components &&
+                    <div>
+                        {phase.components.map(component => <ComponentList key={nanoid()} component={component} handleClick={() => handleComponentToolbar(component)}/>)}
+                    </div>
+                }
             </div>
         </div>
     )

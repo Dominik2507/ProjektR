@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import './carousel.css'
 
-const Carousel = (props) => {
-    const {children, show} = props
+const Carousel = ({children, show, numOfPhases}) => {
 
     const [currentIndex, setCurrentIndex] = useState(0)
-    const [length, setLength] = useState(children.length)
-
+    const [length, setLength] = useState(numOfPhases);
     const [touchPosition, setTouchPosition] = useState(null)
 
     // Set the length to match current children from props
-    useEffect(() => {
-        setLength(children.length)
-    }, [children])
+
 
     const next = () => {
         if (currentIndex < (length - show)) {
