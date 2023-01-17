@@ -3,7 +3,7 @@ import Input from "./Form/Input";
 import Button from "./Form/Button";
 import {nanoid} from "nanoid";
 
-export default function ParameterInput({params,setAllParameters}){
+export default function ParameterInput({params,setAllParameters,handleAddParam}){
     const [err, setErr] = useState(null);
 
     const [paramName, setParamName] = useState("");
@@ -14,14 +14,6 @@ export default function ParameterInput({params,setAllParameters}){
     const handleSave = () => {
         setErr(null);
 
-        const calcId= function(){
-            let maxId=0;
-            for(let param of params || []){
-                maxId= maxId > param.id ? maxId : param.id; 
-            }
-            return maxId+1;
-        }
-
         if(paramName === ""){
             setErr({
                 name: "paramName",
@@ -31,18 +23,28 @@ export default function ParameterInput({params,setAllParameters}){
         }
 
         let obj = {
-            "parameterid": calcId(),
             paramName,
             paramDesc,
             minValue,
             maxValue
         };
+
+        if(handleAddParam){
+           handleAddParam(obj);
+           reset();
+           return;
+        }
+
+
         if(params){
             setAllParameters([...params, obj]);
         }else{
             setAllParameters([obj]);
         }
-        
+        reset();
+    }
+
+    const reset = () => {
         setParamName("");
         setMaxValue("");
         setMinValue("");

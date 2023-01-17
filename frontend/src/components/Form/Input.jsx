@@ -8,7 +8,7 @@ export default function Input({type,name,placeholder,value,handleChange,error}){
 
     return(
 
-            <div className="form-floating d-flex justify-content-center  w-100">
+            <div className="form-floating d-flex justify-content-center w-100">
                 <input
                     className={className}
                     type = {type}

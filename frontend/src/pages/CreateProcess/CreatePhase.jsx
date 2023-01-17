@@ -32,6 +32,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
             });
             return;
         }
+
         //TODO: CREATE PHASE IN DB AND STORE PHASE ID
         if(phase){
             let temp=process.phases
@@ -64,7 +65,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
         //TODO: REPLACE nanoId() WITH ID SAVED IN DB
         let obj = {
             phaseid:nanoid(),
-            phaseName,
+            name: phaseName,
             phaseDescription,
             parameters: allParameters
         };

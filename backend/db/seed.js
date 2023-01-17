@@ -102,6 +102,21 @@ const sql_create_parameter = `
 );
 `;
 
+const sql_create_phase_param = `
+CREATE TABLE phase_parameter(
+    phaseParamId SERIAL NOT NULL PRIMARY KEY,
+    processId int NOT NULL,
+    phaseId int NOT NULL,
+    max_value VARCHAR(200),
+    min_value VARCHAR(200),
+    name VARCHAR(50) NOT NULL,
+    unit VARCHAR(20) NOT NULL,
+    
+    FOREIGN KEY (phaseId) REFERENCES process_phase(phaseId),
+    FOREIGN KEY (processId) REFERENCES process(processid)
+)
+`
+
 const sql_create_blockchain = `
   CREATE TABLE blockchain(
     id SERIAL NOT NULL,
@@ -113,6 +128,52 @@ const sql_create_blockchain = `
   );
 `;
 
+const sql_create_component_with_params = `
+  CREATE VIEW component_with_params as
+     SELECT process_component.componentid,
+    process_component.name,
+    process_component.phaseid,
+    process_component.has_componentid,
+    ( SELECT json_agg(parameter.*) AS json_agg
+           FROM parameter
+          WHERE process_component.componentid = parameter.componentid) AS params
+   FROM process_component;
+`;
+
+const sql_create_phase_with_components = `
+  CREATE VIEW phase_with_components as
+  SELECT process_phase.phaseid,
+         process_phase.start_datetime,
+         process_phase.end_datetime,
+         process_phase.description,
+         process_phase.active,
+         process_phase.processid,
+         ( SELECT json_agg(component_with_params.*) AS json_agg
+           FROM component_with_params
+           WHERE component_with_params.phaseid = process_phase.phaseid) AS components,
+         ( SELECT json_agg(parameter.*) AS json_agg
+           FROM parameter
+           WHERE parameter.phaseid = process_phase.phaseid) AS params
+  FROM process_phase;
+`;
+
+const sql_create_process_with_phases = `
+  CREATE VIEW process_with_phases as
+  SELECT process.processid,
+    process.name,
+    process.start_datetime,
+    process.end_datetime,
+    process.description,
+    process.userid,
+    ( SELECT json_agg(phase_with_components.*) AS json_agg
+           FROM phase_with_components
+          WHERE phase_with_components.processid = process.processid) AS phases,
+    ( SELECT json_agg(parameter.*) AS json_agg
+           FROM parameter
+          WHERE parameter.processid = process.processid) AS params
+   FROM process;
+`;
+
 
 let tables = [
   sql_create_user,
@@ -122,8 +183,15 @@ let tables = [
   sql_create_process_component,
   sql_create_parameter,
   sql_create_parameter_log,
+  sql_create_phase_param,
   sql_create_blockchain,
 ];
+
+let views = [
+    sql_create_component_with_params,
+    sql_create_phase_with_components,
+    sql_create_process_with_phases
+]
 
 let table_names = [
   "user_data",
@@ -137,6 +205,12 @@ let table_names = [
   "blockchain",
 ];
 
+let views_names = [
+    "component_with_params",
+    "phase_with_components",
+    "process_with_phases"
+];
+
 
 (async () => {
   console.log("Creating tables");
@@ -147,6 +221,16 @@ let table_names = [
       console.log("Table " + table_names[i] + " created.");
     } catch (err) {
       console.log("Error creating table " + table_names[i]);
+      return console.log(err.message);
+    }
+  }
+
+  for(let i = 0; i < views.length; i++){
+    try{
+      await pool.query(views[i], []);
+      console.log("View " + views_names[i] +" created");
+    }catch (err){
+      console.log("Error creating table " + views_names[i]);
       return console.log(err.message);
     }
   }

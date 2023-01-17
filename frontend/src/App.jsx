@@ -26,7 +26,7 @@ export default function App(){
           <AuthProvider>
             <Router>
               <Navbar />
-              <main className="">
+              <main className="d-flex flex-col flex-grow-1 position-relative">
               <Routes>
                   <Route path={routes.HOMEPAGE_URL} element={<Home/>} />
                   <Route path={routes.CREATE_PROCESS_URL} element={
@@ -35,11 +35,11 @@ export default function App(){
                       </CreateProcessProvider>} />
                   <Route path={routes.USER_LOGIN_URL} element={<Login />}/>
                   <Route path={routes.USER_REGISTRATION_URL} element={<Registration />} />
-                    <Route path={routes.PROFILE_URL} element={<Profile />} />
-                    <Route path={routes.PROCESS_BY_ID} element={<ViewOneProcess />} />
-                      
+                  <Route path={routes.PROFILE_URL} element={<Profile />} />
+                  <Route path={routes.PROCESS_BY_ID} element={<ViewOneProcess />} />
                   <Route path={routes.PROCESS_ALL} element={<ViewAllProcess/>} />
                   <Route path={routes.NOT_FOUND} element={<PageNotFound />} />
+                  
               </Routes>
               </main>
               <Footer />

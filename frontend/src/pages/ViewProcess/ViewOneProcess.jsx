@@ -12,13 +12,13 @@ export default function ViewOneProcess(){
     let params=useParams();
 
     useEffect(() => {
-        const getAllProcesse = async () => {
+        const getAllProcesses = async () => {
             let data = (await axios.get(`${backend_paths.ONE_PROCESS}/${params.id}`)).data;
             console.log(data)
             setProcess(data);
         };
 
-        getAllProcesse();
+        getAllProcesses();
     }, []);
   
 
@@ -27,7 +27,6 @@ export default function ViewOneProcess(){
     return (
         <React.Fragment>
             <Sidebar>
-                
                 <div className="processSidebar">
                     <h4 className="m-3">{process?.name}</h4>
                     <ViewPhasesToolbar process={process} setProcess={setProcess} viewMode={true}/>

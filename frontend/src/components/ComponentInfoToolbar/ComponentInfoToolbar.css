@@ -1,0 +1,11 @@
+.sidebar-container{
+    right: 0;
+    width: 20%;
+    min-width: 200px;
+    max-width: 300px;
+}
+.close-icon{
+    cursor: pointer;
+    margin-top: 10px;
+    margin-left: 5px;
+}

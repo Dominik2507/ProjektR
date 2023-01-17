@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Process = require("../models/ProcessModel");
+const { Process } = require("../models/ProcessModel");
 
 router.get("/:id", (req,res) => {
     (async () => {
