@@ -49,6 +49,34 @@ class Parameter {
     }
   }
 
+  static async getParametersByPhaseId() {
+    const sql = `
+        SELECT * FROM parameter WHERE phaseid = $1;
+        `;
+
+    try {
+      const result = await db.query(sql, [this.phaseid]);
+      return result.rows;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
+
+  static async getParametersByComponentId() {
+    const sql = `
+        SELECT * FROM parameter WHERE componentid = $1;
+        `;
+
+    try {
+      const result = await db.query(sql, [this.componentid]);
+      return result.rows;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  }
+
   async addParameter() {
     const sql = `
 			INSERT INTO parameter (name, unit, max_value, min_value, componentid, processid, phaseid)
