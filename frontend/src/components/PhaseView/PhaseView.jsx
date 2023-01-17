@@ -16,10 +16,12 @@ export default function PhaseView({ phase,params,num,handleAddParam,setSelectedC
         setIndexOfPhaseForComponent(index);
     }
 
+    console.log(params);
+
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
             <div className="card-header fw-bold fst-italic">
-                {`Phase #${num}`}
+                {phase.name}
             </div>
             <div className="card-body">
                 <span className="d-flex flex-row align-items-center justify-content-start">

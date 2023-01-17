@@ -64,7 +64,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
         //TODO: REPLACE nanoId() WITH ID SAVED IN DB
         let obj = {
             phaseid:nanoid(),
-            phaseName,
+            name: phaseName,
             phaseDescription,
             parameters: allParameters
         };

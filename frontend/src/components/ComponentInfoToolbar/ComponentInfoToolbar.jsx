@@ -30,7 +30,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
 
         setProcess(prevProcess => {
             let newProcess = {...prevProcess};
-            prevProcess.phases[indexOfPhaseForComponent]
+            //prevProcess.phases[indexOfPhaseForComponent]
         })
 
         setParamName("");

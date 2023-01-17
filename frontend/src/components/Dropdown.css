@@ -27,6 +27,6 @@
 }
 .dropdown-content-active{
     width: 100%;
-    display: block;
+    display: inline-block;
     cursor: pointer;
 }

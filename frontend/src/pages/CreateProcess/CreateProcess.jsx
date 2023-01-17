@@ -11,14 +11,17 @@ import {nanoid} from "nanoid";
 import {CreateProcessContext} from "../../context/CreateProcessContext";
 import {modalInputs} from "../../constants/paramInputs";
 import ViewPhasesToolbar from "../../components/ViewToolbar/ViewPhasesToolbar";
+import Carousel from "../../components/Carousel/Carousel";
+import PhaseView from "../../components/PhaseView/PhaseView";
 
 export default function CreateProcess(){
     const [modalActive, setModalActive] = useState(true);
     const [err, setErr] = useState(null);
     const [createProcessInfo, setCreateProcessInfo] = useState(modalInputs);
-    const [process, setProcess]=useState({"phases": [{"phaseid": 1, "name": "phase1","params":[], "components": [{"componentid": 1, "name": "component1", "params": []}]}]})
+    const [process, setProcess]=useState({"phases": []})
     const {setProcessInfo} = useContext(CreateProcessContext);
 
+    console.log(process);
 
     const handleSave = () => {
         setErr(null);
@@ -54,13 +57,33 @@ export default function CreateProcess(){
                 </Modal>
             }
 
-            <Sidebar>
-                
-                <div className="processSidebar">
-                    <h4 className="m-3" id={createProcessInfo[0].name}>{createProcessInfo[0].value}</h4>
-                    <ViewPhasesToolbar process={process} setProcess={setProcess}/>
+        <div className="w-100 h-100 process-grid" >
+            <div className="">
+                    <Sidebar>
+                        <div className="processSidebar">
+                            <ViewPhasesToolbar process={process} setProcess={setProcess}/>
+                        </div>
+                    </Sidebar>
                 </div>
-            </Sidebar>
+            <div>
+                <h4 className="m-3" id={createProcessInfo[0].name}>{createProcessInfo[0].value}</h4>
+            <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
+                <div className="process-view">
+                    <Carousel show={2} numOfPhases={process.phases}>
+                        {process.phases.map(phase => (
+                            <PhaseView
+                                key = {nanoid()}
+                                phase = {phase}
+                                params={phase.params}
+                            />
+                        ))}
+                    </Carousel>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
 
         </React.Fragment>
     );

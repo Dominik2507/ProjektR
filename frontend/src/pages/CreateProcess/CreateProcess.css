@@ -1,4 +1,13 @@
 .processSidebar{
     width: 95%;
     margin: 0 auto;
+    height: 100%;
+}
+.process-grid{
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
+.process-view{
+    width: 90%;
 }
