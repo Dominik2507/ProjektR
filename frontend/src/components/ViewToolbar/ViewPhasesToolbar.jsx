@@ -1,7 +1,4 @@
 import React from "react";
-import CreatePhase from "../../pages/CreateProcess/CreatePhase";
-import CreateComponent from "../../pages/CreateProcess/CreateComponent";
-import Dropdown from "../Dropdown";
 import CreatePhaseToolbar from "../../pages/CreateProcess/CreatePhaseToolbar";
 import ViewSinglePhaseToolbar from "./ViewSinglePhaseToolbar";
 import { useState } from "react";
