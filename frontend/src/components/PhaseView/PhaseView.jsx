@@ -8,15 +8,14 @@ import ParameterList from "./ParameterList";
 import ComponentList from "./ComponentList";
 import {nanoid} from "nanoid";
 
-export default function PhaseView({ phase,params,num,handleAddParam,setSelectedComponent,setIndexOfPhaseForComponent }){
+export default function PhaseView({ phase,params,handleAddParam,setSelectedComponent,setPhaseIndex }){
 
 
-    const handleComponentToolbar = (component,index) => {
+    const handleComponentToolbar = (component) => {
         setSelectedComponent(component);
-        setIndexOfPhaseForComponent(index);
+        setPhaseIndex();
     }
 
-    console.log(params);
 
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
@@ -47,7 +46,7 @@ export default function PhaseView({ phase,params,num,handleAddParam,setSelectedC
                 </div>
                 {phase.components &&
                     <div>
-                        {phase.components.map((component,index) => <ComponentList key={nanoid()} component={component} handleClick={() => handleComponentToolbar(component,index)}/>)}
+                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} handleClick={() => handleComponentToolbar(component)}/>)}
                     </div>
                 }
             </div>

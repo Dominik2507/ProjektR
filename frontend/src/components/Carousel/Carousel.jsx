@@ -6,6 +6,9 @@ const Carousel = ({children, show, numOfPhases}) => {
     const [length, setLength] = useState(numOfPhases.length);
     const [touchPosition, setTouchPosition] = useState(null)
 
+    useEffect(() => {
+        setLength(numOfPhases.length);
+    },[numOfPhases])
     const next = () => {
         if (currentIndex < (length - show)) {
             setCurrentIndex(prevState => prevState + 1)

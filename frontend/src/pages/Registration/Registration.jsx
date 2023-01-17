@@ -75,7 +75,7 @@ export default function Registration(){
                 </div>
             }
             <Form
-                inputs = {inputs}
+                appinputs = {inputs}
                 btnPlaceholder = "Register"
                 handleChange = {handleChange}
                 handleClick = {handleClick}

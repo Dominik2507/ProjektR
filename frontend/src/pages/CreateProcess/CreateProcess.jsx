@@ -3,8 +3,7 @@ import Modal from "../../components/Modal/Modal";
 import ModalHeader from "../../components/Modal/ModalHeader";
 import CreateProcessModalBody from "./CreateProcessModalBody";
 import ModalFooter from "../../components/Modal/ModalFooter";
-import Sidebar from "../../components/Sidebar";
-import CreatePhaseToolbar from "./CreatePhaseToolbar";
+import Sidebar from "../../components/Sidebar"
 
 import "./CreateProcess.css"
 import {nanoid} from "nanoid";
@@ -13,14 +12,20 @@ import {modalInputs} from "../../constants/paramInputs";
 import ViewPhasesToolbar from "../../components/ViewToolbar/ViewPhasesToolbar";
 import Carousel from "../../components/Carousel/Carousel";
 import PhaseView from "../../components/PhaseView/PhaseView";
+import ComponentInfoToolbar from "../../components/ComponentInfoToolbar/ComponentInfoToolbar";
 
 export default function CreateProcess(){
     const [modalActive, setModalActive] = useState(true);
     const [err, setErr] = useState(null);
     const [createProcessInfo, setCreateProcessInfo] = useState(modalInputs);
     const [process, setProcess]=useState({"phases": []})
+    const [component, setComponent] = useState(null);
+    const [phaseIndex,setPhaseIndex] = useState(-1);
     const {setProcessInfo} = useContext(CreateProcessContext);
 
+
+    console.log(phaseIndex);
+    console.log(component);
     console.log(process);
 
     const handleSave = () => {
@@ -47,6 +52,8 @@ export default function CreateProcess(){
 
     }
 
+    const name = component ? "w-100 h-100 process-grid-three" : "w-100 h-100 process-grid";
+
     return (
         <React.Fragment>
             {modalActive &&
@@ -57,7 +64,7 @@ export default function CreateProcess(){
                 </Modal>
             }
 
-        <div className="w-100 h-100 process-grid" >
+        <div className={name} >
             <div className="">
                     <Sidebar>
                         <div className="processSidebar">
@@ -70,17 +77,26 @@ export default function CreateProcess(){
             <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
                 <div className="process-view">
                     <Carousel show={2} numOfPhases={process.phases}>
-                        {process.phases.map(phase => (
+                        {process.phases.map((phase,index) => (
                             <PhaseView
                                 key = {nanoid()}
                                 phase = {phase}
                                 params={phase.params}
+                                setPhaseIndex = {() => setPhaseIndex(index)}
+                                setSelectedComponent={setComponent}
                             />
                         ))}
                     </Carousel>
                 </div>
             </div>
             </div>
+            {component &&
+                <Sidebar>
+                    <div className="processSidebar">
+                        <ComponentInfoToolbar component={component} handleClose={() => setComponent(null)} setProcess={setProcess} indexOfPhaseForComponent={phaseIndex}/>
+                    </div>
+                </Sidebar>
+            }
         </div>
 
 

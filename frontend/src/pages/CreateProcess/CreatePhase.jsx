@@ -32,6 +32,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
             });
             return;
         }
+
         //TODO: CREATE PHASE IN DB AND STORE PHASE ID
         if(phase){
             let temp=process.phases

@@ -7,9 +7,6 @@ import ParameterList from "../PhaseView/ParameterList";
 import Input from "../Form/Input";
 
 export default function ComponentInfoToolbar({component, handleClose,indexOfPhaseForComponent, setProcess}){
-    console.log(component);
-    console.log(component.params);
-
     const [err, setErr] = useState(null);
 
     const [paramName, setParamName] = useState("");
@@ -30,10 +27,25 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
 
         setProcess(prevProcess => {
             let newProcess = {...prevProcess};
-            //prevProcess.phases[indexOfPhaseForComponent]
+            let phase = newProcess.phases[indexOfPhaseForComponent];
+
+            console.log(phase.components);
+            let indexOfComponent = phase.components.findIndex(comp => comp.componentid === component.componentid);
+            console.log(newProcess.phases[indexOfPhaseForComponent].components[indexOfComponent]);
+            newProcess.phases[indexOfPhaseForComponent].components[indexOfComponent].params.push({
+
+                paramName,
+                paramDesc,
+                maxValue,
+                minValue,
+
+            })
+            console.log(newProcess);
+            return newProcess;
         })
 
-        setParamName("");
+
+        //setParamName("");
         setMaxValue("");
         setMinValue("");
         setParamDesc("");
@@ -53,7 +65,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                         </div>
                         {component.params &&
                         <div>
-                            <ParameterList values={component.params} />
+                            <ParameterList values={component.params}/>
                         </div>
                         }
                         <div className="d-flex flex-column justify-content-center w-100 align-items-center py-3 mt-3">
