@@ -29,7 +29,7 @@ export default function ViewComponentToolbar({component, phase,process, setProce
 
     return(
         <React.Fragment>
-            <Dropdown name={component.name}>
+            <Dropdown name={component.name} viewMode={viewMode} handleDelete={deleteComponent} handleEdit={()=> setEdit(true)}>
             {
                 edit ? 
                 
@@ -42,19 +42,17 @@ export default function ViewComponentToolbar({component, phase,process, setProce
                     <div>Params: {!component.params ?  "no params" : ""}</div>
                     {rows}
                     {
-                        showDropDown ?
+                        showDropDown &&
                             <Dropdown name="Component">
                                 <CreateComponent phase={phase} process={process} setProcess={setProcess} setShowDropDown={setShowDropDown} />
-                            </Dropdown> : <></>
+                            </Dropdown>
                     }
                     {
-                        !viewMode ? 
+                        !viewMode && false &&
                             <div className="d-flex mx-1 flex-column align-items-center">
                                 <Button placeholder="Remove component" handleClick={()=> deleteComponent()}/>
                                 <Button placeholder="Edit component" handleClick={()=> setEdit(true)}/>
-                            </div>
-                        : 
-                            <></>
+                            </div>  
                     }
                     
                 

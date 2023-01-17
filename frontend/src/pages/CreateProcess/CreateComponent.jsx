@@ -99,7 +99,7 @@ export default function CreateComponent({process, setProcess, phase, component=n
             <div>Params</div>
             {rows}
             <div className="m-3">
-                <Dropdown name="Add a parameter">
+                <Dropdown name="Add a parameter" viewMode={true}>
                     <ParameterInput params={allParameters} setAllParameters={setAllParameters} />
                 </Dropdown>
             </div>

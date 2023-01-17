@@ -96,7 +96,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
             />
             
             <div className="m-3">
-                <Dropdown name="Phase parameter">
+                <Dropdown name="Phase parameter" viewMode={true}>
                     <ParameterInput setAllParameters={setAllParameters}/>
                 </Dropdown>
             </div>
