@@ -14,7 +14,7 @@ export default function Dropdown({children,name, active=false, viewMode, handleD
             <div className="dropdown-title card-header">
                 {name}
                 
-                {!viewMode && <FontAwesomeIcon onClick={handleEdit} icon={faEdit} />}
+                {!viewMode && <FontAwesomeIcon onClick={()=> {setDropdownActive(true); handleEdit()}} icon={faEdit} />}
                 {!viewMode && <FontAwesomeIcon onClick={handleDelete} icon={faTrash} />}
                 <FontAwesomeIcon onClick={handleClick} icon={faChevronDown} className={dropdownActive ? "dropdown-icon-active" : "dropdown-icon"}/>
             </div>

@@ -29,6 +29,7 @@ export default function CreateProcess(){
         setCarouselLength(process?.phases ? process.phases.length : 0);
     },[process?.phases.length])
 
+    console.log("proces", process)
     const handleSave = () => {
         setErr(null);
         if(createProcessInfo[0].value === "") {

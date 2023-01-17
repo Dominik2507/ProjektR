@@ -35,7 +35,7 @@ export default function ViewSinglePhaseToolbar({phase, process, setProcess, view
 
     return(
         <React.Fragment>
-            <Dropdown name={phase.name || ("Phase " + (process.phases.indexOf(phase) +1))} viewMode={viewMode} handleDelete={deletePhase} handleEdit={()=> setEdit(true)}>
+            <Dropdown name={phase.name || ("Phase " + (process.phases.indexOf(phase) +1))} viewMode={viewMode} handleDelete={deletePhase} handleEdit={()=>setEdit(true)}>
                 
                {
                 edit ? 
