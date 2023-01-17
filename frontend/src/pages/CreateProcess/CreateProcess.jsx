@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import Modal from "../../components/Modal/Modal";
 import ModalHeader from "../../components/Modal/ModalHeader";
 import CreateProcessModalBody from "./CreateProcessModalBody";
@@ -13,6 +13,7 @@ import ViewPhasesToolbar from "../../components/ViewToolbar/ViewPhasesToolbar";
 import Carousel from "../../components/Carousel/Carousel";
 import PhaseView from "../../components/PhaseView/PhaseView";
 import ComponentInfoToolbar from "../../components/ComponentInfoToolbar/ComponentInfoToolbar";
+import InputParamsToolbar from "../../components/InputParamsToolbar/InputParamsToolbar";
 
 export default function CreateProcess(){
     const [modalActive, setModalActive] = useState(true);
@@ -21,12 +22,12 @@ export default function CreateProcess(){
     const [process, setProcess]=useState({"phases": []})
     const [component, setComponent] = useState(null);
     const [phaseIndex,setPhaseIndex] = useState(-1);
+    const [carouselLength, setCarouselLength] = useState(process?.phases ? process.phases.length : 0);
     const {setProcessInfo} = useContext(CreateProcessContext);
 
-
-    console.log(phaseIndex);
-    console.log(component);
-    console.log(process);
+    useEffect(() =>  {
+        setCarouselLength(process?.phases ? process.phases.length : 0);
+    },[process?.phases.length])
 
     const handleSave = () => {
         setErr(null);
@@ -37,6 +38,7 @@ export default function CreateProcess(){
             });
             return;
         }
+
 
 
         //TODO: Save process to DB and return and save process id
@@ -52,7 +54,7 @@ export default function CreateProcess(){
 
     }
 
-    const name = component ? "w-100 h-100 process-grid-three" : "w-100 h-100 process-grid";
+    const name = component ||phaseIndex >= 0 ? "w-100 h-100 process-grid-three" : "w-100 h-100 process-grid";
 
     return (
         <React.Fragment>
@@ -76,7 +78,7 @@ export default function CreateProcess(){
                 <h4 className="m-3" id={createProcessInfo[0].name}>{createProcessInfo[0].value}</h4>
             <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
                 <div className="process-view">
-                    <Carousel show={2} numOfPhases={process.phases}>
+                    <Carousel show={2} numOfPhases={carouselLength}>
                         {process.phases.map((phase,index) => (
                             <PhaseView
                                 key = {nanoid()}
@@ -93,9 +95,25 @@ export default function CreateProcess(){
             {component &&
                 <Sidebar>
                     <div className="processSidebar">
-                        <ComponentInfoToolbar component={component} handleClose={() => setComponent(null)} setProcess={setProcess} indexOfPhaseForComponent={phaseIndex}/>
+                        <ComponentInfoToolbar component={component} handleClose={() =>{
+                            setComponent(null);
+                            setPhaseIndex(-1);
+                        }
+                        } setProcess={setProcess} indexOfPhaseForComponent={phaseIndex}/>
                     </div>
                 </Sidebar>
+            }
+            {!component && phaseIndex >= 0 &&
+                <Sidebar>
+                    <div className="processSidebar">
+                        <InputParamsToolbar
+                            phaseIndex={phaseIndex}
+                            setProcess = {setProcess}
+                            handleClose={() => setPhaseIndex(-1)}
+                        />
+                    </div>
+                </Sidebar>
+
             }
         </div>
 

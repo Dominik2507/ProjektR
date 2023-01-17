@@ -8,7 +8,7 @@ import ParameterList from "./ParameterList";
 import ComponentList from "./ComponentList";
 import {nanoid} from "nanoid";
 
-export default function PhaseView({ phase,params,handleAddParam,setSelectedComponent,setPhaseIndex }){
+export default function PhaseView({ phase,params,setSelectedComponent,setPhaseIndex }){
 
 
     const handleComponentToolbar = (component) => {
@@ -41,7 +41,7 @@ export default function PhaseView({ phase,params,handleAddParam,setSelectedCompo
                         icon={faSquarePlus}
                         style={{cursor:"pointer"}}
                         title="Add new parameter to this phase."
-                        onClick={handleAddParam}
+                        onClick={setPhaseIndex}
                     />
                 </div>
                 {phase.components &&

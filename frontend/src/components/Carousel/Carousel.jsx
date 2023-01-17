@@ -3,12 +3,14 @@ import './carousel.css'
 
 const Carousel = ({children, show, numOfPhases}) => {
     const [currentIndex, setCurrentIndex] = useState(0)
-    const [length, setLength] = useState(numOfPhases.length);
-    const [touchPosition, setTouchPosition] = useState(null)
+    const [length, setLength] = useState(numOfPhases);
+    const [touchPosition, setTouchPosition] = useState(null);
+
 
     useEffect(() => {
-        setLength(numOfPhases.length);
+        setLength(numOfPhases);
     },[numOfPhases])
+
     const next = () => {
         if (currentIndex < (length - show)) {
             setCurrentIndex(prevState => prevState + 1)
