@@ -33,7 +33,7 @@ export default function ProcessInlineView({process,handleToogleFav,isFavourite})
                     <p className="card-text">{process.description}</p>
                 </span>
                 <div className="d-flex">
-                    <Link to={`process/${process.processid}`} className="btn btn-outline-info mt-3 " >See more detailed</Link>
+                    <Link to={`/processAll/process/${process.processid}`} className="btn btn-outline-info mt-3 " >See more detailed</Link>
                 </div>
           </div>
         </div>

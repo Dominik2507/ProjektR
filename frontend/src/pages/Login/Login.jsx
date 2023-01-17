@@ -55,7 +55,7 @@ export default function Login(){
 
     return(
 
-            <div className = "login-form">
+            <div className = "login-form w-50">
                 {serverError.length > 0 &&
                     <div className="alert alert-danger alert-dismissible d-flex align-items-center fade show">
                         <i className="bi-exclamation-octagon-fill"></i>

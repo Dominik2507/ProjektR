@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import './carousel.css'
 
 const Carousel = ({children, show, numOfPhases}) => {
-
     const [currentIndex, setCurrentIndex] = useState(0)
     const [length, setLength] = useState(numOfPhases);
-    const [touchPosition, setTouchPosition] = useState(null)
+    const [touchPosition, setTouchPosition] = useState(null);
 
-    // Set the length to match current children from props
 
+    useEffect(() => {
+        setLength(numOfPhases);
+    },[numOfPhases])
 
     const next = () => {
         if (currentIndex < (length - show)) {
@@ -51,7 +52,6 @@ const Carousel = ({children, show, numOfPhases}) => {
     return (
         <div className="carousel-container">
             <div className="carousel-wrapper">
-                {/* You can alwas change the content of the button to other things */}
                 {
                     currentIndex > 0 &&
                     <button onClick={prev} className="left-arrow">
@@ -70,8 +70,7 @@ const Carousel = ({children, show, numOfPhases}) => {
                         {children}
                     </div>
                 </div>
-                {/* You can alwas change the content of the button to other things */}
-                {
+               {
                     currentIndex < (length - show) &&
                     <button onClick={next} className="right-arrow">
                         &gt;

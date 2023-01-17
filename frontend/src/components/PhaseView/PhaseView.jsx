@@ -8,18 +8,19 @@ import ParameterList from "./ParameterList";
 import ComponentList from "./ComponentList";
 import {nanoid} from "nanoid";
 
-export default function PhaseView({ phase,params,num,handleAddParam,setSelectedComponent,setIndexOfPhaseForComponent }){
+export default function PhaseView({ phase,params,setSelectedComponent,setPhaseIndex }){
 
 
-    const handleComponentToolbar = (component,index) => {
+    const handleComponentToolbar = (component) => {
         setSelectedComponent(component);
-        setIndexOfPhaseForComponent(index);
+        setPhaseIndex();
     }
+
 
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
             <div className="card-header fw-bold fst-italic">
-                {`Phase #${num}`}
+                {phase.name}
             </div>
             <div className="card-body">
                 <span className="d-flex flex-row align-items-center justify-content-start">
@@ -40,12 +41,12 @@ export default function PhaseView({ phase,params,num,handleAddParam,setSelectedC
                         icon={faSquarePlus}
                         style={{cursor:"pointer"}}
                         title="Add new parameter to this phase."
-                        onClick={handleAddParam}
+                        onClick={setPhaseIndex}
                     />
                 </div>
                 {phase.components &&
                     <div>
-                        {phase.components.map((component,index) => <ComponentList key={nanoid()} component={component} handleClick={() => handleComponentToolbar(component,index)}/>)}
+                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} handleClick={() => handleComponentToolbar(component)}/>)}
                     </div>
                 }
             </div>
