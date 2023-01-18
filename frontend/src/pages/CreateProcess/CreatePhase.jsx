@@ -6,10 +6,13 @@ import ParameterInput from "../../components/ParameterInput";
 import Dropdown from "../../components/Dropdown";
 import {nanoid} from "nanoid";
 import {CreateProcessContext} from "../../context/CreateProcessContext";
+import DateInput from "../../components/Form/DateInput";
 
 export default function CreatePhase({process, setProcess, setShowDropDown, phase=null, setEdit=null}){
     const [phaseName, setPhaseName] = useState(phase?.name || "");
     const [phaseDescription, setPhaseDescription] = useState(phase?.description || "");
+    const [start, setStart] = useState(phase?.start_datetime || "")
+    const [end, setEnd] = useState(phase?.end_datetime || "")
     const [err, setErr] = useState(null);
     const [allParameters, setAllParameters] = useState(phase?.params || []);
 
@@ -42,6 +45,8 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
                 "name": phaseName,
                 "description": phaseDescription,
                 "params": allParameters,
+                "start_datetime": start,
+                "end_datetime": end,
                 "components": phase.components
 
             }
@@ -56,6 +61,8 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
                     "name":phaseName,
                     "description": phaseDescription,
                     "params": allParameters,
+                    "start_datetime": start,
+                    "end_datetime": end,
                     "components":[]
                 }
             );
@@ -96,6 +103,21 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
                 handleChange={(e) => setPhaseDescription(e.target.value)}
             />
             
+            <DateInput 
+                type="datetime-local" 
+                name={"start_datetime"} 
+                value={start} 
+                handleChange={(e) => setStart(e.target.value)} 
+                label={"Begins:"}
+            />
+            <DateInput 
+                type="datetime-local" 
+                name={"end_datetime"} 
+                value={end} 
+                handleChange={(e) => setEnd(e.target.value)} 
+                label={"Ends:"}
+            />
+
             <div className="m-3">
                 <Dropdown name="Phase parameter" viewMode={true}>
                     <ParameterInput setAllParameters={setAllParameters}/>

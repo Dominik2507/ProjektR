@@ -5,7 +5,7 @@ import Button from "./Button";
 export default function Form({inputs,handleClick, handleChange ,btnPlaceholder,errors}){
     return(
         <form>
-            {inputs.map(input => {
+            {inputs?.map(input => {
 
                 let err = errors.find(err => input.name === err.name);
 

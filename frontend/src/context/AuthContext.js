@@ -33,6 +33,7 @@ export default function AuthProvider({children}){
             }
         })
             .then(res => {
+                console.log("user", res.data);
                 setCurrentUser(res.data);
                 return res.data;
             })
