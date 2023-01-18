@@ -178,16 +178,16 @@ class Process {
       this.processid = result.rows[0].processid;
 
       phases?.forEach(async (phase) => {
-        const phaseSql = `INSERT INTO phase (start_datetime, end_datetime, description, active, processid)
+        const phaseSql = `INSERT INTO process_phase (start_datetime, end_datetime, description, active, processid)
         VALUES ($1, $2, $3, $4, $5)
         RETURNING phaseid;`;
         const phaseResult = await db.query(phaseSql, [
           phase.start_datetime,
           phase.end_datetime,
           phase.description,
-          phase.active,
+          phase.active, 
           this.processid,
-        ]);
+        ]); 
         const phaseId = phaseResult.rows[0].phaseid;
 
         phase.components?.forEach(async (component) => {
