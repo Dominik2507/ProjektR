@@ -98,11 +98,13 @@ export default function CreateComponent({process, setProcess, phase, component=n
             />
             <div>Params</div>
             {rows}
+            { false &&
             <div className="m-3">
                 <Dropdown name="Add a parameter" viewMode={true}>
                     <ParameterInput params={allParameters} setAllParameters={setAllParameters} />
                 </Dropdown>
             </div>
+            }
             { false ? <Select options={allPhases} selected={phaseSelectValue} setSelected={setPhaseSelectValue} /> : ""}
             <div className="d-flex w-100 flex-column align-items-center">
                 <Button placeholder={component ? "Save changes" : "Add component"} handleClick={handleSave}/>

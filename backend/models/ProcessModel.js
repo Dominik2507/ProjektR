@@ -178,17 +178,32 @@ class Process {
       this.processid = result.rows[0].processid;
 
       phases?.forEach(async (phase) => {
-        const phaseSql = `INSERT INTO process_phase (start_datetime, end_datetime, description, active, processid)
-        VALUES ($1, $2, $3, $4, $5)
+        const phaseSql = `INSERT INTO process_phase (name, start_datetime, end_datetime, description, active, processid)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING phaseid;`;
         const phaseResult = await db.query(phaseSql, [
+          phase.name,
           phase.start_datetime,
           phase.end_datetime,
           phase.description,
-          phase.active, 
-          this.processid,
+          'f', 
+          this.processid,  
         ]); 
         const phaseId = phaseResult.rows[0].phaseid;
+
+        phase.params?.forEach(async (parameter) => {
+          const parameterSql = `INSERT INTO parameter (name, unit, max_value, min_value, componentid, processid, phaseid)
+          VALUES ($1, $2, $3, $4, $5, $6, $7)`;
+          const parameterResult = await db.query(parameterSql, [
+            parameter.paramName,
+            parameter.paramDesc,
+            parameter.maxValue,
+            parameter.minValue,
+            null,
+            this.processid,
+            phaseId,
+          ]);
+        });
 
         phase.components?.forEach(async (component) => {
           const componentSql = `INSERT INTO process_component (name, phaseid, has_componentid)
@@ -201,17 +216,17 @@ class Process {
           ]);
           const componentId = componentResult.rows[0].componentid;
 
-          component.parameters?.forEach(async (parameter) => {
+          component.params?.forEach(async (parameter) => {
             const parameterSql = `INSERT INTO parameter (name, unit, max_value, min_value, componentid, processid, phaseid)
             VALUES ($1, $2, $3, $4, $5, $6, $7)`;
             const parameterResult = await db.query(parameterSql, [
-              parameter.name,
-              parameter.unit,
-              parameter.max_value,
-              parameter.min_value,
+              parameter.paramName,
+              parameter.paramDesc,
+              parameter.maxValue,
+              parameter.minValue,
               componentId,
               this.processid,
-              phaseId,
+              null,
             ]);
           });
         });

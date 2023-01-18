@@ -38,6 +38,7 @@ const sql_create_process_phase = `
     
     CREATE TABLE process_phase(
         phaseId SERIAL NOT NULL,
+        name VARCHAR(100) NOT NULL,
         start_datetime TIMESTAMP NOT NULL,
         end_datetime TIMESTAMP ,
         description VARCHAR(200) NOT NULL,
@@ -65,10 +66,8 @@ const sql_create_process_component = `
         componentId SERIAL NOT NULL,
         name VARCHAR(50) NOT NULL,
         phaseId INT NOT NULL,
-        has_componentId INT,
         PRIMARY KEY (componentId),
-        FOREIGN KEY (phaseId) REFERENCES process_phase(phaseId),
-        FOREIGN KEY (has_componentId) REFERENCES process_component(componentId)
+        FOREIGN KEY (phaseId) REFERENCES process_phase(phaseId)
 );
 `;
 
@@ -143,6 +142,7 @@ const sql_create_component_with_params = `
 const sql_create_phase_with_components = `
   CREATE VIEW phase_with_components as
   SELECT process_phase.phaseid,
+        process_phase.name,
          process_phase.start_datetime,
          process_phase.end_datetime,
          process_phase.description,
@@ -192,7 +192,7 @@ let views = [
     sql_create_phase_with_components,
     sql_create_process_with_phases
 ]
-
+ 
 let table_names = [
   "user_data",
   "process",
@@ -239,3 +239,9 @@ let views_names = [
 })`
 
 `;
+/*
+Baza: BLogistics
+Server: 161.53.18.24
+User: projektadmin
+Password: 5tz89rg5489ohizg
+*/

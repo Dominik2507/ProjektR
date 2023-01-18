@@ -22,13 +22,14 @@ export default function ViewSinglePhaseToolbar({phase, process, setProcess, view
     for(let component of phase.components || []){
         rows.push(<ViewComponentToolbar key={component.componentid} viewMode={viewMode} component={component} phase={phase} process={process} setProcess={setProcess}/>)
     }
-
+    console.log("phase", phase)
     
     let phaseParams=[];
     for(let param of phase.params || []){
+        console.log("param", param)
         phaseParams.push(
             <div key={param.parameterid}>
-                {param.paramName + " [" + param.minValue + "-" + param.maxValue + "]"}
+                {param.name + " [" + param.min_value + "-" + param.max_value + "]"}
             </div>
         )
     }
@@ -45,7 +46,7 @@ export default function ViewSinglePhaseToolbar({phase, process, setProcess, view
                 : 
                 
                 <section className="p-2">
-                    <div>O fazi: {phase.description}</div>
+                    <div>Description: {phase.description}</div>
                     <div>Phase parameters:</div>
                     {phaseParams}
                     {rows}

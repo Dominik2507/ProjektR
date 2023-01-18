@@ -22,7 +22,7 @@ export default function ViewComponentToolbar({component, phase,process, setProce
     for(let param of component.params || []){
         rows.push(
             <div key={param.parameterid}>
-                {param.paramName + " [" + param.minValue + "-" + param.maxValue + "]"}
+                {param.name + " [" + param.min_value + "-" + param.max_value + "]"}
             </div>
         )
     }
@@ -38,8 +38,7 @@ export default function ViewComponentToolbar({component, phase,process, setProce
                 : 
                 
                 <section className="p-2">
-                    <div>O komponenti: {component.description || "Treba dodati opis komponente u bazu"}</div>
-                    <div>Params: {!component.params ?  "no params" : ""}</div>
+                    <div>Parameters: {!component.params ?  "no params" : ""}</div>
                     {rows}
                     {
                         showDropDown &&

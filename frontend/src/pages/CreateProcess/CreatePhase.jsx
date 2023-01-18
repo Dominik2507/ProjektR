@@ -117,12 +117,15 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
                 handleChange={(e) => setEnd(e.target.value)} 
                 label={"Ends:"}
             />
-
-            <div className="m-3">
+            {
+                false &&
+                <div className="m-3">
                 <Dropdown name="Phase parameter" viewMode={true}>
                     <ParameterInput setAllParameters={setAllParameters}/>
                 </Dropdown>
             </div>
+            }
+            
             <div className="d-flex w-100 flex-column align-items-center">
                 <Button placeholder={phase ? "Save changes" : "Add phase"} handleClick={handleAddPhase} />
                 <Button placeholder={"Cancel"} handleClick={()=>{phase ? setEdit(false) : setShowDropDown(false)}}/>

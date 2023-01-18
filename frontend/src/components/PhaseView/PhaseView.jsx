@@ -16,7 +16,7 @@ export default function PhaseView({ phase,params,setSelectedComponent,setPhaseIn
         setPhaseIndex();
     }
 
-
+    console.log("faza", phase)
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
             <div className="card-header fw-bold fst-italic">
@@ -37,12 +37,16 @@ export default function PhaseView({ phase,params,setSelectedComponent,setPhaseIn
                         <ParameterList values={params} />
                     </div>
                 }
+                <span className="d-flex flex-row align-items-center justify-content-start">
                     <FontAwesomeIcon
                         icon={faSquarePlus}
                         style={{cursor:"pointer"}}
                         title="Add new parameter to this phase."
                         onClick={setPhaseIndex}
-                    />
+                    /> 
+                    <p className="card-text mx-3">Add a parameter</p>
+                </span>
+                    
                 </div>
                 {phase.components &&
                     <div>

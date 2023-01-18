@@ -67,7 +67,7 @@ export default function ParameterInput({params,setAllParameters,handleAddParam})
                 name="paramDesc"
                 handleChange={(e) => setParamDesc(e.target.value)}
                 value={paramDesc}
-                placeholder="Parameter description"
+                placeholder="Unit"
                 error={null}
             />
 
