@@ -1,6 +1,6 @@
 import React from "react";
 
-import {faCalendar, faPencil, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
+import {faCalendar, faDatabase, faPencil, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import dayjs from "dayjs";
@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 
-export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index, length=0, nextPhase, processid, canView,handleShowParameters}){
+export default function PhaseView({ componentBtnName,phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index, length=0, nextPhase, processid, canView,handleShowParameters}){
     const [refresh, handleRefresh]=useState(false)
     console.log("NEXT",nextPhase, nextPhase?.start_datetime!=null)
 
@@ -78,7 +78,7 @@ export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,a
             <div className="card-header fw-bold fst-italic">
                     {phase.name}
                 {canView &&
-                <FontAwesomeIcon icon={faDatabase} onClick={handleShowParameters} style={{cursor:"pointer"}} />
+                <FontAwesomeIcon icon={faDatabase} onClick={handleShowParameters} className="ms-2" style={{cursor:"pointer"}} />
                 }
             </div>
             <div className="card-body">

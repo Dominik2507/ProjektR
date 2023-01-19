@@ -22,7 +22,8 @@ export default function ViewOneProcess(){
     const [modalComponentOpen, setModalComponentOpen] = useState(false);
     const [phaseParamSelected, setPhaseParamSelected] = useState(null);
     const [componentSelected,setComponentSelected] = useState(null);
-
+    const [paramId, setParamId] = useState(-1);
+    const [phase,setPhase] = useState(null);
 
     useEffect(() =>  {
         setCarouselLength(process?.phases ? process.phases.length : 0);
@@ -78,6 +79,13 @@ export default function ViewOneProcess(){
             {modalComponentOpen && componentSelected &&
                 <ModalInputComponentParams handleClose={handleCloseComponentModal} component={componentSelected}/>
             }
+            <div className={phase ? "grid-one-process w-100" : "w-100 mt-5"}>
+                {phase &&
+                    <Sidebar>
+                        <ShowParametersToolbar phase={phase} setParamId={setParamId} closeToolbar={() => setPhase(null)} />
+                    </Sidebar>
+                }
+
 
             {process &&
                 <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
@@ -106,6 +114,7 @@ export default function ViewOneProcess(){
                     </div>
                 </div>
             }
+            </div>
         </React.Fragment>
     )
 }
