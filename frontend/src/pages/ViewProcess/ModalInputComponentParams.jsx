@@ -73,7 +73,7 @@ export default function ModalInputComponentParams({handleClose,component}){
         <Modal>
             <ModalHeader closeModal={handleClose} title={component.name}/>
             <div className="modal-body">
-                {component.params.map(parameters => (
+                {component.params?.map(parameters => (
                     <div  className="modal-grid">
                     <Input
                         type="text"

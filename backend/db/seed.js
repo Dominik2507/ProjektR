@@ -134,7 +134,8 @@ const sql_create_component_with_params = `
     ( SELECT json_agg(parameter.*) AS json_agg
            FROM parameter
           WHERE process_component.componentid = parameter.componentid) AS params
-   FROM process_component;
+   FROM process_component
+   ORDER BY process_component.conponentid;
 `;
 
 const sql_create_phase_with_components = `
@@ -152,7 +153,8 @@ const sql_create_phase_with_components = `
          ( SELECT json_agg(parameter.*) AS json_agg
            FROM parameter
            WHERE parameter.phaseid = process_phase.phaseid) AS params
-  FROM process_phase;
+  FROM process_phase
+  ORDER BY process_phase.phaseid;
 `;
 
 const sql_create_process_with_phases = `
