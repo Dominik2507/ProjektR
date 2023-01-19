@@ -206,5 +206,75 @@ router.post("/advancePhase", async () => {
     res.send({hash:hash})
     
   })
+
+  router.post("/beginFirstPhase", async () => {
+    let body = req.body;
+    /*
+      =================
+      body={
+        processid: id,
+        activePhase: 0,
+        nextPhase: id
+      }
+      =================
+      */
+    
+      let processId=body.processid;
+      let nextPhase=body.nextPhase;
+    
+      // SET START AND END
+      let today=new Date();
+      let sql=`
+        UPDATE process_phase
+        SET start_datetime=$1, active='t'
+        WHERE phaseid=$2
+      `
+      try {
+        const result = await db.query(sql, [today, nextPhase]);
+      }catch (e) {
+        console.log(e);
+        return null;
+      }
+        
+      res.send({hash:hash})
+      
+    })
+
+    router.post("/endLastPhse", async () => {
+        let body = req.body;
+        /*
+          =================
+          body={
+            processid: id,
+            activePhase: id,
+            nextPhase: 0
+          }
+          =================
+          */
+        
+          let processId=body.processid;
+          let activePhase=body.activePhase;
+        
+          // SET START AND END
+          let today=new Date();
+          let sql=`
+            UPDATE process_phase
+            SET end_datetime=$1, active='f'
+            WHERE phaseid=$2;
+            UPDATE process
+            SET end_datetime=$1
+            WHERE processid=$2;
+          `
+          try {
+            const result = await db.query(sql, [today, activePhase, processId]);
+          }catch (e) {
+            console.log(e);
+            return null;
+          }
+          let hash= await postToCardano(processId, activePhase)
+            
+          res.send({hash:hash})
+          
+        })
   
   module.exports = router;
