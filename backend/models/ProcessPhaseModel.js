@@ -11,7 +11,7 @@ class ProcessPhase {
     processid,
   }) {
     this.phaseid = phaseid;
-    this.name=name;
+    this.name = name;
     this.start_datetime = start_datetime;
     this.end_datetime = end_datetime;
     this.description = description;
@@ -43,14 +43,14 @@ class ProcessPhase {
     }
   }
 
-  static async GetProcessPhase() {
+  async GetProcessPhases() {
     const sql = `
 			SELECT * FROM process_phase WHERE phaseid = $1;
 		`;
 
     try {
       const result = await db.query(sql, [this.phaseid]);
-      return result.rows[0];
+      return result.rows;
     } catch (e) {
       console.log(e);
       return null;
