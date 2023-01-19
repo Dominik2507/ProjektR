@@ -7,8 +7,16 @@ import dayjs from "dayjs";
 import ParameterList from "./ParameterList";
 import ComponentList from "./ComponentList";
 import {nanoid} from "nanoid";
+import Button from "../Form/Button";
 
 export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index,componentBtnName }){
+
+    function moveToNextPhase(){
+        if(!window.confirm("If you end this phase you will not be able to go back! Do you want to continue?")) return;
+
+        alert("add a fetch")
+
+    }
 
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
@@ -45,7 +53,7 @@ export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,a
                 </div>
                 {phase.components &&
                     <div>
-                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} componentBtnName={componentBtnName} handleClick={() => handleComponent(component,index)}/>)}
+                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} handleClick={() => handleComponent(component,index)}/>)}
                     </div>
                 }
             </div>
