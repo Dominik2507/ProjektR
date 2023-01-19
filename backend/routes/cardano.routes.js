@@ -36,7 +36,7 @@ setTimeout(()=>{
     })
 }, 20000)
 
-export async function postToCardano(processId, lastPhaseId){
+async function postToCardano(processId, lastPhaseId){
     let getAveragesQuery=`
         SELECT parameter.*, (SELECT avg(value) FROM parameter_log WHERE parameter_log.parameterid=parameter.parameterid GROUP BY parameter_log.parameterid) as average
         FROM parameter
@@ -157,3 +157,40 @@ router.get("/getProcessHash/:id", (req,res) => {
     })();
 })
 
+router.post("/advancePhase", async ()=>{
+    let body=req.body;
+    /*
+    =================
+    body={
+      processid: id,
+      activePhase: id,
+      nextPhase: id
+    }
+    =================
+    */
+  
+    let processId=body.processid;
+    let activePhase=body.activePhase;
+    let nextPhase=body.nextPhase;
+  
+    // SET START AND END
+    let today=new Date();
+    let query=`
+      UPDATE process_phase
+      SET end_datetime=$1, active='f'
+      WHERE phaseid=$2;
+      UPDATE process_phase
+      SET start_datetime=$1, active='t'
+      WHERE phaseid=$3
+    `
+    try {
+      const result = await db.query(sql, [today, activePhase, nextPhase]);
+    }catch (e) {
+      console.log(e);
+      return null;
+    }
+    let hash= await postToCardano(processId, activePhase)
+      
+    res.send({hash:hash})
+    
+  })
