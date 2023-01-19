@@ -6,6 +6,7 @@ import Input from "../../components/Form/Input";
 
 import "./modalComponent.css";
 import {nanoid} from "nanoid";
+import axios from "axios";
 
 
 export default function ModalInputComponentParams({handleClose,component}){
@@ -24,14 +25,21 @@ export default function ModalInputComponentParams({handleClose,component}){
             return;
         }
 
-        let save = {
+        let data = {
             value: inputs[index].value,
-            paramId,
-            component: component.componentid,
-            processid: component.params[0].processid
+            parameterid: paramId,
         };
 
-        console.log(save);
+        console.log(data);
+        /*
+        axios.post(`${backend_paths.LOG}/create`, data)
+            .then(res => setInputs(prevInputs => {
+                let newInputs = [...prevInputs];
+                newInputs[index].value = "";
+                return newInputs;
+            }))
+            .catch(err => console.log(err));*/
+
 
     }
 
