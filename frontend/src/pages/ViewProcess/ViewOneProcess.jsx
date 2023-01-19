@@ -76,7 +76,7 @@ export default function ViewOneProcess(){
                     <div className="process-view">
                         <Carousel show={3} numOfPhases={carouselLength} handleSave={() => {
                         }}>
-                            {process.phases.map((phase, index) => (
+                            {process.phases?.map((phase, index) => (
                                 <PhaseView
                                     key={nanoid()}
                                     inputParamVisible={true}
