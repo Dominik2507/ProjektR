@@ -18,14 +18,6 @@ export default function ViewComponentToolbar({component, phase,process, setProce
         setProcess({...process, "phases": temp})
     }
 
-    let rows=[];
-    for(let param of component.params || []){
-        rows.push(
-            <div key={param.parameterid}>
-                {param.name + " [" + param.min_value + "-" + param.max_value + "]"}
-            </div>
-        )
-    }
 
     return(
         <React.Fragment>
@@ -38,8 +30,7 @@ export default function ViewComponentToolbar({component, phase,process, setProce
                 : 
                 
                 <section className="p-2">
-                    <div>Parameters: {!component.params ?  "no params" : ""}</div>
-                    {rows}
+            
                     {
                         showDropDown &&
                             <Dropdown name="Component">

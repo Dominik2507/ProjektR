@@ -24,15 +24,7 @@ export default function ViewSinglePhaseToolbar({phase, process, setProcess, view
     }
     console.log("phase", phase)
     
-    let phaseParams=[];
-    for(let param of phase.params || []){
-        console.log("param", param)
-        phaseParams.push(
-            <div key={param.parameterid}>
-                {param.name + " [" + param.min_value + "-" + param.max_value + "]"}
-            </div>
-        )
-    }
+    
 
     return(
         <React.Fragment>
@@ -47,8 +39,6 @@ export default function ViewSinglePhaseToolbar({phase, process, setProcess, view
                 
                 <section className="p-2">
                     <div>Description: {phase.description}</div>
-                    <div>Phase parameters:</div>
-                    {phaseParams}
                     {rows}
                     
                     {
