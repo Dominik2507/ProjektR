@@ -86,8 +86,8 @@ export default function ViewOneProcess(){
                                     openPhaseModal={handleOpenPhaseModal}
                                     handleComponent={handleOpenComponentModal}
                                     index={index}
-                                    length={process.phases.length}
-                                    nextPhase={ index < (process.phases.length-1) ? process.phases[index+1] : null}
+                                    length={process.phases?.length}
+                                    nextPhase={ index < (process.phases?.length-1) ? process.phases[index+1] : null}
                                     processid={process.processid}
                                 />
                             ))}
