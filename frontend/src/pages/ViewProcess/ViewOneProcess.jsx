@@ -101,9 +101,11 @@ export default function ViewOneProcess(){
                 <div className="process-wrapper w-100 d-flex flex-column justify-content-center align-items-center">
                         <div className="d-flex flex-row align-items-center justify-content-center">
                             <h2>{process.name}</h2>
+                            {hash &&
                             <a href={`https://preview.cardanoscan.io/transaction/${hash}`} className="d-flex align-items-center justify-content-center">
                                 <FontAwesomeIcon icon={faCircleCheck} className="h5 ms-1" style={{cursor:"pointer", color:"blue"}} />
                             </a>
+                            }
                         </div>
                     <div className="process-view">
                         <Carousel show={3} numOfPhases={carouselLength} handleSave={() => {
