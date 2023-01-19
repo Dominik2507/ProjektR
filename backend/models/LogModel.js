@@ -8,13 +8,13 @@ class Log {
     this.parameterid = parameterid;
   }
 
-  static async getLog(logid) {
+  async getLog() {
     const sql = `
         SELECT * FROM parameter_log WHERE logid = $1;
         `;
 
     try {
-      const result = await db.query(sql, [logid]);
+      const result = await db.query(sql, [this.logid]);
       return result.rows[0];
     } catch (e) {
       console.log(e);
@@ -22,13 +22,13 @@ class Log {
     }
   }
 
-  static async getAllParameterLogs(parameterid) {
+  async getAllParameterLogs() {
     const sql = `
         SELECT * FROM parameter_log WHERE parameterid = $1;
         `;
 
     try {
-      const result = await db.query(sql, [parameterid]);
+      const result = await db.query(sql, [this.parameterid]);
       return result.rows;
     } catch (e) {
       console.log(e);
@@ -73,7 +73,7 @@ class Log {
     }
   }
 
-  static async DeleteLog() {
+  async DeleteLog() {
     const sql = `
         DELETE FROM parameter_log WHERE logid = $1;
         `;
@@ -87,7 +87,7 @@ class Log {
     }
   }
 
-  static async LogAverage() {
+  async LogAverage() {
     const sql = `
         SELECT value FROM parameter_log WHERE parameterid = $1;
         `;

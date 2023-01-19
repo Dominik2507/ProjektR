@@ -17,7 +17,8 @@ router.get("/parameter/:parameterid", async function (req, res, next) {
 
 router.get("/:logid", async function (req, res, next) {
   try {
-    const result = await Log.getLog(req.params.logid);
+    const log = new Log(req.params.logid);
+    const result = await log.getLog();
     res.status(200);
     res.send(result);
   } catch (e) {
