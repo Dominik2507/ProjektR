@@ -114,7 +114,7 @@ CREATE TABLE phase_parameter(
     FOREIGN KEY (phaseId) REFERENCES process_phase(phaseId),
     FOREIGN KEY (processId) REFERENCES process(processid)
 )
-`
+`;
 
 const sql_create_blockchain = `
   CREATE TABLE blockchain(
@@ -132,7 +132,6 @@ const sql_create_component_with_params = `
      SELECT process_component.componentid,
     process_component.name,
     process_component.phaseid,
-    process_component.has_componentid,
     ( SELECT json_agg(parameter.*) AS json_agg
            FROM parameter
           WHERE process_component.componentid = parameter.componentid) AS params
@@ -174,7 +173,6 @@ const sql_create_process_with_phases = `
    FROM process;
 `;
 
-
 let tables = [
   sql_create_user,
   sql_create_process,
@@ -188,11 +186,11 @@ let tables = [
 ];
 
 let views = [
-    sql_create_component_with_params,
-    sql_create_phase_with_components,
-    sql_create_process_with_phases
-]
- 
+  sql_create_component_with_params,
+  sql_create_phase_with_components,
+  sql_create_process_with_phases,
+];
+
 let table_names = [
   "user_data",
   "process",
@@ -206,11 +204,10 @@ let table_names = [
 ];
 
 let views_names = [
-    "component_with_params",
-    "phase_with_components",
-    "process_with_phases"
+  "component_with_params",
+  "phase_with_components",
+  "process_with_phases",
 ];
-
 
 (async () => {
   console.log("Creating tables");
@@ -225,11 +222,11 @@ let views_names = [
     }
   }
 
-  for(let i = 0; i < views.length; i++){
-    try{
+  for (let i = 0; i < views.length; i++) {
+    try {
       await pool.query(views[i], []);
-      console.log("View " + views_names[i] +" created");
-    }catch (err){
+      console.log("View " + views_names[i] + " created");
+    } catch (err) {
       console.log("Error creating table " + views_names[i]);
       return console.log(err.message);
     }
