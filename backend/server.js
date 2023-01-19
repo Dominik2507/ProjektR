@@ -15,6 +15,7 @@ const parameterRoute = require("./routes/parameter.routes");
 const logRoute = require("./routes/log.routes");
 //const cardanoRoute = require("./routes/cardano.routes");
 const phaseRoute = require("./routes/phase.routes");
+const componentRoute = require("./routes/component.routes");
 
 app.use("/registration", registrationRoute);
 app.use("/login", loginRoute);
@@ -24,6 +25,7 @@ app.use("/parameter", parameterRoute);
 app.use("/log", logRoute);
 //app.use("/cardano", cardanoRoute);
 app.use("/phase", phaseRoute);
+app.use("/component", componentRoute);
 
 const PORT = 3001;
 
