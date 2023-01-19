@@ -107,6 +107,7 @@ export default function CreateProcess(){
                                 index={index}
                                 handleComponent={handleComponentToolbar}
                                 componentBtnName="Add parameter"
+                                canView={false}
                             />
                         ))}
                     </Carousel>

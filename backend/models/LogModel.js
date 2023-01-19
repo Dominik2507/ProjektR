@@ -24,7 +24,10 @@ class Log {
 
   async getAllParameterLogs() {
     const sql = `
-        SELECT * FROM parameter_log WHERE parameterid = $1;
+      select parameter_log.*,parameter.unit,parameter.name
+      from parameter_log
+             join parameter on parameter_log.parameterid = parameter.parameterid
+      where parameter_log.parameterid = $1;
         `;
 
     try {

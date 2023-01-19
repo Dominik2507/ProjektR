@@ -1,6 +1,6 @@
 import React from "react";
 
-import {faCalendar, faPencil, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
+import {faCalendar, faDatabase, faPencil, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import dayjs from "dayjs";
@@ -9,7 +9,7 @@ import ComponentList from "./ComponentList";
 import {nanoid} from "nanoid";
 import Button from "../Form/Button";
 
-export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index,componentBtnName }){
+export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index,componentBtnName, canView,handleShowParameters}){
 
     function moveToNextPhase(){
         if(!window.confirm("If you end this phase you will not be able to go back! Do you want to continue?")) return;
@@ -21,7 +21,10 @@ export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,a
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
             <div className="card-header fw-bold fst-italic">
-                {phase.name}
+                    {phase.name}
+                {canView &&
+                <FontAwesomeIcon icon={faDatabase} onClick={handleShowParameters} style={{cursor:"pointer"}} />
+                }
             </div>
             <div className="card-body">
                 <span className="d-flex flex-row align-items-center justify-content-start">
@@ -53,7 +56,7 @@ export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,a
                 </div>
                 {phase.components &&
                     <div>
-                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} handleClick={() => handleComponent(component,index)}/>)}
+                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} componentBtnName={componentBtnName} handleClick={() => handleComponent(component,index)}/>)}
                     </div>
                 }
             </div>
