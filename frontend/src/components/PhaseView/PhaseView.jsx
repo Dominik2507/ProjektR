@@ -8,13 +8,68 @@ import ParameterList from "./ParameterList";
 import ComponentList from "./ComponentList";
 import {nanoid} from "nanoid";
 import Button from "../Form/Button";
+import {backend_paths} from "../../constants/paths";
+import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 
-export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index }){
-
+export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index, length=0, nextPhase, processid}){
+    const [refresh, handleRefresh]=useState(false)
+    console.log("NEXT",nextPhase, nextPhase?.start_datetime!=null)
+    
     function moveToNextPhase(){
         if(!window.confirm("If you end this phase you will not be able to go back! Do you want to continue?")) return;
 
-        alert("add a fetch")
+
+        let postData={
+            processid: processid,
+            activePhase: phase.phaseid,
+            nextPhase: nextPhase.phaseid
+        }
+
+
+        axios.post(`${backend_paths.START_NEXT_PHASE}`, postData)
+            .then(res => res.data)
+            .then(data => {
+                handleRefresh(!refresh);
+            })
+            .catch(err => console.log(err))
+    }
+
+    function endLastPhase(){
+        if(!window.confirm("This action will end both this phase and the whole process! Do you want to continue?")) return;
+
+        let postData={
+            processid: processid,
+            activePhase: phase.phaseid,
+            nextPhase: 0
+        }
+        axios.post(`${backend_paths.END_LAST_PHASE}`, postData)
+            .then(res => res.data)
+            .then(data => {
+                handleRefresh(!refresh);
+            })
+            .catch(err => console.log(err))
+   
+
+    }
+
+    function startThisPhase(){
+        if(!window.confirm("If you start this phase you will not be able to go back! Do you want to continue?")) return;
+        
+        let postData={
+            processid: processid,
+            activePhase: 0,
+            nextPhase: phase.phaseid
+        }
+
+        axios.post(`${backend_paths.START_FIRST_PHASE}`, postData)
+            .then(res => res.data)
+            .then(data => {
+                handleRefresh(!refresh);
+            })
+            .catch(err => console.log(err))
+      
 
     }
 
@@ -57,7 +112,9 @@ export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,a
                     </div>
                 }
             </div>
-            {phase.active==="t" && <Button placeholder={"End phase"} handleClick={moveToNextPhase} />}
+            {length>0 && phase.active==="t" && index < (length-1)  && <Button placeholder={"Next phase"} handleClick={moveToNextPhase} />}
+            {length>0 && nextPhase?.start_datetime==null && phase.active==="f" && index == 0 && <Button placeholder={"Start phase"} handleClick={startThisPhase} />}
+            {length>0 && phase.active==="t" && index == (length-1)  && <Button placeholder={"End phase"} handleClick={endLastPhase} />}
         </div>
     )
 }
