@@ -8,6 +8,13 @@ import {backend_paths} from "../../constants/paths";
 import ModalInputPhaseParams from "./ModalInputPhaseParams";
 import ModalInputComponentParams from "./ModalInputComponentParams";
 import {useParams} from "react-router-dom";
+import Sidebar from "../../components/Sidebar";
+
+import "./viewOneProcess.css";
+import ShowParametersToolbar from "./ShowParametersToolbar";
+import ViewDataModal from "./ViewDataModal";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 
 export default function ViewOneProcess(){
     const { id } = useParams();
@@ -17,7 +24,9 @@ export default function ViewOneProcess(){
     const [modalComponentOpen, setModalComponentOpen] = useState(false);
     const [phaseParamSelected, setPhaseParamSelected] = useState(null);
     const [componentSelected,setComponentSelected] = useState(null);
-
+    const [paramId, setParamId] = useState(-1);
+    const [phase,setPhase] = useState(null);
+    const [hash,setHash] = useState();
 
     useEffect(() =>  {
         setCarouselLength(process?.phases ? process.phases.length : 0);
@@ -31,7 +40,12 @@ export default function ViewOneProcess(){
             .then(data => {
                 setProcess(data);
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
+
+        axios.get(`${backend_paths.HASH}/${id}`)
+            .then(res => res.data)
+            .then(data => setHash(data))
+            .catch(err => console.log(err));
     }, [])
 
 
@@ -64,6 +78,9 @@ export default function ViewOneProcess(){
 
     return(
         <React.Fragment>
+            {paramId >= 0 &&
+                <ViewDataModal handleClose={() => setParamId(-1)} paramId={paramId} />
+            }
             {modalPhaseOpen && phaseParamSelected &&
                 <ModalInputPhaseParams closeModal={handleCloseModal} param={phaseParamSelected}/>
             }
@@ -71,8 +88,24 @@ export default function ViewOneProcess(){
                 <ModalInputComponentParams handleClose={handleCloseComponentModal} component={componentSelected}/>
             }
 
+            <div className={phase ? "grid-one-process w-100" : "w-100 mt-5"}>
+                {phase &&
+                    <Sidebar>
+                        <ShowParametersToolbar phase={phase} setParamId={setParamId} closeToolbar={() => setPhase(null)} />
+                    </Sidebar>
+                }
+
+
             {process &&
-                <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
+                <div className="process-wrapper w-100 d-flex flex-column justify-content-center align-items-center">
+                        <div className="d-flex flex-row align-items-center justify-content-center">
+                            <h2>{process.name}</h2>
+                            {hash &&
+                            <a href={`https://preview.cardanoscan.io/transaction/${hash}`} className="d-flex align-items-center justify-content-center">
+                                <FontAwesomeIcon icon={faCircleCheck} className="h5 ms-1" style={{cursor:"pointer", color:"blue"}} />
+                            </a>
+                            }
+                        </div>
                     <div className="process-view">
                         <Carousel show={3} numOfPhases={carouselLength} handleSave={() => {
                         }}>
@@ -89,12 +122,16 @@ export default function ViewOneProcess(){
                                     length={process.phases?.length}
                                     nextPhase={ index < (process.phases?.length-1) ? process.phases[index+1] : null}
                                     processid={process.processid}
+                                    componentBtnName="Add logs"
+                                    canView={true}
+                                    handleShowParameters={() => setPhase(phase)}
                                 />
                             ))}
                         </Carousel>
                     </div>
                 </div>
             }
+            </div>
         </React.Fragment>
     )
 }

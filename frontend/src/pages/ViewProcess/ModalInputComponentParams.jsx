@@ -31,7 +31,6 @@ export default function ModalInputComponentParams({handleClose,component}){
             parameterid: paramId,
         };
 
-        console.log(data);
         axios.post(`${backend_paths.LOG}/create`, data)
             .then(res => setInputs(prevInputs => {
                 let newInputs = [...prevInputs];

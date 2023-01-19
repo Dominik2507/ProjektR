@@ -10,7 +10,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
     const [err, setErr] = useState(null);
 
     const [paramName, setParamName] = useState("");
-    const [paramDesc, setParamDesc] = useState("");
+    const [unit, setUnit] = useState("");
     const [minValue, setMinValue] = useState("");
     const [maxValue, setMaxValue] = useState("");
 
@@ -35,7 +35,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
             newProcess.phases[indexOfPhaseForComponent].components[indexOfComponent].params.push({
 
                 paramName,
-                paramDesc,
+                paramDesc: unit,
                 maxValue,
                 minValue,
 
@@ -48,7 +48,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
         //setParamName("");
         setMaxValue("");
         setMinValue("");
-        setParamDesc("");
+        setUnit("");
     }
 
 
@@ -80,9 +80,9 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                             <Input
                                 type="text"
                                 name="paramDesc"
-                                handleChange={(e) => setParamDesc(e.target.value)}
-                                value={paramDesc}
-                                placeholder="Parameter description"
+                                handleChange={(e) => setUnit(e.target.value)}
+                                value={unit}
+                                placeholder="Unit"
                                 error={null}
                             />
 

@@ -18,9 +18,11 @@ router.get("/average/:parameterid", async function (req, res, next) {
 
 router.get("/parameter/:parameterid", async function (req, res, next) {
   try {
-    const result = await Log.getAllParameterLogs(req.params.parameterid);
+    const log = new Log(null,null,null,req.params.parameterid);
+    const result = await log.getAllParameterLogs();
     res.status(200);
     res.send(result);
+
   } catch (e) {
     console.log(e);
     res.status(501);
