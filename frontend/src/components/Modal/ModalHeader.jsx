@@ -7,7 +7,7 @@ export default function ModalHeader({closeModal,title}){
     return (
         <div className="modal-header">
             <h5 className="modal-title">{title}</h5>
-            <div className="cursor-pointer" onClick={closeModal}>
+            <div style={{cursor: "pointer"}} onClick={closeModal}>
                 <FontAwesomeIcon icon={faClose}/>
             </div>
         </div>

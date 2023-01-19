@@ -115,10 +115,12 @@ export default function CreateProcess(){
                 <h4 className="m-3" id={createProcessInfo[0].name}>{createProcessInfo[0].value} <FontAwesomeIcon icon={faSave} onClick={handleSaveToDB}/> </h4>
             <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
                 <div className="process-view">
-                    <Carousel show={2} numOfPhases={carouselLength} handleSave={handleSaveToDB}>
+                    <Carousel show={3} numOfPhases={carouselLength} handleSave={handleSaveToDB}>
                         {process.phases.map((phase,index) => (
                             <PhaseView
                                 key = {nanoid()}
+                                addParamVisible={true}
+                                inputParamVisible={false}
                                 phase = {phase}
                                 params={phase.params}
                                 setPhaseIndex = {() => setPhaseIndex(index)}

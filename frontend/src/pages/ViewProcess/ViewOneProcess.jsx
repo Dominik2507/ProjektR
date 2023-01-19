@@ -1,49 +1,90 @@
-import React, {useContext, useState} from "react";
-import Sidebar from "../../components/Sidebar";
+import React, { useState, useEffect } from "react";
+
+import Carousel from "../../components/Carousel/Carousel";
+import PhaseView from "../../components/PhaseView/PhaseView";
+import {nanoid} from "nanoid";
 import axios from "axios";
-import {backend_paths, routes} from "../../constants/paths";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import ViewPhasesToolbar from "../../components/ViewToolbar/ViewPhasesToolbar";
-
-import {CreateProcessContext} from "../../context/CreateProcessContext";
-import {AuthContext} from "../../context/AuthContext"
-
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { faSave, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import {backend_paths} from "../../constants/paths";
+import ModalInputPhaseParams from "./ModalInputPhaseParams";
 
 export default function ViewOneProcess(){
-    const [process, setProcess]=useState({})
-    const [hash, setHash]=useState("6b4ca2c4025a4d8c8aca4c4c1766eee63a1ccaf3a6e5ed5a923c9a8bcff3edd5")
-    const {currentUser}=useContext(AuthContext)
-    let params=useParams();
-    const baseUrl="https://preview.cardanoscan.io/transaction/"
+    const [process, setProcess] = useState();
+    const [carouselLength, setCarouselLength] = useState(process?.phases ? process.phases.length : 0);
+    const [modalPhaseOpen, setModalPhaseOpen] = useState(false);
+    const [modalComponentOpen, setModalComponentOpen] = useState(false);
+    const [phaseParamSelected, setPhaseParamSelected] = useState(null);
+    const [componentSelected,setComponentSelected] = useState(null);
+
+
+    useEffect(() =>  {
+        setCarouselLength(process?.phases ? process.phases.length : 0);
+    },[process?.phases?.length])
+
     useEffect(() => {
-        const getAllProcesses = async () => {
-            let data = (await axios.get(`${backend_paths.ONE_PROCESS}/${params.id}`)).data;
-            console.log(data)
-            setProcess(data);
-        };
+        axios.get(`${backend_paths.GET_PROCESS_BY_ID}/5`)
+            .then(res => res.data)
+            .then(data => {
+                setProcess(data);
+            })
+            .catch(err => console.log(err))
+    }, [])
 
-        getAllProcesses();
-    }, []);
-  
 
-    function verify(){
-        document.getElementById("cardanoLink").click();
+    const handleOpenPhaseModal = (paramid) => {
+        if(!paramid) return;
+
+        const param = process?.params.filter(parameters => parameters.parameterid === paramid);
+
+        if(param?.length === 0) return;
+
+        setPhaseParamSelected(param[0]);
+        setModalPhaseOpen(true);
     }
-   
-    return (
-        <React.Fragment>
-            <a hidden id="cardanoLink" href={baseUrl+hash} target="_blank"></a>
-            <Sidebar>
-                <div className="processSidebar">
-                    <h4 className="m-3">{process?.name} <FontAwesomeIcon icon={faCircleCheck} onClick={verify}/> </h4>
-                    <ViewPhasesToolbar process={process} setProcess={setProcess} viewMode={true}/>
-                </div>
-            </Sidebar>
+    
+    const handleOpenComponentModal = () => {
+        
+    }
 
+    const handleCloseModal = () => {
+        setModalPhaseOpen(false);
+        setPhaseParamSelected(null);
+    }
+
+    const handleCloseComponentModal = () => {
+        setComponentSelected(null);
+        setModalComponentOpen(false);
+    }
+
+
+    return(
+        <React.Fragment>
+            {modalPhaseOpen && phaseParamSelected &&
+                <ModalInputPhaseParams closeModal={handleCloseModal} param={phaseParamSelected}/>
+            }
+            {modalComponentOpen && componentSelected &&
+                <ModalInputPhaseParams closeModal={handleCloseComponentModal} param={phaseParamSelected}/>
+            }
+
+            {process &&
+                <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
+                    <div className="process-view">
+                        <Carousel show={3} numOfPhases={carouselLength} handleSave={() => {
+                        }}>
+                            {process.phases.map((phase, index) => (
+                                <PhaseView
+                                    key={nanoid()}
+                                    inputParamVisible={true}
+                                    addParamVisible = {false}
+                                    phase={phase}
+                                    params={phase.params}
+                                    openPhaseModal={handleOpenPhaseModal}
+                                    setSelectedComponent={handleOpenComponentModal}
+                                />
+                            ))}
+                        </Carousel>
+                    </div>
+                </div>
+            }
         </React.Fragment>
-    );
+    )
 }
