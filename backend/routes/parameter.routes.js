@@ -72,26 +72,14 @@ router.get("/getByComponentId/:componentid", (req, res) => {
 
 router.post("/create", (req, res) => {
   (async () => {
-    console.log(req.body);
-    let {
-      parameterid,
-      name,
-      unit,
-      max_value,
-      min_value,
-      componentid,
-      processid,
-      phaseid,
-    } = req.body;
-
     let parameter = new Parameter({
-      name: name,
-      unit: unit,
-      max_value: max_value,
-      min_value: min_value,
-      componentid: componentid,
-      processid: processid,
-      phaseid: phaseid,
+      name: req.body.name,
+      unit: req.body.unit,
+      max_value: req.body.max_value,
+      min_value: req.body.min_value,
+      componentid: req.body.componentid,
+      processid: req.body.processid,
+      phaseid: req.body.phaseid,
     });
 
     try {

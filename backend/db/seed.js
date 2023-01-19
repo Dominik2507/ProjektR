@@ -75,7 +75,7 @@ const sql_create_parameter_log = `
     
     CREATE TABLE parameter_log(
         logId SERIAL NOT NULL,
-        value VARCHAR(200) NOT NULL,
+        value FLOAT(12) NOT NULL,
         datetime TIMESTAMP NOT NULL,
         parameterId INT NOT NULL,
         PRIMARY KEY (logId),
@@ -90,8 +90,8 @@ const sql_create_parameter = `
         processId INT,
         componentId INT,
         parameterId SERIAL NOT NULL,
-        max_value VARCHAR(200),
-        min_value VARCHAR(200),
+        max_value FLOAT(12),
+        min_value FLOAT(12),
         name VARCHAR(50) NOT NULL,
         unit VARCHAR(20) NOT NULL,
 
