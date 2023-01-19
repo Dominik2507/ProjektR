@@ -39,10 +39,10 @@ const sql_create_process_phase = `
     CREATE TABLE process_phase(
         phaseId SERIAL NOT NULL,
         name VARCHAR(100) NOT NULL,
-        start_datetime TIMESTAMP NOT NULL,
-        end_datetime TIMESTAMP ,
+        start_datetime TIMESTAMP,
+        end_datetime TIMESTAMP,
         description VARCHAR(200) NOT NULL,
-        active CHAR(1) NOT NULL,
+        active CHAR(1) NOT NULL DEFAULT 'f',
         processId INT NOT NULL,
         PRIMARY KEY (phaseId),
         FOREIGN KEY (processId) REFERENCES process(processId)

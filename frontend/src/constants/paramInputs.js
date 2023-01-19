@@ -46,10 +46,4 @@ export const modalInputs = [{
     value: "",
     type:"datetime-local",
     label: "Starts: "
-},
-{
-    name: "end_datetime",
-    value: "",
-    type:"datetime-local",
-    label: "Ends:"
 }];

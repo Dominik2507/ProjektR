@@ -21,7 +21,6 @@ export default function CreateProcessModalBody({createProcessInfo, setCreateProc
             <Input type="text" placeholder="Process name" name={createProcessInfo[0].name} value={createProcessInfo[0].value} handleChange={handleChange} error={err} />
             <Textarea placeholder="Process description" value={createProcessInfo[1].value} name={createProcessInfo[1].name} handleChange={handleChange}/>
             <DateInput type="datetime-local" name={createProcessInfo[2].name} value={createProcessInfo[2].value} handleChange={handleChange} label={createProcessInfo[2].label}/>
-            <DateInput type="datetime-local" name={createProcessInfo[3].name} value={createProcessInfo[3].value} handleChange={handleChange} label={createProcessInfo[3].label}/>
          </div>
     )
 }

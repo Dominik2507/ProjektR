@@ -102,28 +102,13 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
                 placeholder="Phase description"
                 handleChange={(e) => setPhaseDescription(e.target.value)}
             />
-            
-            <DateInput 
-                type="datetime-local" 
-                name={"start_datetime"} 
-                value={start} 
-                handleChange={(e) => setStart(e.target.value)} 
-                label={"Begins:"}
-            />
-            <DateInput 
-                type="datetime-local" 
-                name={"end_datetime"} 
-                value={end} 
-                handleChange={(e) => setEnd(e.target.value)} 
-                label={"Ends:"}
-            />
             {
-                false &&
-                <div className="m-3">
-                <Dropdown name="Phase parameter" viewMode={true}>
-                    <ParameterInput setAllParameters={setAllParameters}/>
-                </Dropdown>
-            </div>
+               
+               /*  <div className="m-3">
+                    <Dropdown name="Phase parameter" viewMode={true}>
+                        <ParameterInput setAllParameters={setAllParameters}/>
+                    </Dropdown>
+                </div> */
             }
             
             <div className="d-flex w-100 flex-column align-items-center">
