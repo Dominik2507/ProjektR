@@ -44,12 +44,7 @@ router.get("/:logid", async function (req, res, next) {
 });
 
 router.post("/create", async function (req, res, next) {
-  const log = new Log(
-    null,
-    req.body.value,
-    req.body.datetime,
-    req.body.parameterid
-  );
+  const log = new Log(null, req.body.value, new Date(), req.body.parameterid);
 
   try {
     const result = await log.CreateLog();
