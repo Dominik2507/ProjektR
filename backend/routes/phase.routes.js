@@ -21,4 +21,18 @@ router.post("/create", async function (req, res) {
   }
 });
 
+router.get("/byProcessId", async function (req, res) {
+  const phase = new ProcessPhase({
+    processid: req.body.processid,
+  });
+
+  try {
+    const result = await phase.GetProcessPhases();
+    res.send(result);
+  } catch (e) {
+    res.status(501);
+    res.send("Problems when getting phases. Please try again later.");
+  }
+});
+
 module.exports = router;
