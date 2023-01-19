@@ -48,7 +48,6 @@ export default function ViewOneProcess(){
             .catch(err => console.log(err));
     }, [])
 
-    console.log(hash);
 
     const handleOpenPhaseModal = (paramid) => {
         if(!paramid) return;

@@ -39,10 +39,9 @@ export default function CreateProcess(){
         setCarouselLength(process?.phases ? process.phases.length : 0);
     },[process?.phases?.length])
 
-    const handleSaveToDB=()=>{
-       let saveObj={...processInfo, ...process}
-       console.log("proces", saveObj)
-        createProcess(saveObj)
+    const handleSaveToDB = () => {
+       let saveObj={...processInfo, ...process};
+       createProcess(saveObj);
     }
     
     const handleSave = () => {

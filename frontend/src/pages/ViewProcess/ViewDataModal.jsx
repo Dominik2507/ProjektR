@@ -12,15 +12,10 @@ export default function ViewDataModal({paramId, handleClose}){
     useEffect(() => {
         axios.get(`${backend_paths.LOG}/parameter/${paramId}`)
             .then(res => res.data)
-            .then(data => {
-                setParametersInfo(data)
-                console.log(data);
-            })
+            .then(data => setParametersInfo(data))
             .catch(err => console.log(err))
     }, []);
 
-    console.log(parameterInfo);
-    console.log(parameterInfo?.length);
 
     return(
         <React.Fragment>

@@ -4,7 +4,6 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {nanoid} from "nanoid";
 
 export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
-    console.log(phase);
     return(
         <React.Fragment>
             <div className="d-flex flex-row w-100 align-items-center justify-content-between">
