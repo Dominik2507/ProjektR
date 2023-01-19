@@ -16,15 +16,15 @@ router.get("/all", (req, res, next) => {
   })();
 });
 
-router.get("/byUser", (req, res) => {
+router.get("/byUser/:userid", (req, res) => {
   (async () => {
-    if (Number.isNaN(req.body.userid)) {
+    if (Number.isNaN(parseInt(req.params.userid))) {
       res.status(400);
       res.send("Please check your request, id should be number");
       return;
     }
 
-    let result = await Process.getProcessOfUser(req.body.userid);
+    let result = await Process.getProcessOfUser(req.params.userid);
 
     if (!result) {
       res.status(501);
@@ -36,14 +36,14 @@ router.get("/byUser", (req, res) => {
   })();
 });
 
-router.get("/byId", (req, res, next) => {
+router.get("/byId/:processid", (req, res, next) => {
   (async () => {
-    if (Number.isNaN(req.body.processid)) {
+    if (Number.isNaN(req.params.processid)) {
       res.status(400);
       res.send("Please check your request, id should be number");
       return;
     }
-    let result = await Process.getProcess(req.body.processid);
+    let result = await Process.getProcess(req.params.processid);
     let count = result.length;
     if (count === 0) {
       res.status(404);
@@ -59,52 +59,18 @@ router.get("/byId", (req, res, next) => {
   })();
 });
 
-router.get("/user/:id", (req, res, next) => {
-  (async () => {
-    let id = parseInt(req.params.id);
-    if (Number.isNaN(id)) {
-      res.status(400);
-      res.send("Please check your request, id should be number");
-      return;
-    }
-    let result = await Process.getProcessOfUser(id);
-    let count = result.length;
-    if (count === 0) {
-      res.status(404);
-      res.send("No process with given userid");
-      return;
-    }
-    if (!result) {
-      res.status(501);
-      res.send("Problems with sign in.Please try again later.");
-      return;
-    }
-    res.send(result[0]);
-  })();
-});
-
 router.post("/create", (req, res, next) => {
   (async () => {
-    let {
-      processid,
-      name,
-      start_datetime,
-      end_datetime,
-      description,
-      userId,
-      phases,
-    } = req.body;
-
     let process = new Process(
       null,
-      name,
-      start_datetime,
-      end_datetime,
-      description,
-      userId
+      req.body.name,
+      req.body.start_datetime,
+      req.body.end_datetime,
+      req.body.description,
+      req.body.userId
     );
 
-    const result = await process.addProcess(phases);
+    const result = await process.addProcess(req.body.phases);
 
     if (!result) {
       res.status(501);

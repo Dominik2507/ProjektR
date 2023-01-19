@@ -21,9 +21,9 @@ router.post("/create", async function (req, res) {
   }
 });
 
-router.get("/byProcessId", async function (req, res) {
+router.get("/byProcessId/:processid", async function (req, res) {
   const phase = new ProcessPhase({
-    processid: req.body.processid,
+    processid: req.params.processid,
   });
 
   try {
