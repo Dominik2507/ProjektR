@@ -101,20 +101,6 @@ const sql_create_parameter = `
 );
 `;
 
-const sql_create_phase_param = `
-CREATE TABLE phase_parameter(
-    phaseParamId SERIAL NOT NULL PRIMARY KEY,
-    processId int NOT NULL,
-    phaseId int NOT NULL,
-    max_value VARCHAR(200),
-    min_value VARCHAR(200),
-    name VARCHAR(50) NOT NULL,
-    unit VARCHAR(20) NOT NULL,
-    
-    FOREIGN KEY (phaseId) REFERENCES process_phase(phaseId),
-    FOREIGN KEY (processId) REFERENCES process(processid)
-)
-`;
 
 const sql_create_blockchain = `
   CREATE TABLE blockchain(
@@ -182,7 +168,6 @@ let tables = [
   sql_create_process_component,
   sql_create_parameter,
   sql_create_parameter_log,
-  sql_create_phase_param,
   sql_create_blockchain,
 ];
 

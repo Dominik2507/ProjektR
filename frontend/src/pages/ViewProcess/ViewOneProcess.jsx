@@ -20,10 +20,8 @@ export default function ViewOneProcess(){
     const [carouselLength, setCarouselLength] = useState(process?.phases ? process.phases.length : 0);
     const [modalPhaseOpen, setModalPhaseOpen] = useState(false);
     const [modalComponentOpen, setModalComponentOpen] = useState(false);
-    const [paramId, setParamId] = useState(-1);
     const [phaseParamSelected, setPhaseParamSelected] = useState(null);
     const [componentSelected,setComponentSelected] = useState(null);
-    const [phase, setPhase] = useState(null);
 
 
     useEffect(() =>  {
@@ -68,7 +66,6 @@ export default function ViewOneProcess(){
         setModalComponentOpen(false);
     }
 
-    console.log(paramId);
 
     return(
         <React.Fragment>
@@ -82,18 +79,12 @@ export default function ViewOneProcess(){
                 <ModalInputComponentParams handleClose={handleCloseComponentModal} component={componentSelected}/>
             }
 
-        <div className={phase ? "grid-one-process w-100" : "mt-5 w-100"}>
-            {phase &&
-                <Sidebar>
-                    <ShowParametersToolbar closeToolbar={() => setPhase(null)} phase={phase} setParamId={setParamId} />
-                </Sidebar>
-            }
             {process &&
                 <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
                     <div className="process-view">
                         <Carousel show={3} numOfPhases={carouselLength} handleSave={() => {
                         }}>
-                            {process.phases.map((phase, index) => (
+                            {process.phases?.map((phase, index) => (
                                 <PhaseView
                                     key={nanoid()}
                                     inputParamVisible={true}
@@ -102,6 +93,10 @@ export default function ViewOneProcess(){
                                     params={phase.params}
                                     openPhaseModal={handleOpenPhaseModal}
                                     handleComponent={handleOpenComponentModal}
+                                    index={index}
+                                    length={process.phases.length}
+                                    nextPhase={ index < (process.phases.length-1) ? process.phases[index+1] : null}
+                                    processid={process.processid}
                                     componentBtnName="Add logs"
                                     canView={true}
                                     handleShowParameters={() => setPhase(phase)}
@@ -111,7 +106,6 @@ export default function ViewOneProcess(){
                     </div>
                 </div>
             }
-        </div>
         </React.Fragment>
     )
 }

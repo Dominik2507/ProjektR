@@ -36,7 +36,7 @@ async function postToCardano(processId, lastPhaseId) {
   }
 
   let cardanoObject = {};
-  averageParamArray.forEach((param) => {
+  averageParamArray?.foreach((param) => {
     if (
       param.phaseid &&
       cardanoObject[param.phaseid] &&
@@ -68,7 +68,7 @@ async function postToCardano(processId, lastPhaseId) {
     console.log(e);
     return null;
   }
-  phasesArray.forEach((phase) => {
+  phasesArray?.foreach((phase) => {
     if (cardanoObject[phase.phaseid].info === undefined) {
       let componentAvgArray = averageParamArray.filter(
         (avgRow) => avgRow.componentid === phase.componentid
@@ -169,7 +169,7 @@ router.get("/getProcessHash/:id", (req, res) => {
   })();
 });
 
-router.post("/advancePhase", async () => {
+router.post("/advancePhase", async (req,res) => {
   let body = req.body;
   /*
     =================
@@ -191,12 +191,22 @@ router.post("/advancePhase", async () => {
       UPDATE process_phase
       SET end_datetime=$1, active='f'
       WHERE phaseid=$2;
-      UPDATE process_phase
-      SET start_datetime=$1, active='t'
-      WHERE phaseid=$3
+      
     `
     try {
-      const result = await db.query(sql, [today, activePhase, nextPhase]);
+      const result = await db.query(sql, [today, activePhase]);
+    }catch (e) {
+      console.log(e);
+      return null;
+    }
+
+    sql=`
+      UPDATE process_phase
+      SET start_datetime=$1, active='t'
+      WHERE phaseid=$2
+    `
+    try {
+      const result = await db.query(sql, [today, nextPhase]);
     }catch (e) {
       console.log(e);
       return null;
@@ -207,8 +217,9 @@ router.post("/advancePhase", async () => {
     
   })
 
-  router.post("/beginFirstPhase", async () => {
+  router.post("/beginFirstPhase", async (req,res) => {
     let body = req.body;
+    console.log(body)
     /*
       =================
       body={
@@ -235,12 +246,12 @@ router.post("/advancePhase", async () => {
         console.log(e);
         return null;
       }
-        
+      let hash=""
       res.send({hash:hash})
       
     })
 
-    router.post("/endLastPhse", async () => {
+    router.post("/endLastPhase", async (req,res) => {
         let body = req.body;
         /*
           =================
@@ -261,12 +272,21 @@ router.post("/advancePhase", async () => {
             UPDATE process_phase
             SET end_datetime=$1, active='f'
             WHERE phaseid=$2;
+            
+          `
+          try {
+            const result = await db.query(sql, [today, activePhase]);
+          }catch (e) {
+            console.log(e);
+            return null;
+          }
+          sql=`
             UPDATE process
             SET end_datetime=$1
             WHERE processid=$2;
           `
           try {
-            const result = await db.query(sql, [today, activePhase, processId]);
+            const result = await db.query(sql, [today, processId]);
           }catch (e) {
             console.log(e);
             return null;
