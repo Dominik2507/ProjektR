@@ -50,38 +50,12 @@ export default function CreateProcess(){
             });
             return;
         }
-        /*
-        {
-            name: string,
-            start_datetime: datetime, 
-            end_datetime: datetime, 
-            description: string, 
-            userId: number,
-            phases: [{
-                        start_datetime: datetime, 
-                        end_datetime: datetime, 
-                        description: string, 
-                        active: char, 
-                        processid: number,
-                        components: [{
-                                        name: string,
-                                        parameters: [{
-                                                        name: string, 
-                                                        unit: string, 
-                                                        max_value: string, 
-                                                        min_value: string
-                                                    }]
-                                    }]
-                    }]
-        }*/
-
         //TODO: Save process to DB and return and save process id
         let saveObj = {
             processid: nanoid(),
             name: createProcessInfo[0].value,
             description: createProcessInfo[1].value,
             start_datetime:createProcessInfo[2].value,
-            end_datetime: createProcessInfo[3].value,
             userId: currentUser.userid
         };
         setProcessInfo(saveObj);
@@ -90,6 +64,12 @@ export default function CreateProcess(){
 
     }
 
+
+
+    const handleComponentToolbar = (component,index) => {
+        setComponent(component);
+        setPhaseIndex(index)
+    }
 
     const name = component ||phaseIndex >= 0 ? "w-100 h-100 process-grid-three" : "w-100 h-100 process-grid";
 
@@ -124,7 +104,8 @@ export default function CreateProcess(){
                                 phase = {phase}
                                 params={phase.params}
                                 setPhaseIndex = {() => setPhaseIndex(index)}
-                                setSelectedComponent={setComponent}
+                                index={index}
+                                handleComponent={handleComponentToolbar}
                             />
                         ))}
                     </Carousel>
