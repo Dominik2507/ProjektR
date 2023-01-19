@@ -15,17 +15,15 @@ router.get("/all", (req, res, next) => {
   })();
 });
 
-router.get("/user/:userid", (req, res) => {
+router.get("/byUser", (req, res) => {
   (async () => {
-    let userId = parseInt(req.params.userid);
-    console.log(userId);
-    if (Number.isNaN(userId)) {
+    if (Number.isNaN(req.body.userid)) {
       res.status(400);
       res.send("Please check your request, id should be number");
       return;
     }
 
-    let result = await Process.getUserProcess(userId);
+    let result = await Process.getProcessOfUser(req.body.userid);
 
     if (!result) {
       res.status(501);
@@ -37,15 +35,14 @@ router.get("/user/:userid", (req, res) => {
   })();
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/byId", (req, res, next) => {
   (async () => {
-    let id = parseInt(req.params.id);
-    if (Number.isNaN(id)) {
+    if (Number.isNaN(req.body.processid)) {
       res.status(400);
       res.send("Please check your request, id should be number");
       return;
     }
-    let result = await Process.getProcess(id);
+    let result = await Process.getProcess(req.body.processid);
     let count = result.length;
     if (count === 0) {
       res.status(404);
