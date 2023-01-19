@@ -12,12 +12,14 @@ const loginRoute = require("./routes/login.routes");
 const processRoute = require("./routes/process.routes");
 const favProcess = require("./routes/favProcess.routes");
 const parameterRoute = require("./routes/parameter.routes");
+const logRoute = require("./routes/log.routes");
 
 app.use("/registration", registrationRoute);
 app.use("/login", loginRoute);
 app.use("/process", processRoute);
 app.use("/favprocess", favProcess);
 app.use("/parameter", parameterRoute);
+app.use("/log", logRoute);
 
 const PORT = 3001;
 
