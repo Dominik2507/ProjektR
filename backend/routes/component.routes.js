@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { ProcessComponent } = require("../models/ProcessComponentModel.js");
 
-router.get("byComponentId", async function (req, res) {
-  const component = new ProcessComponent({ componentid: req.body.componentid });
+router.get("byComponentId/:componentid", async function (req, res) {
+  const component = new ProcessComponent({
+    componentid: req.params.componentid,
+  });
 
   try {
     const result = await component.getById();
@@ -14,8 +16,8 @@ router.get("byComponentId", async function (req, res) {
   }
 });
 
-router.get("/byPhaseId", async function (req, res) {
-  const component = new ProcessComponent({ phaseid: req.body.phaseid });
+router.get("/byPhaseId/:phaseid", async function (req, res) {
+  const component = new ProcessComponent({ phaseid: req.params.phaseid });
 
   try {
     const result = await component.getProcessComponentsByProcessPhaseId();
