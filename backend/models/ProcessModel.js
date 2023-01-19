@@ -164,14 +164,13 @@ class Process {
         INSERT INTO process 
         (name,start_datetime, end_datetime, description, userId)
         VALUES
-        ($1,$2,$3,$4,$5) RETURNING processid;
+        ($1,$2,null,$3,$4) RETURNING processid;
         `;
 
     try {
       let result = await db.query(sql, [
         this.name,
         this.start_datetime,
-        this.end_datetime,
         this.description,
         this.userId,
       ]);
@@ -179,16 +178,14 @@ class Process {
 
       phases?.forEach(async (phase) => {
         const phaseSql = `INSERT INTO process_phase (name, start_datetime, end_datetime, description, active, processid)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        VALUES ($1, null, null, $2, $3, $4)
         RETURNING phaseid;`;
         const phaseResult = await db.query(phaseSql, [
           phase.name,
-          phase.start_datetime,
-          phase.end_datetime,
           phase.description,
-          'f', 
-          this.processid,  
-        ]); 
+          "f",
+          this.processid,
+        ]);
         const phaseId = phaseResult.rows[0].phaseid;
 
         phase.params?.forEach(async (parameter) => {
