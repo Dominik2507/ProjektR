@@ -8,15 +8,13 @@ import ParameterList from "./ParameterList";
 import ComponentList from "./ComponentList";
 import {nanoid} from "nanoid";
 
-export default function PhaseView({ phase,params,setSelectedComponent,setPhaseIndex }){
+export default function PhaseView({ phase,params,setSelectedComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal }){
 
 
     const handleComponentToolbar = (component) => {
         setSelectedComponent(component);
         setPhaseIndex();
     }
-
-    console.log("faza", phase)
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
             <div className="card-header fw-bold fst-italic">
@@ -34,9 +32,10 @@ export default function PhaseView({ phase,params,setSelectedComponent,setPhaseIn
                 <div className="d-flex flex-column align-items-start gap-3 mt-1">
                 {params &&
                     <div>
-                        <ParameterList values={params} />
+                        <ParameterList values={params} inputParamVisible={inputParamVisible} openPhaseModal={openPhaseModal}/>
                     </div>
                 }
+                {addParamVisible &&
                 <span className="d-flex flex-row align-items-center justify-content-start">
                     <FontAwesomeIcon
                         icon={faSquarePlus}
@@ -46,6 +45,7 @@ export default function PhaseView({ phase,params,setSelectedComponent,setPhaseIn
                     /> 
                     <p className="card-text mx-3">Add a parameter</p>
                 </span>
+                }
                     
                 </div>
                 {phase.components &&

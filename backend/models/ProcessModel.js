@@ -206,12 +206,11 @@ class Process {
         });
 
         phase.components?.forEach(async (component) => {
-          const componentSql = `INSERT INTO process_component (name, phaseid, has_componentid)
-          VALUES ($1, $2, $3)
+          const componentSql = `INSERT INTO process_component (name, phaseid)
+          VALUES ($1, $2)
           RETURNING componentid;`;
           const componentResult = await db.query(componentSql, [
             component.name,
-            phaseId,
             phaseId,
           ]);
           const componentId = componentResult.rows[0].componentid;
