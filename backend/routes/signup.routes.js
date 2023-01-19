@@ -11,12 +11,17 @@ router.post("/", (req, res, next) => {
       return;
     }
 
-    let user = new User(req.body.firstName, req.body.lastName,req.body.email, req.body.password);
+    let user = new User(
+      req.body.firstName,
+      req.body.lastName,
+      req.body.email,
+      req.body.password
+    );
 
     let result = await user.insertNewUser();
     if (!result) {
       res.status(501);
-      res.send("Problems with sign in.Please try again later.");
+      res.send("Problems with sign in. Please try again later.");
       return;
     }
     res.send("ok");

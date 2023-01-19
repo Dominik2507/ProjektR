@@ -13,7 +13,7 @@ const processRoute = require("./routes/process.routes");
 const favProcess = require("./routes/favProcess.routes");
 const parameterRoute = require("./routes/parameter.routes");
 const logRoute = require("./routes/log.routes");
-//const cardanoRoute = require("./routes/cardano.routes");
+const cardanoRoute = require("./routes/cardano.routes");
 
 app.use("/registration", registrationRoute);
 app.use("/login", loginRoute);
@@ -21,7 +21,7 @@ app.use("/process", processRoute);
 app.use("/favprocess", favProcess);
 app.use("/parameter", parameterRoute);
 app.use("/log", logRoute);
-//app.use("/cardano", cardanoRoute);
+app.use("/cardano", cardanoRoute);
 
 const PORT = 3001;
 
