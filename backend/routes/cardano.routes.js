@@ -29,8 +29,21 @@ async function postToCardano(processId, lastPhaseId) {
     `;
   let averageParamArray;
   try {
-    averageParamArray = await db.query(getAveragesQuery, [processId]).rows;
+    averageParamArray = (await db.query(getAveragesQuery, [processId])).rows;
     console.log("Lista parametara: ", averageParamArray || "prazno");
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+  let getExceptionsQuery = `
+        SELECT parameter.*, log.value, log.datetime
+        FROM parameter left join parameter_log as log using(parameterid)
+        WHERE parameter.processid=$1 AND (log.value < parameter.min_value OR log.value>parameter.max_value)
+    `;
+  let exceptionArray;
+  try {
+    exceptionArray = (await db.query(getExceptionsQuery, [processId])).rows;
+    console.log("Lista iznimnih logova: ", exceptionArray || "prazno");
   } catch (e) {
     console.log(e);
     return null;
@@ -38,7 +51,8 @@ async function postToCardano(processId, lastPhaseId) {
 
   
   let cardanoObject = {};
-  averageParamArray?.foreach((param) => {
+  averageParamArray?.forEach((param) => {
+    let criticals=exceptionArray.filter(item => item.parameterid=param.parameterid)
     if (
       param.phaseid &&
       cardanoObject[param.phaseid] &&
@@ -49,13 +63,12 @@ async function postToCardano(processId, lastPhaseId) {
       cardanoObject[param.phaseid].averages = [param];
     } else if (param.phaseid) {
       cardanoObject[param.phaseid] = {
-        averages: [],
-        criticals: [],
-        components: [],
+        averages: [param],
+        criticals: criticals || []
       };
     }
   });
-
+  
   let phasesWithComponentIdQuery = `
         SELECT p.*, c.componentid, c.name as cName FROM process_phase p left join process_component c using(phaseid)
         WHERE p.processid=$1 AND p.phaseid<=$2
@@ -72,26 +85,32 @@ async function postToCardano(processId, lastPhaseId) {
     return null;
   }
   phasesArray?.forEach((phase) => {
+    let criticals=exceptionArray.filter(item => item.componentid=phase.componentid)
+    let componentAvgArray = averageParamArray ? averageParamArray.filter(
+      (avgRow) => avgRow.componentid === phase.componentid && avgRow.componentid!==null
+    ) : [];
+
     if(cardanoObject[phase.phaseid]===undefined){
-      let componentAvgArray = averageParamArray ? averageParamArray.filter(
-        (avgRow) => avgRow.componentid === phase.componentid
-      ) : [];
+      
       cardanoObject[phase.phaseid] = {
         info:{
           phase: phase.name,
           start: phase.start_datetime,
-         end: phase.end_datetime,
-          description: phase.description
+          end: phase.end_datetime,
+          description: phase.description,
+          components: {
+            component: phase.cName,
+            averages: componentAvgArray,
+            criticals: criticals || []
+          },
         },
         averages: [],
         criticals: [],
-        components: componentAvgArray,
+        
       };
     }
     else if (cardanoObject[phase.phaseid]?.info === undefined) {
-      let componentAvgArray = averageParamArray ? averageParamArray.filter(
-        (avgRow) => avgRow.componentid === phase.componentid
-      ) : [];
+
       cardanoObject[phase.phaseid].info = {
         phase: phase.name,
         start: phase.start_datetime,
@@ -100,7 +119,7 @@ async function postToCardano(processId, lastPhaseId) {
         components: {
           component: phase.cName,
           averages: componentAvgArray,
-          criticals: [],
+          criticals: criticals || [],
         },
       };
     }
@@ -174,17 +193,17 @@ router.get("/getProcessHash/:id", (req, res) => {
         SELECT *
         FROM blockchain
         WHERE id = $1
-        ORDER BY phaseid desc
+        ORDER BY processid desc
         `;
 
     try {
       const result = await db.query(sql, [id]);
       console.log(result.rows[0]);
 
-      return result.rows[0];
+      res.send(result.rows[0]);
     } catch (e) {
       console.log(e);
-      return null;
+      res.send(null);
     }
   })();
 });

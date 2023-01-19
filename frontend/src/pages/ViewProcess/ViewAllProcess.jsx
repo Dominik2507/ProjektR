@@ -58,7 +58,7 @@ export default function ViewAllProcess(){
 
     const getSearchedProcess = () => {
         if(allProcesses.length === 0) return [];
-        return  allProcesses.filter(process => process.name.startsWith(searchValue));
+        return  allProcesses.filter(process => process.name.toUpperCase().includes(searchValue.toUpperCase()));
     }
 
     const handleChange = (e) => {

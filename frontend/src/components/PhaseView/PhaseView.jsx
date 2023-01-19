@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {faCalendar, faDatabase, faPencil, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import {AuthContext} from "../../context/AuthContext";
 import dayjs from "dayjs";
 import ParameterList from "./ParameterList";
 import ComponentList from "./ComponentList";
@@ -13,10 +14,10 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 
-export default function PhaseView({ componentBtnName,phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index, length=0, nextPhase, processid, canView,handleShowParameters}){
-    const [refresh, handleRefresh]=useState(false)
-    console.log("NEXT",nextPhase, nextPhase?.start_datetime!=null)
+export default function PhaseView({ ownerid=0,componentBtnName,phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index, length=0, nextPhase, processid, canView,handleShowParameters}){
+    const { currentUser } = useContext(AuthContext);
 
+    console.log(currentUser, "owner", ownerid)
     function moveToNextPhase(){
         if(!window.confirm("If you end this phase you will not be able to go back! Do you want to continue?")) return;
 
@@ -31,7 +32,7 @@ export default function PhaseView({ componentBtnName,phase,params,handleComponen
         axios.post(`${backend_paths.START_NEXT_PHASE}`, postData)
             .then(res => res.data)
             .then(data => {
-                handleRefresh(!refresh);
+                setTimeout(()=>window.location.reload(), 500);
             })
             .catch(err => console.log(err))
     }
@@ -47,7 +48,7 @@ export default function PhaseView({ componentBtnName,phase,params,handleComponen
         axios.post(`${backend_paths.END_LAST_PHASE}`, postData)
             .then(res => res.data)
             .then(data => {
-                handleRefresh(!refresh);
+                setTimeout(()=>window.location.reload(), 500);
             })
             .catch(err => console.log(err))
 
@@ -66,11 +67,11 @@ export default function PhaseView({ componentBtnName,phase,params,handleComponen
         axios.post(`${backend_paths.START_FIRST_PHASE}`, postData)
             .then(res => res.data)
             .then(data => {
-                handleRefresh(!refresh);
+                setTimeout(()=>window.location.reload(), 500);
             })
             .catch(err => console.log(err))
 
-
+    
     }
 
     return(
@@ -84,16 +85,18 @@ export default function PhaseView({ componentBtnName,phase,params,handleComponen
             <div className="card-body">
                 <span className="d-flex flex-row align-items-center justify-content-start">
                     <FontAwesomeIcon icon={faCalendar} className="me-3"/>
-                    <p className="card-text">{dayjs(phase.start_datetime).format("DD/MM/YYYY")} - {dayjs(phase.end_datetime).format("DD/MM/YYYY")}</p>
+                    <p className="card-text">{phase.start_datetime ? dayjs(phase.start_datetime).format("DD/MM/YYYY") : "TBD"} - {phase.start_datetime ? dayjs(phase.end_datetime).format("DD/MM/YYYY"): "TBD"}</p>
                 </span>
+                { phase.description &&
                 <span className="d-flex flex-row align-items-center justify-content-start">
                     <FontAwesomeIcon icon={faPencil} className="me-3"/>
                     <p className="card-text">{phase.description}</p>
                 </span>
+                }
                 <div className="d-flex flex-column align-items-start gap-3 mt-1">
                 {params &&
                     <div>
-                        <ParameterList values={params} inputParamVisible={inputParamVisible} openPhaseModal={openPhaseModal}/>
+                        <ParameterList values={params} inputParamVisible={inputParamVisible} openPhaseModal={openPhaseModal} active={phase.active=="t"}/>
                     </div>
                 }
                 {addParamVisible &&
@@ -111,13 +114,19 @@ export default function PhaseView({ componentBtnName,phase,params,handleComponen
                 </div>
                 {phase.components &&
                     <div>
-                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} componentBtnName={componentBtnName} handleClick={() => handleComponent(component,index)}/>)}
+                        {phase.components.map((component) => <ComponentList key={nanoid()} active={phase.active=="t" || window.location.href.includes("create")} component={component} componentBtnName={componentBtnName} handleClick={() => handleComponent(component,index)}/>)}
                     </div>
                 }
             </div>
-            {length>0 && phase.active==="t" && index < (length-1)  && <Button placeholder={"Next phase"} handleClick={moveToNextPhase} />}
-            {length>0 && nextPhase?.start_datetime==null && phase.active==="f" && index == 0 && <Button placeholder={"Start phase"} handleClick={startThisPhase} />}
-            {length>0 && phase.active==="t" && index == (length-1)  && <Button placeholder={"End phase"} handleClick={endLastPhase} />}
+            {
+                length > 0 && currentUser?.userid===ownerid &&
+                <>
+                    {phase.active==="t" && index < (length-1)  && <button className="btn btn-outline-info m-3" onClick={moveToNextPhase} >Next phase</button>}
+                    {nextPhase?.start_datetime==null 
+                    && phase.active==="f" && index == 0 && <button className="btn btn-outline-info m-3" onClick={startThisPhase} >Start phase</button>}
+                    {phase.active==="t" && index == (length-1)  && <button className="btn btn-outline-info m-3" onClick={endLastPhase} >End phase</button>}
+                </>
+            }
         </div>
     )
 }

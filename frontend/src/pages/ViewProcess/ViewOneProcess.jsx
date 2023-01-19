@@ -26,7 +26,7 @@ export default function ViewOneProcess(){
     const [componentSelected,setComponentSelected] = useState(null);
     const [paramId, setParamId] = useState(-1);
     const [phase,setPhase] = useState(null);
-    const [hash,setHash] = useState();
+    const [hash,setHash] = useState("");
 
     useEffect(() =>  {
         setCarouselLength(process?.phases ? process.phases.length : 0);
@@ -38,16 +38,20 @@ export default function ViewOneProcess(){
         axios.get(`${backend_paths.GET_PROCESS_BY_ID}/${id}`)
             .then(res => res.data)
             .then(data => {
+                console.log("process", data)
                 setProcess(data);
             })
             .catch(err => console.log(err));
 
         axios.get(`${backend_paths.HASH}/${id}`)
             .then(res => res.data)
-            .then(data => setHash(data))
+            .then(data => {
+                console.log("hash",data)
+                setHash(data.transactionid)
+            })
             .catch(err => console.log(err));
     }, [])
-
+   
 
     const handleOpenPhaseModal = (paramid) => {
         if(!paramid) return;
@@ -125,6 +129,7 @@ export default function ViewOneProcess(){
                                     componentBtnName="Add logs"
                                     canView={true}
                                     handleShowParameters={() => setPhase(phase)}
+                                    ownerid={process?.userid}
                                 />
                             ))}
                         </Carousel>

@@ -25,10 +25,12 @@ import {routes} from "../../constants/paths";
 export default function CreateProcess(){
     const navigate = useNavigate();
 
-    const [modalActive, setModalActive] = useState(true);
+    const [modalActive, setModalActive] = useState(
+                                                    true //localStorage.getItem("info")==null
+                                                );
     const [err, setErr] = useState(null);
     const [createProcessInfo, setCreateProcessInfo] = useState(modalInputs);
-    const [process, setProcess]=useState({"phases": []})
+    const [process, setProcess]=useState(localStorage.getItem("process") ? JSON.parse(localStorage.getItem("process")) : {"phases": []})
     const [component, setComponent] = useState(null);
     const [phaseIndex,setPhaseIndex] = useState(-1);
     const [carouselLength, setCarouselLength] = useState(process?.phases ? process.phases.length : 0);
@@ -39,8 +41,15 @@ export default function CreateProcess(){
         setCarouselLength(process?.phases ? process.phases.length : 0);
     },[process?.phases?.length])
 
+    useEffect(() =>  {
+        if(localStorage.getItem("info")==null) localStorage.setItem("info", JSON.stringify(processInfo))
+       localStorage.setItem("process", JSON.stringify(process))
+    },[process, process?.phases, process?.phases?.map((value, index) => value.components), process?.phases?.map((value, index) => value.params), process?.phases?.map((value, index) => value.components).map(value => value.params)])
+
+    
     const handleSaveToDB = () => {
        let saveObj={...processInfo, ...process};
+       localStorage.removeItem("process")
        createProcess(saveObj);
     }
     

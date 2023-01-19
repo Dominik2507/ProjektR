@@ -2,8 +2,8 @@ import React, {useContext} from "react";
 
 import {Link} from "react-router-dom";
 
-import {faClock, faPencil, faStar as faStarFull} from "@fortawesome/free-solid-svg-icons";
-//import {faStar} from "@fortawesome/free-regular-svg-icons"
+import {faCheckCircle, faClock, faPencil, faStar as faStarFull} from "@fortawesome/free-solid-svg-icons";
+import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthContext} from "../../context/AuthContext";
 
@@ -14,11 +14,17 @@ export default function ProcessInlineView({process,handleToogleFav,isFavourite})
     return (
         <div className="card my-3 w-100 mw-100 mx-auto">
             <div className="card-header d-flex flex-row justify-content-between align-items-center ">
-                <p className="mb-0 fw-bold">{process.name}</p>
+                <p className="mb-0 fw-bold">{process.name}
+                {process.hash &&
+                    <a href={`https://preview.cardanoscan.io/transaction/${process.hash}`} >
+                        <FontAwesomeIcon icon={faCheckCircle} style={{cursor:"pointer", marginLeft: "5px"}} />
+                    </a>
+                }
+                </p>
                 {currentUser &&
                 <FontAwesomeIcon
                     onClick={() => handleToogleFav(process.processid)}
-                    icon={isFavourite ? faStarFull: faClock}//faStar}
+                    icon={isFavourite ? faStarFull : faStar}//faStar}
                     style={{
                         cursor: "pointer"
                 }} />}

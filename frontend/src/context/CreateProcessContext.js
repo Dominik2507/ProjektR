@@ -6,13 +6,15 @@ import {backend_paths, routes} from "../constants/paths";
 export const CreateProcessContext = createContext(null);
 
 export default function CreateProcessProvider({children}){
-    const [processInfo, setProcessInfo] = useState({});
+    console.log("info",localStorage.getItem("info"))
+    const [processInfo, setProcessInfo] = useState(localStorage.getItem("info") ? JSON.parse(localStorage.getItem("info")):{});
     const [allPhases, setAllPhases] = useState([]);
     const [allComponents, setAllComponent] = useState([]);
 
     const navigate = useNavigate();
     
     const createProcess = async (process) => {
+        if(!window.confirm("End proces creation? You will not be able to make changes later on.")) return
         return axios.post(backend_paths.CREATE_PROCESS ,process, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

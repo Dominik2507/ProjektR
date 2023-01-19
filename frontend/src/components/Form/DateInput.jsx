@@ -13,13 +13,13 @@ export default function DateInput({type,name,placeholder,value,handleChange,erro
                      <div className="d-flex"> <span className="p-1 px-2">{label}</span>
                 <input
                     className={className}
+                    required
                     type = {"datetime-local"}
                     name = {name}
                     value = {value}
                     placeholder={placeholder}
                     id = {name}
                     onChange={handleChange}
-                    required
                 />
                 </div>
                 
