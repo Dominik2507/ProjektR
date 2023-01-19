@@ -85,6 +85,7 @@ export default function ViewOneProcess(){
                                     params={phase.params}
                                     openPhaseModal={handleOpenPhaseModal}
                                     handleComponent={handleOpenComponentModal}
+                                    componentBtnName="Add logs"
                                 />
                             ))}
                         </Carousel>

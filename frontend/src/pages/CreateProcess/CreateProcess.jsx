@@ -106,6 +106,7 @@ export default function CreateProcess(){
                                 setPhaseIndex = {() => setPhaseIndex(index)}
                                 index={index}
                                 handleComponent={handleComponentToolbar}
+                                componentBtnName="Add parameter"
                             />
                         ))}
                     </Carousel>

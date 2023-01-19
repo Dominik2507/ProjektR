@@ -8,7 +8,7 @@ import ParameterList from "./ParameterList";
 import ComponentList from "./ComponentList";
 import {nanoid} from "nanoid";
 
-export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index }){
+export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,addParamVisible,inputParamVisible,openPhaseModal,index,componentBtnName }){
 
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
@@ -45,7 +45,7 @@ export default function PhaseView({ phase,params,handleComponent,setPhaseIndex,a
                 </div>
                 {phase.components &&
                     <div>
-                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} handleClick={() => handleComponent(component,index)}/>)}
+                        {phase.components.map((component) => <ComponentList key={nanoid()} component={component} componentBtnName={componentBtnName} handleClick={() => handleComponent(component,index)}/>)}
                     </div>
                 }
             </div>
