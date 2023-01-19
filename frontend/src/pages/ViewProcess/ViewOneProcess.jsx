@@ -6,8 +6,11 @@ import {nanoid} from "nanoid";
 import axios from "axios";
 import {backend_paths} from "../../constants/paths";
 import ModalInputPhaseParams from "./ModalInputPhaseParams";
+import ModalInputComponentParams from "./ModalInputComponentParams";
+import {useParams} from "react-router-dom";
 
 export default function ViewOneProcess(){
+    const { id } = useParams();
     const [process, setProcess] = useState();
     const [carouselLength, setCarouselLength] = useState(process?.phases ? process.phases.length : 0);
     const [modalPhaseOpen, setModalPhaseOpen] = useState(false);
@@ -21,7 +24,9 @@ export default function ViewOneProcess(){
     },[process?.phases?.length])
 
     useEffect(() => {
-        axios.get(`${backend_paths.GET_PROCESS_BY_ID}/5`)
+
+        if(!id) return;
+        axios.get(`${backend_paths.GET_PROCESS_BY_ID}/${id}`)
             .then(res => res.data)
             .then(data => {
                 setProcess(data);
@@ -41,8 +46,9 @@ export default function ViewOneProcess(){
         setModalPhaseOpen(true);
     }
     
-    const handleOpenComponentModal = () => {
-        
+    const handleOpenComponentModal = (component,index) => {
+        setComponentSelected(component);
+        setModalComponentOpen(true);
     }
 
     const handleCloseModal = () => {
@@ -62,7 +68,7 @@ export default function ViewOneProcess(){
                 <ModalInputPhaseParams closeModal={handleCloseModal} param={phaseParamSelected}/>
             }
             {modalComponentOpen && componentSelected &&
-                <ModalInputPhaseParams closeModal={handleCloseComponentModal} param={phaseParamSelected}/>
+                <ModalInputComponentParams handleClose={handleCloseComponentModal} component={componentSelected}/>
             }
 
             {process &&
@@ -78,7 +84,7 @@ export default function ViewOneProcess(){
                                     phase={phase}
                                     params={phase.params}
                                     openPhaseModal={handleOpenPhaseModal}
-                                    setSelectedComponent={handleOpenComponentModal}
+                                    handleComponent={handleOpenComponentModal}
                                 />
                             ))}
                         </Carousel>

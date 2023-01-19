@@ -1,0 +1,10 @@
+.modal-grid{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    gap: 10px;
+}
+
+.component-btn{
+    max-height: 50px;
+    margin-top: 5px;
+}

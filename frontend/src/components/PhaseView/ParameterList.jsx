@@ -18,7 +18,13 @@ export default function ParameterList({ values,inputParamVisible,openPhaseModal 
                 key={index}
                 className="list-group-item">
                 {value.paramName} {value.minValue.length > 0 && value.maxValue.length && `[${value.minValue} - ${value.maxValue}]`}
-                    {inputParamVisible && <FontAwesomeIcon icon={faPlusSquare} onClick={() => openPhaseModal(value.id)}/>}
+                    {inputParamVisible &&
+                        <FontAwesomeIcon
+                            icon={faPlusSquare}
+                            onClick={() => openPhaseModal(value.id)}
+                            title="Add log for this parameter"
+                            style={{cursor: "pointer"}}
+                        />}
             </li>)
             )}
         </ul>

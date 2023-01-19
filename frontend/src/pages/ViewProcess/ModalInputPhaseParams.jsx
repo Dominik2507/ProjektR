@@ -6,13 +6,24 @@ import Button from "../../components/Form/Button";
 import Modal from "../../components/Modal/Modal";
 import ModalHeader from "../../components/Modal/ModalHeader";
 import ModalFooter from "../../components/Modal/ModalFooter";
+import axios from "axios";
+import {backend_paths} from "../../constants/paths";
 
 export default function ModalInputPhaseParams({closeModal, param}){
 
     const [paramValue,setParamValue] = useState("");
 
     const handleLogParam = () => {
-        //TODO: save param
+        let data = {
+            value: paramValue,
+            parameterid: param.parameterid
+        };
+
+        console.log(data);
+
+        axios.post(`${backend_paths.LOG}/create`, data)
+            .then(res => setParamValue(""))
+            .catch(err => console.log(err));
     }
 
     return(
