@@ -1,7 +1,7 @@
 const db = require("../db/index");
 
 class ProcessComponent {
-  constructor({ componentid, name, phaseid, has_componentid }) {
+  constructor({ componentid, name, phaseid }) {
     this.componentid = componentid;
     this.name = name;
     this.phaseid = phaseid;
