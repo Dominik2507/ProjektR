@@ -21,6 +21,7 @@ let nodeUtils = new CardanoPreviewTestnetUtils({
 */
 
 async function postToCardano(processId, lastPhaseId) {
+  console.log("Trazim za proces: ", processId)
   let getAveragesQuery = `
         SELECT parameter.*, (SELECT avg(value) FROM parameter_log WHERE parameter_log.parameterid=parameter.parameterid GROUP BY parameter_log.parameterid) as average
         FROM parameter
@@ -29,12 +30,13 @@ async function postToCardano(processId, lastPhaseId) {
   let averageParamArray;
   try {
     averageParamArray = await db.query(getAveragesQuery, [processId]).rows;
-    console.log(averageParamArray);
+    console.log("Lista parametara: ", averageParamArray || "prazno");
   } catch (e) {
     console.log(e);
     return null;
   }
 
+  
   let cardanoObject = {};
   averageParamArray?.foreach((param) => {
     if (
@@ -53,26 +55,43 @@ async function postToCardano(processId, lastPhaseId) {
       };
     }
   });
+
   let phasesWithComponentIdQuery = `
-        SELECT p.*, c.componentid, c.name as cName  FROM process_phase p natural join process_component c
+        SELECT p.*, c.componentid, c.name as cName FROM process_phase p left join process_component c using(phaseid)
         WHERE p.processid=$1 AND p.phaseid<=$2
     `;
   let phasesArray;
   try {
-    phasesArray = await db.query(phasesWithComponentIdQuery, [
+    phasesArray = (await db.query(phasesWithComponentIdQuery, [
       processId,
       lastPhaseId,
-    ]).rows;
-    console.log(phasesArray);
+    ])).rows;
+    console.log("Faze za proces " + processId, phasesArray || ",nema faza");
   } catch (e) {
     console.log(e);
     return null;
   }
-  phasesArray?.foreach((phase) => {
-    if (cardanoObject[phase.phaseid].info === undefined) {
-      let componentAvgArray = averageParamArray.filter(
+  phasesArray?.forEach((phase) => {
+    if(cardanoObject[phase.phaseid]===undefined){
+      let componentAvgArray = averageParamArray ? averageParamArray.filter(
         (avgRow) => avgRow.componentid === phase.componentid
-      );
+      ) : [];
+      cardanoObject[phase.phaseid] = {
+        info:{
+          phase: phase.name,
+          start: phase.start_datetime,
+         end: phase.end_datetime,
+          description: phase.description
+        },
+        averages: [],
+        criticals: [],
+        components: componentAvgArray,
+      };
+    }
+    else if (cardanoObject[phase.phaseid]?.info === undefined) {
+      let componentAvgArray = averageParamArray ? averageParamArray.filter(
+        (avgRow) => avgRow.componentid === phase.componentid
+      ) : [];
       cardanoObject[phase.phaseid].info = {
         phase: phase.name,
         start: phase.start_datetime,
@@ -87,17 +106,17 @@ async function postToCardano(processId, lastPhaseId) {
     }
   });
 
-  let previousTransactions = `
+  console.log("Dohvacam transakcije za proces: ",processId)
+  let sql = `
         SELECT transactionid as hash
         FROM blockchain
         WHERE processid=$1
     `;
   let previousTransactionsArray;
   try {
-    previousTransactionsArray = await db.query(previousTransactions, [
-      processId,
-    ]).rows;
-    console.log(previousTransactions);
+    previousTransactionsArray = (await db.query(sql, [processId])).rows;
+    console.log("Ima prethodnih transakcija",previousTransactionsArray?.length || "0");
+    console.log("Transakcije",previousTransactionsArray);
   } catch (e) {
     console.log(e);
     return null;
@@ -119,11 +138,12 @@ async function postToCardano(processId, lastPhaseId) {
     ======================================
     */
 
-    console.log(
-        JSON.stringify({
-        "1": JSON.stringify(cardanoObject),
-        "2": JSON.stringify(previousTransactionsArray),
-        }))
+    console.log("Stvoreni JSON objekt koji ide na node,")
+    console.log(JSON.stringify({
+      "1": cardanoObject,
+      "2": previousTransactionsArray,
+      }))
+        
     let hash="6b4ca2c4025a4d8c8aca4c4c1766eee63a1ccaf3a6e5ed5a923c9a8bcff3edd5"
 
     let saveNewTransaction=`
@@ -131,8 +151,8 @@ async function postToCardano(processId, lastPhaseId) {
         VALUES ($1, $2)
     `;
   try {
-    let result = await db.query(saveNewTransaction, [processId, hash]).rows;
-    console.log("saved: ", result);
+    let result = await db.query(saveNewTransaction, [processId, hash]);
+    //console.log("result: ", result);
   } catch (e) {
     console.log(e);
     return null;
@@ -180,7 +200,7 @@ router.post("/advancePhase", async (req,res) => {
     }
     =================
     */
-  
+    console.log("Given body: ", body)
     let processId=body.processid;
     let activePhase=body.activePhase;
     let nextPhase=body.nextPhase;
