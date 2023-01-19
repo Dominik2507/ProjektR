@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useState } from "react";
+import {useNavigate} from "react-router-dom";
 import {backend_paths, routes} from "../constants/paths";
 
 export const CreateProcessContext = createContext(null);
@@ -8,6 +9,8 @@ export default function CreateProcessProvider({children}){
     const [processInfo, setProcessInfo] = useState({});
     const [allPhases, setAllPhases] = useState([]);
     const [allComponents, setAllComponent] = useState([]);
+
+    const navigate = useNavigate();
     
     const createProcess = async (process) => {
         return axios.post(backend_paths.CREATE_PROCESS ,process, {
@@ -16,7 +19,7 @@ export default function CreateProcessProvider({children}){
             }
         })
             .then(res => {
-                console.log(res.data)
+                navigate(routes.PROFILE_URL);
                 return res.data;
             })
             .catch(err => err.response.data);

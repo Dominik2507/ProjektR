@@ -128,7 +128,7 @@ const sql_create_blockchain = `
 `;
 
 const sql_create_component_with_params = `
-  CREATE VIEW component_with_params as
+    CREATE VIEW component_with_params as
      SELECT process_component.componentid,
     process_component.name,
     process_component.phaseid,
