@@ -13,6 +13,8 @@ import Sidebar from "../../components/Sidebar";
 import "./viewOneProcess.css";
 import ShowParametersToolbar from "./ShowParametersToolbar";
 import ViewDataModal from "./ViewDataModal";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 
 export default function ViewOneProcess(){
     const { id } = useParams();
@@ -24,6 +26,7 @@ export default function ViewOneProcess(){
     const [componentSelected,setComponentSelected] = useState(null);
     const [paramId, setParamId] = useState(-1);
     const [phase,setPhase] = useState(null);
+    const [hash,setHash] = useState();
 
     useEffect(() =>  {
         setCarouselLength(process?.phases ? process.phases.length : 0);
@@ -37,9 +40,15 @@ export default function ViewOneProcess(){
             .then(data => {
                 setProcess(data);
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
+
+        axios.get(`${backend_paths.HASH}/${id}`)
+            .then(res => res.data)
+            .then(data => setHash(data))
+            .catch(err => console.log(err));
     }, [])
 
+    console.log(hash);
 
     const handleOpenPhaseModal = (paramid) => {
         if(!paramid) return;
@@ -79,6 +88,7 @@ export default function ViewOneProcess(){
             {modalComponentOpen && componentSelected &&
                 <ModalInputComponentParams handleClose={handleCloseComponentModal} component={componentSelected}/>
             }
+
             <div className={phase ? "grid-one-process w-100" : "w-100 mt-5"}>
                 {phase &&
                     <Sidebar>
@@ -88,7 +98,13 @@ export default function ViewOneProcess(){
 
 
             {process &&
-                <div className="process-wrapper w-100 d-flex justify-content-center align-items-center">
+                <div className="process-wrapper w-100 d-flex flex-column justify-content-center align-items-center">
+                        <div className="d-flex flex-row align-items-center justify-content-center">
+                            <h2>{process.name}</h2>
+                            <a href={`https://preview.cardanoscan.io/transaction/${hash}`} className="d-flex align-items-center justify-content-center">
+                                <FontAwesomeIcon icon={faCircleCheck} className="h5 ms-1" style={{cursor:"pointer", color:"blue"}} />
+                            </a>
+                        </div>
                     <div className="process-view">
                         <Carousel show={3} numOfPhases={carouselLength} handleSave={() => {
                         }}>

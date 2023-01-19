@@ -1,6 +1,7 @@
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
+import {nanoid} from "nanoid";
 
 export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
     console.log(phase);
@@ -29,7 +30,7 @@ export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
                 </div>
                 <div className="component-params w-100">
                     {phase?.components?.map(component => (
-                        <div className="one-component w-100">
+                        <div key={nanoid()} className="one-component w-100">
                             <p className="text-start mt-3 ms-1">{component.name}</p>
                             <ul className="list-group w-100">
                             {component?.params?.map(param =>

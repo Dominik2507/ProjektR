@@ -19,8 +19,12 @@ import ComponentInfoToolbar from "../../components/ComponentInfoToolbar/Componen
 import InputParamsToolbar from "../../components/InputParamsToolbar/InputParamsToolbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
+import {useNavigate} from "react-router-dom";
+import {routes} from "../../constants/paths";
 
 export default function CreateProcess(){
+    const navigate = useNavigate();
+
     const [modalActive, setModalActive] = useState(true);
     const [err, setErr] = useState(null);
     const [createProcessInfo, setCreateProcessInfo] = useState(modalInputs);
@@ -79,7 +83,7 @@ export default function CreateProcess(){
                 <Modal>
                     <ModalHeader title="Create process" closeModal={() => setModalActive(false)}/>
                     <CreateProcessModalBody err={err} createProcessInfo={createProcessInfo} setCreateProcessInfo={setCreateProcessInfo}/>
-                    <ModalFooter handleSave={handleSave} handleClose={() => setModalActive(false)} />
+                    <ModalFooter handleSave={handleSave} handleClose={() => navigate(routes.PROFILE_URL)} />
                 </Modal>
             }
 
