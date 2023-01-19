@@ -95,10 +95,10 @@ class Log {
     try {
       const result = await db.query(sql, [this.parameterid]);
       let sum = 0;
-      result.forEach((element) => {
+      result.rows.forEach((element) => {
         sum += parseFloat(element.value);
       });
-      return sum / result.length;
+      return (sum / result.rows.length).toFixed(2);
     } catch (e) {
       console.log(e);
       return null;

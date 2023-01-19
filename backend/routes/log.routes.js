@@ -2,6 +2,20 @@ const express = require("express");
 const router = express.Router();
 const { Log } = require("../models/LogModel");
 
+router.get("/parameter/average/:parameterid", async function (req, res, next) {
+  try {
+    const log = new Log(null, null, null, req.params.parameterid);
+    const result = await log.LogAverage();
+    res.status(200);
+    res.send(result);
+  } catch (e) {
+    console.log(e);
+    res.status(501);
+    res.send("Error");
+    return;
+  }
+});
+
 router.get("/parameter/:parameterid", async function (req, res, next) {
   try {
     const result = await Log.getAllParameterLogs(req.params.parameterid);
