@@ -39,10 +39,10 @@ const sql_create_process_phase = `
     CREATE TABLE process_phase(
         phaseId SERIAL NOT NULL,
         name VARCHAR(100) NOT NULL,
-        start_datetime TIMESTAMP NOT NULL,
-        end_datetime TIMESTAMP ,
+        start_datetime TIMESTAMP,
+        end_datetime TIMESTAMP,
         description VARCHAR(200) NOT NULL,
-        active CHAR(1) NOT NULL,
+        active CHAR(1) NOT NULL DEFAULT 'f',
         processId INT NOT NULL,
         PRIMARY KEY (phaseId),
         FOREIGN KEY (processId) REFERENCES process(processId)
@@ -119,16 +119,15 @@ CREATE TABLE phase_parameter(
 const sql_create_blockchain = `
   CREATE TABLE blockchain(
     id SERIAL NOT NULL,
-    phaseId INT NOT NULL ,
+    processid INT NOT NULL ,
     transactionId VARCHAR(200) NOT NULL,
-    
     PRIMARY KEY (id),
-    FOREIGN KEY (phaseId) REFERENCES process_phase(phaseId)
+    FOREIGN KEY (processid) REFERENCES process(processid)
   );
 `;
 
 const sql_create_component_with_params = `
-  CREATE VIEW component_with_params as
+    CREATE VIEW component_with_params as
      SELECT process_component.componentid,
     process_component.name,
     process_component.phaseid,

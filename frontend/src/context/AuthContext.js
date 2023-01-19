@@ -6,7 +6,7 @@ import {backend_paths} from "../constants/paths";
 export const AuthContext = createContext(null);
 
 export default function AuthProvider({children}){
-    const [currentUser, setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null);
 
     const signup = async (user) => {
 
@@ -17,6 +17,7 @@ export default function AuthProvider({children}){
         })
             .then(res => {
                 setCurrentUser(user);
+                console.log(res);
                 return res.data;
             })
             .catch(err => err.response.data);
@@ -35,6 +36,7 @@ export default function AuthProvider({children}){
             .then(res => {
                 console.log("user", res.data);
                 setCurrentUser(res.data);
+                localStorage.setItem("user", JSON.stringify(res.data));
                 return res.data;
             })
             .catch(err => err.response.data);
@@ -43,6 +45,7 @@ export default function AuthProvider({children}){
 
     const logout = async () => {
         setCurrentUser(null);
+        localStorage.removeItem("user");
     };
 
     const value = {

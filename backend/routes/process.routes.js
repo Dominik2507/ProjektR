@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { Process } = require("../models/ProcessModel");
+const { postToCardano } = require ("../routes/cardano.routes")
+const db = require("../db/index");
 
 router.get("/all", (req, res, next) => {
   (async () => {
@@ -114,4 +116,41 @@ router.post("/create", (req, res, next) => {
   })();
 });
 
+router.post("/advancePhase", async ()=>{
+  let body=req.body;
+  /*
+  =================
+  body={
+    processid: id,
+    activePhase: id,
+    nextPhase: id
+  }
+  =================
+  */
+
+  let processId=body.processid;
+  let activePhase=body.activePhase;
+  let nextPhase=body.nextPhase;
+
+  // SET START AND END
+  let today=new Date();
+  let query=`
+    UPDATE process_phase
+    SET end_datetime=$1, active='f'
+    WHERE phaseid=$2;
+    UPDATE process_phase
+    SET start_datetime=$1, active='t'
+    WHERE phaseid=$3
+  `
+  try {
+    const result = await db.query(sql, [today, activePhase, nextPhase]);
+  }catch (e) {
+    console.log(e);
+    return null;
+  }
+  let hash= await postToCardano(processId, activePhase)
+    
+  res.send({hash:hash})
+  
+})
 module.exports = router;
