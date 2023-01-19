@@ -135,7 +135,7 @@ const sql_create_component_with_params = `
            FROM parameter
           WHERE process_component.componentid = parameter.componentid) AS params
    FROM process_component
-   ORDER BY process_component.conponentid;
+   ORDER BY process_component.componentid;
 `;
 
 const sql_create_phase_with_components = `
