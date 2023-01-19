@@ -20,11 +20,10 @@ export default function ModalInputPhaseParams({closeModal, param}){
         };
 
         console.log(data);
-        /*
+
         axios.post(`${backend_paths.LOG}/create`, data)
             .then(res => setParamValue(""))
             .catch(err => console.log(err));
-            */
     }
 
     return(

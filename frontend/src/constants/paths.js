@@ -20,7 +20,7 @@ export const backend_paths = {
     ALL_FAV_PROCESSES_CRUD: "http://localhost:3001/favprocess",
     ALL_FAV_USER_PROCESSES_CRUD: "http://localhost:3001/favprocess/user",
     VIEW_PROCESS: "http://localhost:3001/processView",
-    GET_PROCESS_BY_ID: "http://localhost:3001/process",
+    GET_PROCESS_BY_ID: "http://localhost:3001/process/byId",
     CREATE_PROCESS: "http://localhost:3001/process/create",
     LOG: "http://localhost:3001/log"
 }
