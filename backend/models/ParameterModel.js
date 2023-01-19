@@ -100,18 +100,6 @@ class Parameter {
       return null;
     }
   }
-
-  async addLog(value, date) {
-    const sql = `INSERT INTO parameter_log (value, datetime, parameterid) VALUES ($1, $2, $3)`;
-
-    try {
-      const result = await db.query(sql, [value, date, this.parameterid]);
-      return result;
-    } catch (e) {
-      console.log(e);
-      return null;
-    }
-  }
 }
 
 module.exports = { Parameter: Parameter };
