@@ -1,40 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const CardanoPreviewTestnetUtils = require("./cardanoModule.js")
+
 const os = require("os");
 const path = require("path");
 const fs = require("fs");
 
 const db = require("../db/index");
 
+/* 
+=========================================
+Dok je podignut node
+
+const CardanoPreviewTestnetUtils = require("@tim1/cardano-testnet-tim1")
 let nodeUtils = new CardanoPreviewTestnetUtils({
         shelleyGenesisPath : path.join(os.homedir(),"cardano","testnet","shelley-genesis.json"),
         socketPath : path.join(os.homedir(), "cardano", "testnet", "db", "node.socket"), 
         dir : path.join(os.homedir(), "cardanoTransactions", "jsTransactions"), 
         projectId : "previewQowKfRw7MN9prwcWQN6z3rNpPW33Quj1"
-})
-
-let hash = nodeUtils.makeATransaction({
-    "34878": {
-        "date": new Date(),
-        "item" : "Sok1"
-    },
-    "1329": {
-        "date": new Date(),
-        "item" : "Voda1"
-    }
-}, 
-fs.readFileSync(path.join(os.homedir(), "cardanoWalletAddress", "payment.addr")),
-path.join(os.homedir(), "cardanoWalletAddress", "payment.skey")
-)
-console.log(hash)
-
-setTimeout(()=>{
-    let result = nodeUtils.searchMetadataByTxHash(hash)
-    result.then((r) => {
-        console.log(r)
-    })
-}, 20000)
+}) 
+=======================================
+*/
 
 async function postToCardano(processId, lastPhaseId){
     let getAveragesQuery=`
@@ -106,11 +91,27 @@ async function postToCardano(processId, lastPhaseId){
     }
 
 
-    let hash = nodeUtils.makeATransaction({
-        "1": JSON.stringify(cardanoObject),
-        "2": JSON.stringify(previousTransactionsArray)
-    })
+   /*  
+   =========================================
+    Dok je podignut node
 
+    let hash = nodeUtils.makeATransaction(
+        {
+        "1": JSON.stringify(cardanoObject),
+        "2": JSON.stringify(previousTransactionsArray),
+        },
+        fs.readFileSync(path.join(os.homedir(), "cardanoWalletAddress", "payment.addr")),
+        path.join(os.homedir(), "cardanoWalletAddress", "payment.skey")
+    ) 
+    ======================================
+    */
+
+    console.log(
+        JSON.stringify({
+        "1": JSON.stringify(cardanoObject),
+        "2": JSON.stringify(previousTransactionsArray),
+        }))
+    let hash="6b4ca2c4025a4d8c8aca4c4c1766eee63a1ccaf3a6e5ed5a923c9a8bcff3edd5"
 
     let saveNewTransaction=`
         INSERT INTO blockchain(processid, transactionid)
@@ -175,7 +176,7 @@ router.post("/advancePhase", async ()=>{
   
     // SET START AND END
     let today=new Date();
-    let query=`
+    let sql=`
       UPDATE process_phase
       SET end_datetime=$1, active='f'
       WHERE phaseid=$2;
@@ -194,3 +195,5 @@ router.post("/advancePhase", async ()=>{
     res.send({hash:hash})
     
   })
+  
+  module.exports = router;
