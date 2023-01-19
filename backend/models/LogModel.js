@@ -1,20 +1,20 @@
 const db = require("../db/index");
 
 class Log {
-  constructor({ logid, value, datetime, parameterid }) {
+  constructor(logid = null, value = null, datetime = null, parameterid = null) {
     this.logid = logid;
     this.value = value;
     this.datetime = datetime;
     this.parameterid = parameterid;
   }
 
-  static async getLog() {
+  static async getLog(logid) {
     const sql = `
-        SELECT * FROM log WHERE logid = $1;
+        SELECT * FROM parameter_log WHERE logid = $1;
         `;
 
     try {
-      const result = await db.query(sql, [this.logid]);
+      const result = await db.query(sql, [logid]);
       return result.rows[0];
     } catch (e) {
       console.log(e);
@@ -22,13 +22,13 @@ class Log {
     }
   }
 
-  static async getAllParameterLogs() {
+  static async getAllParameterLogs(parameterid) {
     const sql = `
-        SELECT * FROM log WHERE parameterid = $1;
+        SELECT * FROM parameter_log WHERE parameterid = $1;
         `;
 
     try {
-      const result = await db.query(sql, [this.parameterid]);
+      const result = await db.query(sql, [parameterid]);
       return result.rows;
     } catch (e) {
       console.log(e);
@@ -38,7 +38,7 @@ class Log {
 
   async CreateLog() {
     const sql = `
-        INSERT INTO log (value, datetime, parameterid) VALUES ($1, $2, $3) RETURNING *;
+        INSERT INTO parameter_log (value, datetime, parameterid) VALUES ($1, $2, $3) RETURNING *;
         `;
 
     try {
@@ -56,7 +56,7 @@ class Log {
 
   async UpdateLog() {
     const sql = `
-        UPDATE log SET value = $1, datetime = $2, parameterid = $3 WHERE logid = $4 RETURNING *;
+        UPDATE parameter_log SET value = $1, datetime = $2, parameterid = $3 WHERE logid = $4 RETURNING *;
         `;
 
     try {
@@ -75,7 +75,7 @@ class Log {
 
   static async DeleteLog() {
     const sql = `
-        DELETE FROM log WHERE logid = $1;
+        DELETE FROM parameter_log WHERE logid = $1;
         `;
 
     try {
@@ -89,7 +89,7 @@ class Log {
 
   static async LogAverage() {
     const sql = `
-        SELECT value FROM log WHERE parameterid = $1;
+        SELECT value FROM parameter_log WHERE parameterid = $1;
         `;
 
     try {
@@ -105,3 +105,5 @@ class Log {
     }
   }
 }
+
+module.exports = { Log: Log };

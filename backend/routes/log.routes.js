@@ -2,11 +2,22 @@ const express = require("express");
 const router = express.Router();
 const { Log } = require("../models/LogModel");
 
-router.get("/:logid", async function (req, res, next) {
-  const log = new Log({ logid: req.params.logid });
-
+router.get("/parameter/:parameterid", async function (req, res, next) {
   try {
-    const result = await log.getLog();
+    const result = await Log.getAllParameterLogs(req.params.parameterid);
+    res.status(200);
+    res.send(result);
+  } catch (e) {
+    console.log(e);
+    res.status(501);
+    res.send("Error");
+    return;
+  }
+});
+
+router.get("/:logid", async function (req, res, next) {
+  try {
+    const result = await Log.getLog(req.params.logid);
     res.status(200);
     res.send(result);
   } catch (e) {
@@ -18,11 +29,12 @@ router.get("/:logid", async function (req, res, next) {
 });
 
 router.post("/create", async function (req, res, next) {
-  const log = new Log({
-    value: req.body.value,
-    datetime: req.body.datetime,
-    parameterid: req.body.parameterid,
-  });
+  const log = new Log(
+    null,
+    req.body.value,
+    req.body.datetime,
+    req.body.parameterid
+  );
 
   try {
     const result = await log.CreateLog();
