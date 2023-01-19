@@ -1,23 +1,24 @@
 .grid-container {
     display: grid;
     grid-template-columns: auto auto auto;
-    background-color: #d3dbec;
     padding: 10px;
     gap: 50px 100px;
     width: 100%;
+    background-image: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), #4a556d), 
+                      url('../../../public/background.jpg');
 }
 
 .grid-item {
-    background-color:#E6E6F6;
+    background-color: rgba(245, 246, 252, 0.52);
     border: 3px solid #45526E;
     padding: 20px;
     font-size: 30px;
-    text-align:center;
-    font-size:large;
+    text-align: center;
+    font-size: large;
     border-radius: 10%;
     height: 7cm;
     width: 10cm;
-  }
+}
 
 .image {
     width:10cm;
