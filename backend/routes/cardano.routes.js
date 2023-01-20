@@ -85,7 +85,7 @@ async function postToCardano(processId, lastPhaseId) {
     return null;
   }
   phasesArray?.forEach((phase) => {
-    let criticals=exceptionArray.filter(item => item.componentid=phase.componentid)
+    let criticals=exceptionArray.filter(item => item.componentid=phase.componentid && item.componentid!==null)
     let componentAvgArray = averageParamArray ? averageParamArray.filter(
       (avgRow) => avgRow.componentid === phase.componentid && avgRow.componentid!==null
     ) : [];
