@@ -4,6 +4,7 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {nanoid} from "nanoid";
 
 export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
+   console.log(phase.params);
     return(
         <React.Fragment>
             <div className="d-flex flex-row w-100 align-items-center justify-content-between">
@@ -22,7 +23,7 @@ export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
                                 title="Click to see details"
                                 onClick={() => setParamId(param.parameterid)}
                             >
-                                {param.name}
+                                {param.name} {`[${param.min_value} - ${param.max_value}]`}{param.unit}
                             </li>
                          ))}
                     </ul>
@@ -40,7 +41,7 @@ export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
                                     title="Click to see details"
                                     onClick={() => setParamId(param.parameterid)}
                                 >
-                                    {param.name}
+                                    {param.name} {`[${param.min_value} - ${param.max_value}]`}{param.unit}
                                 </li>
                             )}
                             </ul>

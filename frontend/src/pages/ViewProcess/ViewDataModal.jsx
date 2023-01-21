@@ -42,7 +42,7 @@ export default function ViewDataModal({paramId, handleClose}){
                                     <th scope="row">{info.name}</th>
                                     <th>{info.value}</th>
                                     <th>{info.unit}</th>
-                                    <th>{dayjs(info.datetime).format("dd/MM/YYYY")}</th>
+                                    <th>{dayjs(info.datetime).format("DD/MM/YYYY")}</th>
                                     <th>{dayjs(info.datetime).format("HH:mm:ss")}</th>
                                 </tr>
                             ))}

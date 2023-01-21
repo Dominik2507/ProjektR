@@ -10,6 +10,7 @@ export default function ParameterList({ values,inputParamVisible,openPhaseModal,
         paramName: value.name ? value.name : value.paramName,
         minValue: value.min_value===0 ? "0" : (value.min_value ? value.min_value : value.minValue),
         maxValue: value.max_value ? value.max_value : value.maxValue,
+        unit: value.unit ? value.unit : value.paramDesc
     }));
     return (
         <React.Fragment>
@@ -19,7 +20,7 @@ export default function ParameterList({ values,inputParamVisible,openPhaseModal,
                 key={index}
                 className="list-group-item">
                 {value.paramName} { //value.minValue?.length > 0 && value.maxValue?.length && 
-                                `[${value.minValue} - ${value.maxValue}]`}
+                                `[${value.minValue} - ${value.maxValue}] ${value.unit}`}
                     {inputParamVisible && active &&
                         <FontAwesomeIcon
                             icon={faPlusSquare}
