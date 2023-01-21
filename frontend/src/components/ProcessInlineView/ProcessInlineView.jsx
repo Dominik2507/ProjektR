@@ -2,13 +2,14 @@ import React, {useContext} from "react";
 
 import {Link} from "react-router-dom";
 
-import {faCheckCircle, faClock, faPencil, faStar as faStarFull} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle, faClock, faPencil, faStar as faStarFull, faUser} from "@fortawesome/free-solid-svg-icons";
 import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthContext} from "../../context/AuthContext";
 
 export default function ProcessInlineView({process,handleToogleFav,isFavourite}){
     const { currentUser } = useContext(AuthContext);
+    console.log(process);
     const time = `${process.start_datetime?.slice(0,10) } - ${process.end_datetime ? process.end_datetime.slice(0,10) : "Ongoing"}`;
 
     return (
@@ -30,6 +31,10 @@ export default function ProcessInlineView({process,handleToogleFav,isFavourite})
                 }} />}
             </div>
             <div className="card-body">
+                  <span className="d-flex gap-3 mb-3 align-items-center card-text">
+                    <FontAwesomeIcon icon={faUser} />
+                    <p className="card-text">{process.creator}</p>
+                </span>
                 <span className="d-flex gap-3 mb-3 align-items-center card-text">
                     <FontAwesomeIcon icon={faClock} />
                     <p className="card-text">{time}</p>

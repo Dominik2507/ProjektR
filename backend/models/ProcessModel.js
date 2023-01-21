@@ -147,8 +147,10 @@ class Process {
   }
 
   static async getAllProcesses() {
-    let sql = `SELECT process.*, transactionid as hash 
-          FROM process left join blockchain using(processid);`;
+    let sql = `SELECT process.*, user_data.firstname || ' ' || user_data.lastname AS creator, transactionid as hash
+               FROM process
+                      left join blockchain using (processid)
+                      join user_data on process.userid = user_data.userid;`;
 
     try {
       let result = await db.query(sql, []);
