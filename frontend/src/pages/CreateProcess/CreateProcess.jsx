@@ -21,10 +21,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import {useNavigate} from "react-router-dom";
 import {routes} from "../../constants/paths";
+import dayjs from "dayjs";
 
 export default function CreateProcess(){
     const navigate = useNavigate();
 
+    const [dateError, setDateError] = useState(null);
     const [modalActive, setModalActive] = useState(
                                                     true //localStorage.getItem("info")==null
                                                 );
@@ -62,7 +64,17 @@ export default function CreateProcess(){
             });
             return;
         }
-        //TODO: Save process to DB and return and save process id
+
+        if(createProcessInfo[2].value === ""){
+            setDateError("Date must be defined");
+            return;
+        }
+
+        if(dayjs(createProcessInfo[2].value).diff(dayjs()) < 0){
+            setDateError("Date can't be in past");
+            return;
+        }
+
         let saveObj = {
             processid: nanoid(),
             name: createProcessInfo[0].value,
@@ -90,7 +102,7 @@ export default function CreateProcess(){
             {modalActive &&
                 <Modal>
                     <ModalHeader title="Create process" closeModal={() => setModalActive(false)}/>
-                    <CreateProcessModalBody err={err} createProcessInfo={createProcessInfo} setCreateProcessInfo={setCreateProcessInfo}/>
+                    <CreateProcessModalBody err={err} createProcessInfo={createProcessInfo} setCreateProcessInfo={setCreateProcessInfo} dateError={dateError}/>
                     <ModalFooter handleSave={handleSave} handleClose={() => navigate(routes.PROFILE_URL)} />
                 </Modal>
             }
