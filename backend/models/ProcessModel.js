@@ -19,10 +19,11 @@ class Process {
 
   static async getUserFavProcess(userId) {
     const sql = `
-        select favorite_templates.*, name, start_datetime, end_datetime,description
-        from favorite_templates
-        JOIN process ON process.processid = favorite_templates.processid
-        WHERE favorite_templates.userid = $1
+      select favorite_templates.*, user_data.firstname || ' ' || user_data.lastname as creator, name, start_datetime, end_datetime, description
+      from favorite_templates
+             JOIN process ON process.processid = favorite_templates.processid
+             JOIN user_data ON favorite_templates.userid = user_data.userid
+      WHERE favorite_templates.userid = $1
         `;
 
     try {
@@ -134,7 +135,7 @@ class Process {
 
   static async getProcessOfUser(id) {
     let sql = `
-        SELECT * FROM process where userid = $1;
+      SELECT process.*, user_data.firstname || ' ' || user_data.lastname as creator FROM process NATURAL JOIN user_data where userid = $1;
         `;
 
     try {
