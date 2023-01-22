@@ -52,7 +52,7 @@ async function postToCardano(processId, lastPhaseId) {
   
   let cardanoObject = {};
   averageParamArray?.forEach((param) => {
-    let criticals=exceptionArray.filter(item => item.parameterid=param.parameterid)
+    let criticals=exceptionArray.filter(item => item.parameterid==param.parameterid )
     if (
       param.phaseid &&
       cardanoObject[param.phaseid] &&
@@ -258,7 +258,7 @@ router.post("/advancePhase", async (req,res) => {
 
   router.post("/beginFirstPhase", async (req,res) => {
     let body = req.body;
-    console.log(body)
+    console.log("tijelo zahtjeva",body)
     /*
       =================
       body={

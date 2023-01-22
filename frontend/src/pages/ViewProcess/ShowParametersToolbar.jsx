@@ -8,10 +8,10 @@ export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
     return(
         <React.Fragment>
             <div className="d-flex flex-row w-100 align-items-center justify-content-between">
-                <p className="h5 ">{phase.name}</p>
+                <p className="h5 p-2">{phase.name}</p>
                 <FontAwesomeIcon icon={faXmark} onClick={closeToolbar} style={{cursor:"pointer"}} className="me-3 h5" />
             </div>
-            <div className="d-flex flex-column w-100">
+            <div className="d-flex flex-column w-100 p-3">
                 <div className="phase-params w-100">
                     <p className="text-start mt-3 ms-1">Phase parameters</p>
                     <ul className="list-group w-100">
