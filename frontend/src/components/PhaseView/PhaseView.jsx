@@ -122,8 +122,7 @@ export default function PhaseView({ ownerid=0,componentBtnName,phase,params,hand
                 length > 0 && currentUser?.userid===ownerid &&
                 <>
                     {phase.active==="t" && index < (length-1)  && <button className="btn btn-outline-info m-3" onClick={moveToNextPhase} >Next phase</button>}
-                    {nextPhase?.start_datetime==null 
-                    && phase.active==="f" && index == 0 && <button className="btn btn-outline-info m-3" onClick={startThisPhase} >Start phase</button>}
+                    {(nextPhase?.start_datetime==null && phase.end_datetime==null ) && phase.active==="f" && index == 0 && <button className="btn btn-outline-info m-3" onClick={startThisPhase} >Start phase</button>}
                     {phase.active==="t" && index == (length-1)  && <button className="btn btn-outline-info m-3" onClick={endLastPhase} >End phase</button>}
                 </>
             }
