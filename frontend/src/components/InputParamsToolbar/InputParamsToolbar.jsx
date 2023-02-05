@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Input from "../../components/Form/Input";
 import "./inputParamsToolbar.css"
-import ParameterInput from "../ParameterInput";
+import ParameterInput from "../ParameterInput/ParameterInput";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 

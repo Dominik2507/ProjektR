@@ -1,6 +1,6 @@
 import React from "react";
-import text from "../assets/textData/homePage.json"
-import "../App.css"
+import text from "../../assets/textData/homePage.json"
+import "../../App.css"
 
 
 export default function Paragraph({title, src, number}){

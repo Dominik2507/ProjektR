@@ -3,7 +3,7 @@ import Modal from "../../components/Modal/Modal";
 import ModalHeader from "../../components/Modal/ModalHeader";
 import CreateProcessModalBody from "./CreateProcessModalBody";
 import ModalFooter from "../../components/Modal/ModalFooter";
-import Sidebar from "../../components/Sidebar"
+import Sidebar from "../../components/Sidebar/Sidebar"
 
 import "./CreateProcess.css"
 import {nanoid} from "nanoid";

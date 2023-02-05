@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import ParameterList from "../PhaseView/ParameterList";
 import Input from "../Form/Input";
+import ToolbarInput from "../ToolbarInput/ToolbarInput";
 
 export default function ComponentInfoToolbar({component, handleClose,indexOfPhaseForComponent, setProcess}){
     const [err, setErr] = useState(null);
@@ -69,7 +70,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                         </div>
                         }
                         <div className="d-flex flex-column justify-content-center w-100 align-items-center py-3 mt-3">
-                            <Input
+                            <ToolbarInput
                                 type="text"
                                 name="paramName"
                                 handleChange={(e) => setParamName(e.target.value)}
@@ -77,7 +78,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                                 placeholder="Parameter name"
                                 error={err}
                             />
-                            <Input
+                            <ToolbarInput
                                 type="text"
                                 name="paramDesc"
                                 handleChange={(e) => setUnit(e.target.value)}
@@ -86,7 +87,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                                 error={null}
                             />
 
-                            <Input
+                            <ToolbarInput
                                 type="text"
                                 name="paramMin"
                                 handleChange={(e) => setMinValue(e.target.value)}
@@ -94,7 +95,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                                 placeholder="Min value"
                                 error={null}
                             />
-                            <Input
+                            <ToolbarInput
                                 type="text"
                                 name="paramMax"
                                 handleChange={(e) => setMaxValue(e.target.value)}

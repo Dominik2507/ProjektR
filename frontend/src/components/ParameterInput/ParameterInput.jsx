@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import Input from "./Form/Input";
-import Button from "./Form/Button";
-import {nanoid} from "nanoid";
+import Input from "../Form/Input";
+import Button from "../Form/Button";
+import ToolbarInput from "../ToolbarInput/ToolbarInput";
 
 export default function ParameterInput({params,setAllParameters,handleAddParam}){
     const [err, setErr] = useState(null);
@@ -53,7 +53,7 @@ export default function ParameterInput({params,setAllParameters,handleAddParam})
     return(
         <React.Fragment>
 
-            <Input
+            <ToolbarInput
                 type="text"
                 name="paramName"
                 handleChange={(e) => setParamName(e.target.value)}
@@ -62,7 +62,7 @@ export default function ParameterInput({params,setAllParameters,handleAddParam})
                 error={err}
             />
 
-            <Input
+            <ToolbarInput
                 type="text"
                 name="paramDesc"
                 handleChange={(e) => setParamDesc(e.target.value)}
@@ -71,7 +71,7 @@ export default function ParameterInput({params,setAllParameters,handleAddParam})
                 error={null}
             />
 
-            <Input
+            <ToolbarInput
                 type="number"
                 name="paramMin"
                 handleChange={(e) => setMinValue(e.target.value)}
@@ -80,7 +80,7 @@ export default function ParameterInput({params,setAllParameters,handleAddParam})
                 error={null}
             />
 
-            <Input
+            <ToolbarInput
                 type="number"
                 name="paramMax"
                 handleChange={(e) => setMaxValue(e.target.value)}

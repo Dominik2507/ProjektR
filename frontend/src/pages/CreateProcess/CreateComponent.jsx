@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import Input from "../../components/Form/Input";
-import Dropdown from "../../components/Dropdown";
-import ParameterInput from "../../components/ParameterInput";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import ParameterInput from "../../components/ParameterInput/ParameterInput";
 import Button from "../../components/Form/Button";
 import Select from "../../components/Form/Select";
 import {CreateProcessContext} from "../../context/CreateProcessContext";

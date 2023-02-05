@@ -1,7 +1,7 @@
 import React from "react";
 import CreatePhase from "./CreatePhase";
 import CreateComponent from "./CreateComponent";
-import Dropdown from "../../components/Dropdown";
+import Dropdown from "../../components/Dropdown/Dropdown";
 
 export default function CreatePhaseToolbar({process, setProcess, setShowDropDown}){
 

@@ -8,7 +8,7 @@ import {backend_paths} from "../../constants/paths";
 import ModalInputPhaseParams from "./ModalInputPhaseParams";
 import ModalInputComponentParams from "./ModalInputComponentParams";
 import {useParams} from "react-router-dom";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/Sidebar/Sidebar";
 
 import "./viewOneProcess.css";
 import ShowParametersToolbar from "./ShowParametersToolbar";
