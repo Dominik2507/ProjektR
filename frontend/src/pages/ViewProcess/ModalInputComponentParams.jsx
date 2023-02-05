@@ -76,12 +76,12 @@ export default function ModalInputComponentParams({handleClose,component}){
                     <div  className="modal-grid">
                     <Input
                         type="text"
-                        placeholder={`Value for ${parameters.name}`}
+                        placeholder={`Data for ${parameters.name}`}
                         error={error ? error.id === parameters.parameterid ? error.message : null : null}
                         value={getValue(parameters.parameterid)}
                         handleChange={(e) => handleChange(e,parameters.parameterid)}
                     />
-                        <button className="btn btn-outline-success component-btn" onClick={() => handleAddLog(parameters.parameterid)}>Add log</button>
+                        <button className="btn btn-outline-success component-btn" onClick={() => handleAddLog(parameters.parameterid)}>Add data</button>
                     </div>
 
                 ))}

@@ -23,10 +23,11 @@ export default function ParameterList({ values,inputParamVisible,openPhaseModal,
                                 `[${value.minValue} - ${value.maxValue}] ${value.unit}`}
                     {inputParamVisible && active &&
                         <FontAwesomeIcon
+
                             icon={faPlusSquare}
                             onClick={() => openPhaseModal(value.id)}
                             title="Add log for this parameter"
-                            style={{cursor: "pointer"}}
+                            style={{cursor: "pointer", marginLeft:"5px"}}
                         />}
             </li>)
             )}
