@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import {faCalendar, faDatabase, faPencil, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
+import {faCalendar, faDatabase, faA, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {AuthContext} from "../../context/AuthContext";
@@ -76,10 +76,10 @@ export default function PhaseView({ ownerid=0,componentBtnName,phase,params,hand
 
     return(
         <div className={phase.active === "t" ? "card border border-success" : "card"}>
-            <div className="card-header fw-bold fst-italic">
+            <div className="card-header fw-bold h5 fst-italic">
                     {phase.name}
                 {canView &&
-                <FontAwesomeIcon icon={faDatabase} onClick={handleShowParameters} className="ms-2" style={{cursor:"pointer"}} />
+                <FontAwesomeIcon icon={faDatabase} textDecoration={"See data"} onClick={handleShowParameters} className="ms-2" style={{cursor:"pointer"}} />
                 }
             </div>
             <div className="card-body">
@@ -89,7 +89,7 @@ export default function PhaseView({ ownerid=0,componentBtnName,phase,params,hand
                 </span>
                 { phase.description &&
                 <span className="d-flex flex-row align-items-center justify-content-start">
-                    <FontAwesomeIcon icon={faPencil} className="me-3"/>
+                    <FontAwesomeIcon icon={faA} className="me-3"/>
                     <p className="card-text">{phase.description}</p>
                 </span>
                 }

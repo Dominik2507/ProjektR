@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 
 import {Link} from "react-router-dom";
 
-import {faCheckCircle, faClock, faPencil, faStar as faStarFull, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle, faClock, faA, faStar as faStarFull, faUser} from "@fortawesome/free-solid-svg-icons";
 import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthContext} from "../../context/AuthContext";
@@ -39,10 +39,12 @@ export default function ProcessInlineView({process,handleToogleFav,isFavourite})
                     <FontAwesomeIcon icon={faClock} />
                     <p className="card-text">{time}</p>
                 </span>
+                {process?.description !== "" &&
                 <span className="d-flex gap-3 align-items-center  card-text text-start">
-                    <FontAwesomeIcon icon={faPencil} />
+                    <FontAwesomeIcon icon={faA} />
                     <p className="card-text">{process.description}</p>
                 </span>
+                }
                 <div className="d-flex">
                     <Link to={`/processAll/process/${process.processid}`} className="btn btn-outline-info mt-3 " >See more detailed</Link>
                 </div>
