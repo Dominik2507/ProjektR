@@ -75,7 +75,7 @@ export default function PhaseView({ ownerid=0,componentBtnName,phase,params,hand
     }
 
     return(
-        <div className={phase.active === "t" ? "card border border-success" : "card"}>
+        <div className={phase.active === "t" ? "mx-3 card border border-success" : "card mx-2"}>
             <div className="card-header fw-bold h5 fst-italic">
                     {phase.name}
                 {canView &&
