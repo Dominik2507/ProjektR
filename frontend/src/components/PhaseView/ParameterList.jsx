@@ -19,7 +19,7 @@ export default function ParameterList({ values,inputParamVisible,openPhaseModal,
             {printValues.length > 0 && printValues.map((value,index) => (<li
                 key={index}
                 className="list-group-item">
-                {value.paramName} { //value.minValue?.length > 0 && value.maxValue?.length && 
+                {value.paramName} {
                                 `[${value.minValue} - ${value.maxValue}] ${value.unit}`}
                     {inputParamVisible && active &&
                         <FontAwesomeIcon

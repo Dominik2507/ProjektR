@@ -93,9 +93,10 @@ export default function PhaseView({ ownerid=0,componentBtnName,phase,params,hand
                     <p className="card-text">{phase.description}</p>
                 </span>
                 }
-                <div className="d-flex flex-column align-items-start gap-3 mt-1">
+                <div className="d-flex flex-column align-items-start mt-1">
                 {params &&
                     <div>
+                        <p className="d-flex align-self-start mt-2 mb-0 p-0">Parameters:</p>
                         <ParameterList values={params} inputParamVisible={inputParamVisible} openPhaseModal={openPhaseModal} active={phase.active=="t"}/>
                     </div>
                 }
@@ -114,6 +115,7 @@ export default function PhaseView({ ownerid=0,componentBtnName,phase,params,hand
                 </div>
                 {phase.components &&
                     <div>
+                        <p className="d-flex align-self-start mt-2 mb-0 p-0">Components:</p>
                         {phase.components.map((component) => <ComponentList key={nanoid()} active={phase.active=="t" || window.location.href.includes("create")} component={component} componentBtnName={componentBtnName} handleClick={() => handleComponent(component,index)}/>)}
                     </div>
                 }
