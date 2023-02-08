@@ -8,6 +8,7 @@ import "./modalComponent.css";
 import {nanoid} from "nanoid";
 import {backend_paths} from "../../constants/paths";
 import axios from "axios";
+import ToolbarInput from "../../components/ToolbarInput/ToolbarInput";
 
 
 export default function ModalInputComponentParams({handleClose,component}){
@@ -74,7 +75,7 @@ export default function ModalInputComponentParams({handleClose,component}){
             <div className="modal-body">
                 {component.params?.map(parameters => (
                     <div  className="modal-grid">
-                    <Input
+                    <ToolbarInput
                         type="text"
                         placeholder={`Data for ${parameters.name}`}
                         error={error ? error.id === parameters.parameterid ? error.message : null : null}

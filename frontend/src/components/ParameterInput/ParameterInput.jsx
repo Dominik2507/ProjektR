@@ -92,7 +92,7 @@ export default function ParameterInput({params,setAllParameters,handleAddParam})
             <div className="d-flex mx-1 flex-column align-items-center">
                 <Button placeholder="Add parameter" handleClick={handleSave} />
             </div>
-            
+ 
         </React.Fragment>
 
     )
