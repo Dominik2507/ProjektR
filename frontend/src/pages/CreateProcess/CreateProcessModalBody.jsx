@@ -19,7 +19,7 @@ export default function CreateProcessModalBody({createProcessInfo, setCreateProc
     }
 
     return (
-        <div className="modal-body">
+        <div className="modal-body d-flex flex-column align-items-start">
             <Input type="text" placeholder="Process name" name={createProcessInfo[0].name} value={createProcessInfo[0].value} handleChange={handleChange} error={err} />
             <Textarea placeholder="Process description" value={createProcessInfo[1].value} name={createProcessInfo[1].name} handleChange={handleChange}/>
             {dateError &&
