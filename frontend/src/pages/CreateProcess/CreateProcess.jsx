@@ -103,7 +103,7 @@ export default function CreateProcess(){
                 <Modal>
                     <ModalHeader title="Create process" closeModal={() => setModalActive(false)}/>
                     <CreateProcessModalBody err={err} createProcessInfo={createProcessInfo} setCreateProcessInfo={setCreateProcessInfo} dateError={dateError}/>
-                    <ModalFooter handleSave={handleSave} handleClose={() => {localStorage.removeItem("info"); navigate(routes.PROFILE_URL)}} />
+                    <ModalFooter handleSave={handleSave} handleClose={() => {localStorage.removeItem("info"); localStorage.removeItem("process"); navigate(routes.PROFILE_URL)}} />
                 </Modal>
             }
 
