@@ -57,7 +57,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
         <div className="sidebar-container position-absolute top-0 h-100">
             <div className=" h-100 w-100">
                 <div className="h-100 w-100">
-                    <div className="d-flex flex-column align-items-center  align-items-sm-start h-100 w-100 shadow-lg   bg-body rounded w-100">
+                    <div className="d-flex flex-column align-items-center  align-items-sm-start h-100 w-100 shadow-lg p-2  bg-body rounded w-100">
                        <div className="d-flex flex-row w-100 ">
                             <FontAwesomeIcon icon={faXmark} className="close-icon"  onClick={handleClose} />
                        </div>
@@ -104,7 +104,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                                 error={null}
                             />
 
-                            <button className="btn btn-success" onClick={handleSave}>Save</button>
+                            <button className="btn btn-primary" onClick={handleSave}>Add parameter</button>
                         </div>
                     </div>
                 </div>
