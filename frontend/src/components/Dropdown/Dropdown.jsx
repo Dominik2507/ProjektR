@@ -13,9 +13,9 @@ export default function Dropdown({children,name, active=false, viewMode, handleD
         <div className="dropdown-container card my-2 py-0 w-100">
             <div className="dropdown-title card-header">
                 <span>{name}</span>
-                <div>
-                    {!viewMode && <FontAwesomeIcon className="p-1" onClick={()=> {setDropdownActive(true); handleEdit()}} icon={faEdit} />}
-                    {!viewMode && <FontAwesomeIcon className="p-1" onClick={handleDelete} icon={faTrash} />}
+                <div className="d-flex flex-row align-items-center">
+                    {!viewMode && <FontAwesomeIcon className="p-1 dropdown-icon" onClick={()=> {setDropdownActive(true); handleEdit()}} icon={faEdit} />}
+                    {!viewMode && <FontAwesomeIcon className="p-1 dropdown-icon" onClick={handleDelete} icon={faTrash} />}
                     <FontAwesomeIcon onClick={handleClick} icon={faChevronDown} className={dropdownActive ? "dropdown-icon-active p-2" : "dropdown-icon p-1"}/>
                 </div>
             </div>

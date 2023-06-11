@@ -5,10 +5,8 @@ const { ProcessPhase } = require("../models/ProcessPhaseModel.js");
 router.post("/create", async function (req, res) {
   const phase = new ProcessPhase({
     name: req.body.name,
-    start_datetime: req.body.start_datetime,
-    end_datetime: req.body.end_datetime,
+    location: req.body.location,
     description: req.body.description,
-    active: req.body.active,
     processid: req.body.processid,
   });
 

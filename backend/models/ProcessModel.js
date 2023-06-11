@@ -4,22 +4,20 @@ class Process {
   constructor(
     processid,
     name,
-    start_datetime,
-    end_datetime,
+    verification,
     description,
     userId
   ) {
     this.name = name;
     this.processid = processid;
-    this.start_datetime = start_datetime;
-    this.end_datetime = end_datetime;
+    this.verification = verification;
     this.description = description;
     this.userId = userId;
   }
 
   static async getUserFavProcess(userId) {
     const sql = `
-      select favorite_templates.*, user_data.firstname || ' ' || user_data.lastname as creator, name, start_datetime, end_datetime, description
+      select favorite_templates.*, name, description
       from favorite_templates
              JOIN process ON process.processid = favorite_templates.processid
              JOIN user_data ON favorite_templates.userid = user_data.userid
@@ -99,17 +97,16 @@ class Process {
   async insertNewProcess() {
     let sql = `
         INSERT INTO process 
-        (name,start_datetime, end_datetime, description, userId)
+        (name, description, verification, userId)
         VALUES
-        ($1,$2,$3,$4,$5);
+        ($1,$2,$3,$4);
         `;
 
     try {
       let result = await db.query(sql, [
         this.name,
-        this.start_datetime,
-        this.end_datetime,
         this.description,
+        this.verification,
         this.userId,
       ]);
       return result.rowCount > 0;
@@ -121,7 +118,9 @@ class Process {
 
   static async getProcess(id) {
     let sql = `
-        SELECT * FROM process_with_phases where processid = $1;
+        SELECT process_with_phases.*, (SELECT row_to_json(user_combined) FROM user_combined WHERE user_combined.userid=process_with_phases.userid) as creator 
+        FROM process_with_phases 
+        WHERE processid = $1;
         `;
 
     try {
@@ -135,7 +134,9 @@ class Process {
 
   static async getProcessOfUser(id) {
     let sql = `
-      SELECT process.*, user_data.firstname || ' ' || user_data.lastname as creator FROM process NATURAL JOIN user_data where userid = $1;
+      SELECT process.*, (SELECT row_to_json(user_combined) FROM user_combined WHERE user_combined.userid=process.userid) as creator
+      FROM process
+      WHERE userid = $1;
         `;
 
     try {
@@ -148,10 +149,11 @@ class Process {
   }
 
   static async getAllProcesses() {
-    let sql = `SELECT process.*, user_data.firstname || ' ' || user_data.lastname AS creator, 
+    let sql = `SELECT process.*, 
+              (SELECT row_to_json(user_combined) FROM user_combined WHERE user_combined.userid=process.userid) as creator,
 	            (SELECT transactionid FROM blockchain bc WHERE bc.processid=process.processid ORDER BY id desc LIMIT 1) as hash
               FROM process
-              join user_data on process.userid = user_data.userid;`;
+                join user_data on process.userid = user_data.userid`;
 
     try {
       let result = await db.query(sql, []);
@@ -166,31 +168,48 @@ class Process {
   async addProcess(phases) {
     let sql = `
         INSERT INTO process 
-        (name,start_datetime, end_datetime, description, userId)
+        (name,verification, description, userId)
         VALUES
-        ($1,$2,null,$3,$4) RETURNING processid;
+        ($1,$2,$3,$4) RETURNING processid;
         `;
 
     try {
       let result = await db.query(sql, [
         this.name,
-        this.start_datetime,
+        'none',
         this.description,
         this.userId,
       ]);
       this.processid = result.rows[0].processid;
 
+      const batchSql = `INSERT INTO batch (start_datetime, end_datetime, activephaseid, processid)
+        VALUES (null, null, null, $1) RETURNING batchid;`;
+        
+        const batchResult = await db.query(batchSql, [
+          this.processid
+        ]);
+        const batchid = batchResult.rows[0].batchid;
+
       phases?.forEach(async (phase) => {
-        const phaseSql = `INSERT INTO process_phase (name, start_datetime, end_datetime, description, active, processid)
-        VALUES ($1, null, null, $2, $3, $4)
+        const phaseSql = `INSERT INTO process_phase (name, location, description, processid)
+        VALUES ($1, $2, $3, $4)
         RETURNING phaseid;`;
+
         const phaseResult = await db.query(phaseSql, [
           phase.name,
+          phase.location,
           phase.description,
-          "f",
           this.processid,
         ]);
         const phaseId = phaseResult.rows[0].phaseid;
+
+        const batchPhasesSql = `INSERT INTO batch_phases (phaseid, batchid, start_datetime, end_datetime)
+        VALUES ($1, $2, null, null)`;
+        
+        const batchPhasesResult = await db.query(batchPhasesSql, [
+          phaseId,
+          batchid
+        ]);
 
         phase.params?.forEach(async (parameter) => {
           const parameterSql = `INSERT INTO parameter (name, unit, max_value, min_value, componentid, processid, phaseid)

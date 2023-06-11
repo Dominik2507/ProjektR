@@ -1,7 +1,7 @@
 import React from "react";
 import './App.css';
 
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes, useNavigate} from "react-router-dom";
 
 import {routes} from "./constants/paths";
 
@@ -19,8 +19,15 @@ import CreateProcessProvider from "./context/CreateProcessContext";
 import ViewAllProcess from "./pages/ViewProcess/ViewAllProcess";
 import Profile from "./pages/Profile/Profile";
 import ViewOneProcess from "./pages/ViewProcess/ViewOneProcess";
+import AdminHome from "./pages/Admin/AdminHome";
+import ProcessList from "./pages/Admin/ProcessList";
+import UserList from "./pages/Admin/UserList";
+import ReportList from "./pages/Admin/ReportList";
+import AdminOneProcess from "./pages/Admin/AdminOneProcess";
+import AdminOneUser from "./pages/Admin/AdminOneUser";
 
 export default function App(){
+  
   return(
       <div className="App">
           <AuthProvider>
@@ -39,7 +46,16 @@ export default function App(){
                   <Route path={routes.PROCESS_BY_ID} element={<ViewOneProcess />} />
                   <Route path={routes.PROCESS_ALL} element={<ViewAllProcess/>} />
                   <Route path={routes.NOT_FOUND} element={<PageNotFound />} />
+
+                  <Route path={routes.ADMIN_HOME} element={<AdminHome/>} />
                   
+                  <Route path={routes.ADMIN_PROCESS_ALL} element={<ProcessList />} />
+                  <Route path={routes.ADMIN_USERS_ALL} element={<UserList/>} />
+                  <Route path={routes.ADMIN_REPORTS_ALL} element={<ReportList/>} />
+
+                  <Route path={routes.ADMIN_ONE_PROCESS} element={<AdminOneProcess/>} />
+                  <Route path={routes.ADMIN_ONE_USER} element={<AdminOneUser/>} />
+
               </Routes>
               </main>
               <Footer />

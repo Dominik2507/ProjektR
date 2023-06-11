@@ -4,11 +4,14 @@ import CreateComponent from "../../pages/CreateProcess/CreateComponent";
 import Dropdown from "../Dropdown/Dropdown";
 import { useState } from "react";
 import Button from "../Form/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 
 export default function ViewComponentToolbar({component, phase,process, setProcess, viewMode}){
     const [edit, setEdit]= useState(false);
     const [showDropDown, setShowDropDown]=useState(false);
+    const [allParameters, setAllParameters] = useState(component?.params || []);
 
     const deleteComponent=function(){
         let phaseIndex = process.phases.indexOf(phase)
@@ -18,6 +21,15 @@ export default function ViewComponentToolbar({component, phase,process, setProce
         setProcess({...process, "phases": temp})
     }
 
+    console.log(component)
+    let rows=[];
+    for(let param of allParameters){
+        rows.push(
+        <div key={param.paramName}>
+            {param.paramName + " [" + param.minValue + "-"+ param.maxValue + "]" + " / " + param.paramDesc}
+            <button onClick={()=>{setAllParameters(allParameters.filter((p => p.id!==param.parameterid)))}} style={{"backgroundColor": "inherit"}} className="border-0 mx-2"></button>
+        </div>)
+    }
 
     return(
         <React.Fragment>
@@ -30,7 +42,6 @@ export default function ViewComponentToolbar({component, phase,process, setProce
                 : 
                 
                 <section className="p-2">
-            
                     {
                         showDropDown &&
                             <Dropdown name="Component">
@@ -38,13 +49,19 @@ export default function ViewComponentToolbar({component, phase,process, setProce
                             </Dropdown>
                     }
                     {
-                        !viewMode && false &&
+                        !viewMode &&
                             <div className="d-flex mx-1 flex-column align-items-center">
-                                <Button placeholder="Remove component" handleClick={()=> deleteComponent()}/>
-                                <Button placeholder="Edit component" handleClick={()=> setEdit(true)}/>
+                                {
+                                rows?.length > 0 ?
+                                <>
+                                    <div>Params:</div> 
+                                    {rows}
+                                </>
+                                :
+                                <div> No parameters for this component</div>
+                                }
                             </div>  
                     }
-                    
                 
                 </section>  
                }

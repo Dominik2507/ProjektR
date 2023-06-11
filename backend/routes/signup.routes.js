@@ -12,10 +12,13 @@ router.post("/", (req, res, next) => {
     }
 
     let user = new User(
+      req.body.email,
+      req.body.password,
+      req.body.type,
       req.body.firstName,
       req.body.lastName,
-      req.body.email,
-      req.body.password
+      req.body.ceo,
+      req.body.name
     );
 
     let result = await user.insertNewUser();

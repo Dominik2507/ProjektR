@@ -81,7 +81,7 @@ export default function CreateComponent({process, setProcess, phase, component=n
         rows.push(
         <div key={param.parameterid}>
             {param.paramName + " [" + param.minValue + "-"+ param.maxValue + "]"}
-            <button onClick={()=>{setAllParameters(allParameters.filter((p => p.id!==param.parameterid)))}} className="bg-danger mx-2"><FontAwesomeIcon icon={faTrash}/></button>
+            <button onClick={()=>{setAllParameters(allParameters.filter((p => p.paramName!==param.paramName)))}} style={{"backgroundColor": "inherit"}} className="border-0 mx-2"><FontAwesomeIcon icon={faTrash}/></button>
         </div>)
     }
 
@@ -96,19 +96,20 @@ export default function CreateComponent({process, setProcess, phase, component=n
                 error={err}
                 handleChange={(e) => setComponentName(e.target.value)}
             />
-            <div>Params</div>
-            {rows}
-            { false &&
-            <div className="m-3">
-                <Dropdown name="Add a parameter" viewMode={true}>
-                    <ParameterInput params={allParameters} setAllParameters={setAllParameters} />
-                </Dropdown>
-            </div>
+            {
+            rows?.length > 0 ?
+             <>
+                <div>Params:</div> 
+                {rows}
+             </>
+             :
+             <div> No parameters for this component</div>
             }
-            { false ? <Select options={allPhases} selected={phaseSelectValue} setSelected={setPhaseSelectValue} /> : ""}
-            <div className="d-flex w-100 flex-column align-items-center">
-                <Button placeholder={component ? "Save changes" : "Add component"} handleClick={handleSave}/>
-                <Button placeholder={"Cancel"} handleClick={()=>{component ? setEdit(false) : setShowDropDown(false)}}/>
+            
+            
+            <div className="d-flex justify-content-center flex-column align-items-center">
+                <Button width="50" placeholder={component ? "Save" : "Add component"} handleClick={handleSave}/>
+                <Button width="50" placeholder={"Cancel"} handleClick={()=>{component ? setEdit(false) : setShowDropDown(false)}}/>
             </div>
         </React.Fragment>
     );

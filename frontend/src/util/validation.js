@@ -1,6 +1,6 @@
 const emailRegex = new RegExp("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[a-z]{2,}$");
 
-export const registerValidation = (user) => {
+export const registerValidation = (user, type) => {
     let err = [];
 
     if(!emailRegex.test(user.email))
@@ -9,15 +9,27 @@ export const registerValidation = (user) => {
             message : "Invalid email"
         });
 
-    if(user.firstName === "")
+    if(type == "personal" && user.firstName === "")
         err.push({
             name : "firstName",
             message : "First name empty"
         });
 
-    if(user.lastName === "")
+    if(type == "personal" &&  user.lastName === "")
         err.push({
             name : "lastName",
+            message : "Last name empty"
+        });
+
+    if(type == "business" && user.name === "")
+        err.push({
+            name : "name",
+            message : "First name empty"
+        });
+
+    if(type == "business" &&  user.ceo === "")
+        err.push({
+            name : "ceo",
             message : "Last name empty"
         });
 

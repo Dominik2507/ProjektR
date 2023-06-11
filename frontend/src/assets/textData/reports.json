@@ -1,0 +1,13 @@
+[
+    {
+        "ownerid": 1,
+        "reportid":1,
+        "processid": 1, 
+        "reportDescription": "Opis razloga prijave bla bla bla askdfnlk asjbdfijbs akdbfasjkbdfk asbkdfbjkasbdf liwhebf ibaskdbfliwebf kabjsdbfjlaks dfshd bfliasbdfklj as fjikasd fjhkas dfljasd flja sdfhj ",
+        "reportedBy": 1,
+        "ownerName": "Owner",
+        "reportedByName": "User1",
+        "processName": "Ime procesa"
+
+    }
+]

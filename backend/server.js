@@ -14,6 +14,9 @@ const favProcess = require("./routes/favProcess.routes");
 const parameterRoute = require("./routes/parameter.routes");
 const logRoute = require("./routes/log.routes");
 const cardanoRoute = require("./routes/cardano.routes");
+const userRoute = require("./routes/user.routes");
+const reportRoute = require("./routes/report.routes");
+
 
 app.use("/registration", registrationRoute);
 app.use("/login", loginRoute);
@@ -22,6 +25,8 @@ app.use("/favprocess", favProcess);
 app.use("/parameter", parameterRoute);
 app.use("/log", logRoute);
 app.use("/cardano", cardanoRoute);
+app.use("/user", userRoute);
+app.use("/report", reportRoute);
 
 const PORT = 3001;
 

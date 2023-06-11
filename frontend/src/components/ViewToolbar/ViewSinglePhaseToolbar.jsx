@@ -15,7 +15,7 @@ export default function ViewSinglePhaseToolbar({phase, process, setProcess, view
 
    const deletePhase=function(){
         //let temp=process.phases;
-        let temp=process.phases.filter((v)=>(v.phaseid!==phase.phaseid));
+        let temp=process.phases.filter((v)=>(v.phaseid!=phase.phaseid));
         setProcess({...process, "phases": temp})
    }
     let rows=[];

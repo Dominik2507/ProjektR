@@ -17,7 +17,8 @@ export default function ViewPhasesToolbar({process, setProcess, viewMode}){
         )
     }
     return(
-        <div>
+        <div className="m-3">
+            <div style={{width: "100%", textAlign:"Start", fontSize: "28px"}}>Phases:</div>
             {rows}
 
             {

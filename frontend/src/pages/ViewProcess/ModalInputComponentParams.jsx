@@ -11,10 +11,10 @@ import axios from "axios";
 import ToolbarInput from "../../components/ToolbarInput/ToolbarInput";
 
 
-export default function ModalInputComponentParams({handleClose,component}){
+export default function ModalInputComponentParams({handleClose, component, batchid, openSnackbar}){
     const [inputs, setInputs] = useState([])
     const [error, setError] = useState(null);
-
+    
 
     const handleAddLog = (paramId) => {
         setError(null);
@@ -30,15 +30,17 @@ export default function ModalInputComponentParams({handleClose,component}){
         let data = {
             value: inputs[index].value,
             parameterid: paramId,
+            batchid: batchid
         };
 
         axios.post(`${backend_paths.LOG}/create`, data)
             .then(res => setInputs(prevInputs => {
                 let newInputs = [...prevInputs];
                 newInputs[index].value = "";
+                openSnackbar("success","Data log added")
                 return newInputs;
             }))
-            .catch(err => console.log(err));
+            .catch(err => openSnackbar("success",err.msg));
 
 
     }
@@ -76,7 +78,7 @@ export default function ModalInputComponentParams({handleClose,component}){
                 {component.params?.map(parameters => (
                     <div  className="modal-grid">
                     <ToolbarInput
-                        type="text"
+                        type="number"
                         placeholder={`Data for ${parameters.name}`}
                         error={error ? error.id === parameters.parameterid ? error.message : null : null}
                         value={getValue(parameters.parameterid)}
@@ -86,7 +88,9 @@ export default function ModalInputComponentParams({handleClose,component}){
                     </div>
 
                 ))}
+                 
             </div>
+           
             <ModalFooter handleClose={handleClose} />
         </Modal>
     )

@@ -12,19 +12,22 @@ import ToolbarInput from "../../components/ToolbarInput/ToolbarInput";
 
 import "./modalComponent.css";
 
-export default function ModalInputPhaseParams({closeModal, param}){
+export default function ModalInputPhaseParams({closeModal, param, batchid, openSnackbar}){
 
     const [paramValue,setParamValue] = useState("");
 
     const handleLogParam = () => {
         let data = {
             value: paramValue,
-            parameterid: param.parameterid
+            parameterid: param.parameterid,
+            batchid: batchid
         };
 
         axios.post(`${backend_paths.LOG}/create`, data)
-            .then(res => setParamValue(""))
-            .catch(err => console.log(err));
+            .then(res =>{
+                openSnackbar("success","Data log added")
+                setParamValue("")})
+            .catch(err => openSnackbar("success",err.msg));
     }
 
     return(
@@ -36,7 +39,7 @@ export default function ModalInputPhaseParams({closeModal, param}){
                             <ToolbarInput
                                 name="paramValue"
                                 value={paramValue}
-                                type="text"
+                                type="number"
                                 handleChange={(e) => setParamValue(e.target.value)}
                                 placeholder={`Value for ${param.name}`}
                                 error={null}

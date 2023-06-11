@@ -3,6 +3,23 @@ export const navbarItems = [{
     linkName: "Home"
 }]
 
+export const adminNavbarItems = [{
+    path: "/admin",
+    linkName: "Home"
+},
+{
+    path: "/admin/users",
+    linkName: "Users"
+},
+{
+    path: "/admin/process",
+    linkName: "Process list"
+},
+{
+    path: "/admin/reports",
+    linkName: "Reports"
+}]
+
 export const notLoggedInItems = [{
     path: "/login",
     linkName: "Login"

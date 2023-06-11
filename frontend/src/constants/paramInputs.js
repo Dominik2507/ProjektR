@@ -40,10 +40,4 @@ export const modalInputs = [{
 },{
     name: "processDescription",
     value: "",
-},
-{
-    name: "start_datetime",
-    value: "",
-    type:"datetime-local",
-    label: "Starts: "
 }];

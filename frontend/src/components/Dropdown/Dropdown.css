@@ -5,7 +5,6 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    cursor: pointer;
 }
 
 
@@ -20,7 +19,13 @@
 
 .dropdown-icon-active{
     transform: rotate(180deg);
+    cursor: pointer;
 }
+
+.dropdown-icon{
+    cursor: pointer;
+}
+
 .dropdown-content{
     width: 100%;
     display: none;
@@ -28,5 +33,4 @@
 .dropdown-content-active{
     width: 100%;
     display: inline-block;
-    cursor: pointer;
 }

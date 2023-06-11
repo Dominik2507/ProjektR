@@ -1,11 +1,14 @@
 const db = require("../db/index");
 
 module.exports = class User{
-    constructor(firstName, lastName, email,password){
+    constructor(email, password, type="", firstName="", lastName="", ceo="", name=""){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.ceo=ceo;
+        this.name=name;
+        this.type=type;
     }
 
     static async checkEmail(email){
@@ -27,7 +30,7 @@ module.exports = class User{
 
     static async checkPassword(email,password){
         let sql = `
-            SELECT * FROM user_data WHERE email = $1 AND password = $2;
+            SELECT * FROM user_data LEFT JOIN user_person using(userid) LEFT JOIN user_company using(userid) WHERE email = $1 AND password = $2;
         `;
 
         try {
@@ -42,14 +45,36 @@ module.exports = class User{
     async insertNewUser(){
         let sql = `
         INSERT INTO user_data 
-        (firstName,lastName, email,password)
+        (email, password, type)
         VALUES
-        ($1,$2,$3,$4);
+        ($1,$2,$3) RETURNING userid;
         `;
 
         try{
-            let result = await db.query(sql, [this.firstName,this.lastName,this.email, this.password]);
-
+            
+            let result = await db.query(sql, [this.email, this.password, this.type]);
+            
+            if(result.rowCount==1){
+                let userid = result.rows[0].userid;;
+        
+                if(this.type=="personal"){
+                    sql = `
+                        INSERT INTO user_person
+                        (firstname, lastname, userid)
+                        VALUES
+                        ($1,$2,$3);
+                    `;
+                    result = await db.query(sql, [this.firstName, this.lastName, userid]);
+                }else if( this.type=="business"){
+                    sql = `
+                        INSERT INTO user_company
+                        (name, ceo, userid)
+                        VALUES
+                        ($1,$2,$3);
+                    `;
+                    result = await db.query(sql, [this.name, this.ceo, userid]);
+                }
+            }
             return result.rowCount;
         }catch (e){
             console.log(e);
@@ -59,7 +84,9 @@ module.exports = class User{
 
     async getUser(){
         let sql = `
-        SELECT * FROM user_data where email = $1 AND password = $2;
+        SELECT user_data.userid, user_data.type, user_data.email, user_person.firstname, user_person.lastname, user_company.name, user_company.ceo 
+        FROM user_data LEFT JOIN user_company using(userid) LEFT JOIN user_person using(userid) 
+        WHERE email = $1 AND password = $2;
         `;
 
         try{

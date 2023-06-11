@@ -88,7 +88,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                             />
 
                             <ToolbarInput
-                                type="text"
+                                type="number"
                                 name="paramMin"
                                 handleChange={(e) => setMinValue(e.target.value)}
                                 value={minValue}
@@ -96,7 +96,7 @@ export default function ComponentInfoToolbar({component, handleClose,indexOfPhas
                                 error={null}
                             />
                             <ToolbarInput
-                                type="text"
+                                type="number"
                                 name="paramMax"
                                 handleChange={(e) => setMaxValue(e.target.value)}
                                 value={maxValue}

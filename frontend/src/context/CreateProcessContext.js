@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 import {backend_paths, routes} from "../constants/paths";
+import { AuthContext } from "./AuthContext";
 
 export const CreateProcessContext = createContext(null);
 
@@ -10,7 +11,7 @@ export default function CreateProcessProvider({children}){
     const [processInfo, setProcessInfo] = useState(localStorage.getItem("info") ? JSON.parse(localStorage.getItem("info")):{});
     const [allPhases, setAllPhases] = useState([]);
     const [allComponents, setAllComponent] = useState([]);
-
+    const { currentUser } = useContext(AuthContext);
     const navigate = useNavigate();
     
     const createProcess = async (process) => {
@@ -27,6 +28,11 @@ export default function CreateProcessProvider({children}){
             .catch(err => err.response.data);
 
     };
+    useEffect(()=>{
+        if(!currentUser){
+            setProcessInfo(null);
+        }
+    }, [currentUser])
 
     const value = {
         processInfo,

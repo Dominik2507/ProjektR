@@ -6,11 +6,15 @@ import Modal from "../../components/Modal/Modal";
 import dayjs from "dayjs";
 import {nanoid} from "nanoid";
 
-export default function ViewDataModal({paramId, handleClose}){
+export default function ViewDataModal({paramId, handleClose, batchid}){
 
     const [parameterInfo, setParametersInfo] = useState();
     useEffect(() => {
-        axios.get(`${backend_paths.LOG}/parameter/${paramId}`)
+        let data={
+            parameterid: paramId,
+            batchid: batchid
+        }
+        axios.post(`${backend_paths.LOG}/parameter`, data)
             .then(res => res.data)
             .then(data => setParametersInfo(data))
             .catch(err => console.log(err))

@@ -4,7 +4,7 @@ import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function ParameterList({ values,inputParamVisible,openPhaseModal, active=false }){
-    console.log(values)
+
     const printValues = values.map(value => ({
         id: value.parameterid ? value.parameterid : null,
         paramName: value.name ? value.name : value.paramName,

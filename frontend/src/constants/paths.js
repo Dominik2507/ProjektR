@@ -9,7 +9,13 @@ export const routes = {
     NOT_FOUND: "*",
     PROCESS_ALL: "/processAll",
     PROCESS_BY_ID: "/processAll/process/:id",
-    PROCESS_VIEW: "/processView"
+    PROCESS_VIEW: "/processView",
+    ADMIN_HOME: "/admin",
+    ADMIN_PROCESS_ALL: "/admin/process",
+    ADMIN_USERS_ALL: "/admin/users",
+    ADMIN_REPORTS_ALL: "/admin/reports",
+    ADMIN_ONE_PROCESS: "/admin/process/:id",
+    ADMIN_ONE_USER: "/admin/user/:id"
 
 };
 
@@ -28,6 +34,13 @@ export const backend_paths = {
     START_FIRST_PHASE:`${SERVER_URL}/cardano/beginFirstPhase`,
     START_NEXT_PHASE: `${SERVER_URL}/cardano/advancePhase`,
     END_LAST_PHASE: `${SERVER_URL}/cardano/endLastPhase`,
-    HASH: `${SERVER_URL}/cardano/getProcessHash`
+    HASH: `${SERVER_URL}/cardano/getProcessHash`,
+    ALL_USERS: `${SERVER_URL}/user/all`,
+    GET_USER_BY_ID: `${SERVER_URL}/user/byId`,
+    START_NEW_BULK: `${SERVER_URL}/process/bulk/new`,
+    CREATE_NEW_REPORT: `${SERVER_URL}/report/add`,
+    ALL_REPORTS: `${SERVER_URL}/report/all`,
+    GET_REPORT_BY_ID: `${SERVER_URL}/report/byId`,
+    RESOLVE_REPORT: `${SERVER_URL}/report/resolve`
 }
 

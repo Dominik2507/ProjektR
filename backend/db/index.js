@@ -1,7 +1,7 @@
 const {Pool} = require("pg");
 
-/*
-LOCAL DB
+
+//LOCAL DB
 
 const pool = new Pool({
     user: "postgres",
@@ -10,16 +10,19 @@ const pool = new Pool({
     password: "bazepodataka",
     port: 5432
 }); 
-*/
 
 
-const pool = new Pool({
+//DEPLOYED DB
+
+/* const pool = new Pool({
     user: "projektadmin",
     host: "161.53.18.24",
     database: "BLogistics",
     password: "5tz89rg5489ohizg",
     port: 5432
 });
+ */
+
 
 /*
 Baza: BLogistics

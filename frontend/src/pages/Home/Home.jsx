@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import "./homepage.css"
 
 export default function Home(){
+    const {currentUser}= useContext(AuthContext);
+    const navigate= useNavigate();
+    
+    useEffect(()=>{
+        if(currentUser?.type==="admin"){
+            navigate("/admin")
+        }
+    })
     return(
         <div className="grid-container">
             <div className="grid-item"> 
@@ -20,7 +30,7 @@ export default function Home(){
                 Blockchain stores data at multiple locations, so once information is pushed, 
                 it is impossible to change it after. That gives information from our page credibilty.
             </div>
-            <img className="image" src="https://www.ibm.com/blogs/blockchain/wp-content/uploads/2020/04/Retina-Display-646399094.jpg" alt="React Image" />
+            <img className="image" src="pic1.jpg" alt="React Image" />
             <div className="grid-item">
                 <b>Blockchain and Cardano</b>  <br></br>
                 Cardano is an open source proof-of-stake blockchain project that aims to provide a more secure 
@@ -29,7 +39,7 @@ export default function Home(){
                 here
                 </a>
             </div>
-            <img className="image" src="https://imageio.forbes.com/specials-images/imageserve/5f2a32ee3b52675a453e2881/Fascinating-Examples-Of-How-Blockchain-Is-Used-In-Insurance--Banking-And-Travel/960x0.jpg?format=jpg&width=960" alt="React Image" />
+            <img className="image" src="pic2.jpg" alt="React Image" />
 </div>
     )
 }

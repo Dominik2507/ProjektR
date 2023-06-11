@@ -28,7 +28,7 @@ export default function AuthProvider({children}){
 
     const login = async (user) => {
 
-        return axios.post(backend_paths.LOGIN_URL,user, {
+        return axios.post(backend_paths.LOGIN_URL, user, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -45,7 +45,7 @@ export default function AuthProvider({children}){
 
     const logout = async () => {
         setCurrentUser(null);
-        localStorage.removeItem("user");
+        localStorage.clear();
     };
 
     const value = {

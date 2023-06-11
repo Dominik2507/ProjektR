@@ -15,6 +15,7 @@ export default function Login(){
     const [inputs, setInputs] = useState(loginInputs);
     const [error, setError] = useState([]);
     const [serverError, setServerError] = useState("");
+    
 
     const {login} = useContext(AuthContext);
 
@@ -33,7 +34,7 @@ export default function Login(){
     const handleClick = async (e) => {
         e.preventDefault();
 
-        let user = new User(inputs[0].value, undefined,undefined,inputs[1].value);
+        let user = new User({[inputs[0].name]: inputs[0].value,[inputs[1].name]: inputs[1].value});
 
         let err = loginValidation(user);
 
@@ -52,6 +53,7 @@ export default function Login(){
         setServerError(response);
 
     }
+    
 
     return(
 

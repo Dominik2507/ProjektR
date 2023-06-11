@@ -1,8 +1,9 @@
 const db = require("../db/index");
 
 class Log {
-  constructor(logid = null, value = null, datetime = null, parameterid = null) {
+  constructor(logid = null, value = null, datetime = null, parameterid = null, batchid = null) {
     this.logid = logid;
+    this.batchid = batchid;
     this.value = value;
     this.datetime = datetime;
     this.parameterid = parameterid;
@@ -24,14 +25,14 @@ class Log {
 
   async getAllParameterLogs() {
     const sql = `
-      select parameter_log.*,parameter.unit,parameter.name
-      from parameter_log
+      SELECT parameter_log.*,parameter.unit,parameter.name
+      FROM parameter_log
              join parameter on parameter_log.parameterid = parameter.parameterid
-      where parameter_log.parameterid = $1;
+      WHERE parameter_log.parameterid = $1 AND parameter_log.batchid=$2;
         `;
 
     try {
-      const result = await db.query(sql, [this.parameterid]);
+      const result = await db.query(sql, [this.parameterid, this.batchid]);
       return result.rows;
     } catch (e) {
       console.log(e);
@@ -41,7 +42,7 @@ class Log {
 
   async CreateLog() {
     const sql = `
-        INSERT INTO parameter_log (value, datetime, parameterid) VALUES ($1, $2, $3) RETURNING *;
+        INSERT INTO parameter_log (value, datetime, parameterid, batchid) VALUES ($1, $2, $3, $4) RETURNING *;
         `;
 
     try {
@@ -49,6 +50,7 @@ class Log {
         this.value,
         this.datetime,
         this.parameterid,
+        this.batchid
       ]);
       return result.rows[0];
     } catch (e) {
@@ -92,11 +94,11 @@ class Log {
 
   async LogAverage() {
     const sql = `
-        SELECT value FROM parameter_log WHERE parameterid = $1;
+        SELECT value FROM parameter_log WHERE parameterid = $1 AND batchid=$2;
         `;
 
     try {
-      const result = await db.query(sql, [this.parameterid]);
+      const result = await db.query(sql, [this.parameterid, this.batchid]);
       let sum = 0;
       result.rows.forEach((element) => {
         sum += parseFloat(element.value);

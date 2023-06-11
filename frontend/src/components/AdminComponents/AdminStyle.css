@@ -1,0 +1,33 @@
+.linkDescription{
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    padding-top: 20px;   
+}
+
+.linkContainer{
+    height: 80%;
+    padding-bottom: 3%;
+}
+
+.linkCard{
+    border: 3px solid black;
+    border-radius: 15px;
+    width: 300px;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.linkCard:hover{
+    background-color: rgb(230, 230, 230);
+    cursor: pointer;
+}
+
+.adminGreeting{
+    text-align: center;
+    margin-top: 3%;
+    font-size: 42px;
+    font-weight: 500;
+}

@@ -4,7 +4,7 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {nanoid} from "nanoid";
 
 export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
-   console.log(phase.params);
+   console.log(phase?.component?.params);
     return(
         <React.Fragment>
             <div className="d-flex flex-row w-100 align-items-center justify-content-between">
@@ -15,7 +15,7 @@ export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
                 <div className="phase-params w-100">
                     <p className="text-start mt-3 ms-1">Phase parameters:</p>
                     <ul className="list-group w-100">
-                        {phase.params.map(param => (
+                        {phase?.params?.map(param => (
                             <li
                                 style={{cursor:"pointer"}}
                                 className="list-group-item w-100"
@@ -25,7 +25,7 @@ export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
                             >
                                 {param.name} {`[${param.min_value} - ${param.max_value}]`}{ " / " + param.unit}
                             </li>
-                         ))}
+                         )) || <div> Phase has no parameters </div>}
                     </ul>
                 </div>
                 <hr/>
@@ -46,12 +46,12 @@ export default function ShowParametersToolbar({phase,setParamId,closeToolbar}){
                                 >
                                     {param.name} {`[${param.min_value} - ${param.max_value}]`}{ " / " + param.unit}
                                 </li>
-                            )}
+                            ) || <div> Component has no parameters </div>}
                             </ul>
                         </div>
-                    ))}
+                    ))  || <div> Component has no parameters </div> }
                 </div>
-
+                <hr/>
             </div>
         </React.Fragment>
     )

@@ -20,16 +20,22 @@ let nodeUtils = new CardanoPreviewTestnetUtils({
 =======================================
 */
 
-async function postToCardano(processId, lastPhaseId) {
+async function postToCardano(processId, lastPhaseId, batchId) {
   console.log("Trazim za proces: ", processId)
   let getAveragesQuery = `
-        SELECT parameter.*, (SELECT avg(value) FROM parameter_log WHERE parameter_log.parameterid=parameter.parameterid GROUP BY parameter_log.parameterid) as average
+        SELECT parameter.*, 
+          (
+            SELECT avg(value) 
+            FROM parameter_log 
+            WHERE parameter_log.parameterid=parameter.parameterid AND parameter_log.batchid=$2
+            GROUP BY parameter_log.parameterid
+          ) as average
         FROM parameter
         WHERE parameter.processid=$1
     `;
   let averageParamArray;
   try {
-    averageParamArray = (await db.query(getAveragesQuery, [processId])).rows;
+    averageParamArray = (await db.query(getAveragesQuery, [processId, batchId])).rows;
     console.log("Lista parametara: ", averageParamArray || "prazno");
   } catch (e) {
     console.log(e);
@@ -38,11 +44,11 @@ async function postToCardano(processId, lastPhaseId) {
   let getExceptionsQuery = `
         SELECT parameter.*, log.value, log.datetime
         FROM parameter left join parameter_log as log using(parameterid)
-        WHERE parameter.processid=$1 AND (log.value < parameter.min_value OR log.value>parameter.max_value)
+        WHERE parameter.processid=$1 AND log.batchid = $2 AND (log.value < parameter.min_value OR log.value>parameter.max_value)
     `;
   let exceptionArray;
   try {
-    exceptionArray = (await db.query(getExceptionsQuery, [processId])).rows;
+    exceptionArray = (await db.query(getExceptionsQuery, [processId, batchId])).rows;
     console.log("Lista iznimnih logova: ", exceptionArray || "prazno");
   } catch (e) {
     console.log(e);
@@ -70,7 +76,8 @@ async function postToCardano(processId, lastPhaseId) {
   });
   
   let phasesWithComponentIdQuery = `
-        SELECT p.*, c.componentid, c.name as cName FROM process_phase p left join process_component c using(phaseid)
+        SELECT p.*, b.start_datetime, b.end_datetime, c.componentid, c.name as cName 
+        FROM process_phase p left join process_component c using(phaseid) left join batch_phases b using(phaseid)
         WHERE p.processid=$1 AND p.phaseid<=$2
     `;
   let phasesArray;
@@ -223,33 +230,46 @@ router.post("/advancePhase", async (req,res) => {
     let processId=body.processid;
     let activePhase=body.activePhase;
     let nextPhase=body.nextPhase;
+    let batchId=body.batchId;
   
     // SET START AND END
     let today=new Date();
     let sql=`
-      UPDATE process_phase
-      SET end_datetime=$1, active='f'
-      WHERE phaseid=$2;
-      
+      UPDATE batch_phases
+      SET end_datetime=$1
+      WHERE phaseid=$2 AND batchid=$3;
     `
     try {
-      const result = await db.query(sql, [today, activePhase]);
+      const result = await db.query(sql, [today, activePhase, batchId]);
     }catch (e) {
       console.log(e);
       return null;
     }
 
     sql=`
-      UPDATE process_phase
-      SET start_datetime=$1, active='t'
-      WHERE phaseid=$2
+      UPDATE batch_phases
+      SET start_datetime=$1
+      WHERE phaseid=$2 AND batchid=$3
     `
     try {
-      const result = await db.query(sql, [today, nextPhase]);
+      const result = await db.query(sql, [today, nextPhase, batchId]);
     }catch (e) {
       console.log(e);
       return null;
     }
+
+    sql=`
+      UPDATE batch
+      SET activephaseid=$1
+      WHERE processid=$2 AND batchid=$3
+    `
+    try {
+      const result = await db.query(sql, [nextPhase, processId, batchId]);
+    }catch (e) {
+      console.log(e);
+      return null;
+    }
+
     let hash= await postToCardano(processId, activePhase)
       
     res.send({hash:hash})
@@ -258,7 +278,7 @@ router.post("/advancePhase", async (req,res) => {
 
   router.post("/beginFirstPhase", async (req,res) => {
     let body = req.body;
-    console.log("tijelo zahtjeva",body)
+    console.log("Req body",body)
     /*
       =================
       body={
@@ -271,27 +291,44 @@ router.post("/advancePhase", async (req,res) => {
     
       let processId=body.processid;
       let nextPhase=body.nextPhase;
+      let batchId=body.batchId;
     
       // SET START AND END
       let today=new Date();
       let sql=`
-        UPDATE process_phase
-        SET start_datetime=$1, active='t'
-        WHERE phaseid=$2
-      `
+      UPDATE batch_phases
+      SET start_datetime=$1
+      WHERE phaseid=$2 AND batchid=$3;
+      
+    `
       try {
-        const result = await db.query(sql, [today, nextPhase]);
+        const result = await db.query(sql, [today, nextPhase, batchId]);
       }catch (e) {
         console.log(e);
         return null;
       }
-      let hash=""
-      res.send({hash:hash})
+      sql=`
+        UPDATE batch
+        SET start_datetime=$1, activephaseid=$2
+        WHERE processid=$3 and batchid=$4
+      `
+      try {
+        const result = await db.query(sql, [today, nextPhase, processId, batchId]);
+        res.send(result);
+      }catch (e) {
+        console.log(e);
+        res.status(501)
+        res.send("Server error");
+        return null;
+      }
+      
+      
       
     })
 
     router.post("/endLastPhase", async (req,res) => {
         let body = req.body;
+        console.log("Req body",body)
         /*
           =================
           body={
@@ -304,28 +341,29 @@ router.post("/advancePhase", async (req,res) => {
         
           let processId=body.processid;
           let activePhase=body.activePhase;
+          let batchId=body.batchId;
         
           // SET START AND END
           let today=new Date();
           let sql=`
-            UPDATE process_phase
-            SET end_datetime=$1, active='f'
-            WHERE phaseid=$2;
+            UPDATE batch_phases
+            SET end_datetime=$1
+            WHERE phaseid=$2 AND batchid=$3;
             
           `
           try {
-            const result = await db.query(sql, [today, activePhase]);
+            const result = await db.query(sql, [today, activePhase, batchId]);
           }catch (e) {
             console.log(e);
             return null;
           }
           sql=`
-            UPDATE process
-            SET end_datetime=$1
-            WHERE processid=$2;
+            UPDATE batch
+            SET end_datetime=$1, activephaseid=null
+            WHERE processid=$2 AND batchid=$3;
           `
           try {
-            const result = await db.query(sql, [today, processId]);
+            const result = await db.query(sql, [today, processId, batchId]);
           }catch (e) {
             console.log(e);
             return null;

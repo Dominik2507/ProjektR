@@ -4,16 +4,14 @@ class ProcessPhase {
   constructor({
     phaseid,
     name,
-    start_datetime,
-    end_datetime,
+    location,
     description,
     active,
     processid,
   }) {
     this.phaseid = phaseid;
     this.name = name;
-    this.start_datetime = start_datetime;
-    this.end_datetime = end_datetime;
+    this.location = location;
     this.description = description;
     this.active = active;
     this.processid = processid;
@@ -21,16 +19,15 @@ class ProcessPhase {
 
   async CreateProcessPhase() {
     const sql = `
-			INSERT INTO process_phase (name, start_datetime, end_datetime, description, active, processid)
-			VALUES ($1, $2, $3, $4, $5, $6)
+			INSERT INTO process_phase (name, location, description, active, processid)
+			VALUES ($1, $2, $3, $4, $5)
 			RETURNING phaseid;
 		`;
 
     try {
       const result = await db.query(sql, [
         this.name,
-        this.start_datetime,
-        this.end_datetime,
+        this.location,
         this.description,
         this.active,
         this.processid,

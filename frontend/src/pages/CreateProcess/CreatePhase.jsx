@@ -22,7 +22,7 @@ export default function CreatePhase({process, setProcess, setShowDropDown, phase
     const calcId= function(){
         let maxId=0;
         for(let phase of process.phases){
-            maxId= maxId > phase.phaseid ? maxId : phase.phaseid; 
+            if(phase) maxId= maxId > phase.phaseid ? maxId : phase.phaseid; 
         }
         return maxId+1;
     }

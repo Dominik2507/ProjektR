@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 
 import {Link} from "react-router-dom";
 
-import {faCheckCircle, faClock, faA, faStar as faStarFull, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle, faClock, faA, faStar as faStarFull, faUser, faCircleXmark, faCircleCheck} from "@fortawesome/free-solid-svg-icons";
 import {faStar} from "@fortawesome/free-regular-svg-icons"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthContext} from "../../context/AuthContext";
@@ -15,11 +15,18 @@ export default function ProcessInlineView({process,handleToogleFav,isFavourite})
     return (
         <div className="card my-3 w-100 mw-100 mx-auto">
             <div className="card-header d-flex flex-row justify-content-between align-items-center ">
-                <p className="mb-0 fw-bold">{process.name}
-                {process.hash &&
-                    <a href={`https://preview.cardanoscan.io/transaction/${process.hash}`} >
-                        <FontAwesomeIcon icon={faCheckCircle} style={{cursor:"pointer", marginLeft: "5px"}} />
-                    </a>
+                <p className="mb-0 fw-bold d-flex align-items-center gap-1">
+                    <span>{process.name}</span>
+                {
+                    process.hash && process?.verification == "verified" ?
+                        <a href={`https://preview.cardanoscan.io/transaction/${process.hash}`} className="d-flex align-items-center justify-content-center">
+                            <FontAwesomeIcon icon={faCircleCheck}  title={"Check cardano data"} style={{cursor:"pointer", color:"blue"}} />
+                        </a>
+                        :
+                        process?.verification == "reported" ?
+                            <FontAwesomeIcon icon={faCircleXmark} style={{color:"red"}} />
+                            :
+                            <></>
                 }
                 </p>
                 {currentUser &&
@@ -33,12 +40,12 @@ export default function ProcessInlineView({process,handleToogleFav,isFavourite})
             <div className="card-body">
                   <span className="d-flex gap-3 mb-3 align-items-center card-text">
                     <FontAwesomeIcon icon={faUser} />
-                    <p className="card-text">{process.creator}</p>
+                    <p className="card-text">{process?.creator?.name || (process?.creator?.firstname + " " + process?.creator?.lastname)}</p>
                 </span>
-                <span className="d-flex gap-3 mb-3 align-items-center card-text">
+                {/* {<span className="d-flex gap-3 mb-3 align-items-center card-text">
                     <FontAwesomeIcon icon={faClock} />
                     <p className="card-text">{time}</p>
-                </span>
+                </span>} */}
                 {process?.description !== "" &&
                 <span className="d-flex gap-3 align-items-center  card-text text-start">
                     <FontAwesomeIcon icon={faA} />

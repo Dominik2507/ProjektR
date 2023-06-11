@@ -91,7 +91,7 @@ export default function Profile(){
                                          }}
                                         onClick={() => setCurrentTab(1)}
                                     >
-                                        My favorite processes</p>
+                                        Favorite processes</p>
                                 </li>
                             </ul>
                         </div>
