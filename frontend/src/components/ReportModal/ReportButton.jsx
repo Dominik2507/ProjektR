@@ -8,7 +8,7 @@ export default function ReportButton({handleOpen}){
 
     return(
         <button className="iconReport" onClick={handleOpen}>
-            <FontAwesomeIcon icon={faWarning}></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faWarning} />
         </button>
     )
 }

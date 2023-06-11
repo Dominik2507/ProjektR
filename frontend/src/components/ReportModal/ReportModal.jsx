@@ -48,7 +48,10 @@ function ReportModal({handleClose, processid, reportedBy, openSnackbar}) {
       
             </div>
             {
-              reportedBy && <ModalFooter handleSave={handleSave} handleClose={handleClose} />
+              reportedBy ? 
+                <ModalFooter handleSave={handleSave} handleClose={handleClose}/>
+                :
+                <ModalFooter handleClose={handleClose}/>
             }
         </Modal>
     </div>

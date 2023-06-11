@@ -1,0 +1,31 @@
+Insert into user_data VALUES (1, 'user@fer.hr', 'lozinka');
+Insert into process (name, start_datetime, end_datetime, description, userid) VALUES ('ProcessName', '2022-10-10', '2022-10-31', 'Generic process description', 1);
+
+Insert into process_phase (start_datetime, end_datetime, description, active,processid) VALUES ('2022-10-10', '2022-10-15', 'The first phase of given process','f', 3);
+Insert into process_phase (start_datetime, end_datetime, description, active,processid) VALUES ('2022-10-15', '2022-10-31', 'The second phase of given process','t', 3);
+Insert into process_component(name, phaseid) VALUES ('komponenta 1', 1);
+Insert into process_component(name, phaseid) VALUES ('komponenta 2', 1);
+Insert into process_component(name, phaseid) VALUES ('komponenta 3', 1);
+Insert into process_component(name, phaseid) VALUES ('komponenta 1', 2);
+Insert into process_component(name, phaseid) VALUES ('komponenta 2', 2);
+Insert into process_component(name, phaseid) VALUES ('komponenta 3', 2);
+
+CREATE VIEW component_with_params as
+SELECT process_component.*,
+	(SELECT json_agg(parameter) 
+	 FROM parameter 
+	 WHERE process_component.componentid=parameter.componentid) as params
+FROM process_component
+
+CREATE VIEW phase_with_components as
+SELECT process_phase.*,
+	(SELECT json_agg(component_with_params) FROM component_with_params WHERE component_with_params.phaseid=process_phase.phaseid) as components,
+	(SELECT json_agg(parameter) FROM parameter WHERE parameter.phaseid=process_phase.phaseid) as params
+FROM process_phase;
+
+CREATE VIEW process_with_phases as
+SELECT process.*, 
+	(SELECT json_agg(phase_with_components) FROM phase_with_components where phase_with_components.processid=process.processid) as phases,
+	(SELECT json_agg(parameter) from parameter where parameter.processid=process.processid) as params
+FROM process;
+

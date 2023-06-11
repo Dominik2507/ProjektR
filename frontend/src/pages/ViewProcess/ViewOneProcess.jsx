@@ -24,6 +24,8 @@ import { AuthContext } from "../../context/AuthContext";
 import GlassBackground from "../../components/GlassBackgroud";
 import { Snackbar } from "@mui/material";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import HashIconButton from "../../components/HashModal/HashIconButton";
+import HashModal from "../../components/HashModal/HashModal";
 
 export default function ViewOneProcess(){
     const { id } = useParams();
@@ -38,6 +40,7 @@ export default function ViewOneProcess(){
     const [modalComponentOpen, setModalComponentOpen] = useState(false);
     const [modalQROpen, setModalQROpen]= useState(false);
     const [modalReportOpen, setModalReportOpen]= useState(false);
+    const [modalHashOpen, setModalHashOpen]= useState(false);
     const [phaseParamSelected, setPhaseParamSelected] = useState(null);
     const [componentSelected,setComponentSelected] = useState(null);
     const [paramId, setParamId] = useState(-1);
@@ -121,6 +124,10 @@ export default function ViewOneProcess(){
         setModalReportOpen(true);
     }
 
+    const handleOpenHashModal = () => {
+        setModalHashOpen(true);
+    }
+
     const handleCloseModal = () => {
         setModalPhaseOpen(false);
         setPhaseParamSelected(null);
@@ -138,7 +145,11 @@ export default function ViewOneProcess(){
     const handleCloseReportModal = () => {
         setModalReportOpen(false);
     }
-    
+
+    const handleCloseHashModal = () => {
+        setModalHashOpen(false);
+    }
+
     const handleStartBulk = () =>{
         if(!window.confirm("Are you sure you want to add a new batch?")) return; 
         const phaseid_list = process.phases.map(phase=>phase.phaseid); 
@@ -197,6 +208,14 @@ export default function ViewOneProcess(){
                 </>
             }
 
+            {
+                modalHashOpen && 
+                <>
+                    <GlassBackground/>
+                    <HashModal openSnackbar={handleOpenSnackbar} processid={id} handleClose={handleCloseHashModal}/>
+                </>
+            }
+
             <div className={phase ? "grid-one-process w-100" : "w-100 mt-5"}>
                 
                 {process &&
@@ -226,6 +245,7 @@ export default function ViewOneProcess(){
                                 <div>
                                     {!phase && <QRButton handleOpen={handleOpenQRModal}/> }
                                     {!phase && <ReportButton handleOpen={handleOpenReportModal}/> }
+                                    {!phase && <HashIconButton handleOpen={handleOpenHashModal}/> }
                                 </div>
                             </div>
                         <div className="process-view">

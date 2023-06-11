@@ -199,7 +199,7 @@ router.get("/getProcessHash/:id", (req, res) => {
     const sql = `
         SELECT *
         FROM blockchain
-        WHERE id = $1
+        WHERE processid = $1
         ORDER BY processid desc
         `;
 
@@ -208,6 +208,34 @@ router.get("/getProcessHash/:id", (req, res) => {
       console.log(result.rows[0]);
 
       res.send(result.rows[0]);
+    } catch (e) {
+      console.log(e);
+      res.send(null);
+    }
+  })();
+});
+
+router.get("/getProcessHash/all/:id", (req, res) => {
+  (async () => {
+    let id = parseInt(req.params.id);
+    if (Number.isNaN(id)) {
+      res.status(400);
+      res.send("Please check your request, id should be number");
+      return;
+    }
+
+    const sql = `
+        SELECT *
+        FROM blockchain
+        WHERE processid = $1
+        ORDER BY processid desc
+        `;
+
+    try {
+      const result = await db.query(sql, [id]);
+      console.log(result.rows[0]);
+
+      res.send(result.rows);
     } catch (e) {
       console.log(e);
       res.send(null);

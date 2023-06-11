@@ -10,6 +10,7 @@ import QRCodeReader from 'qrcode-reader';
 
 
 import "./QRStyle.css";
+import ModalFooter from '../Modal/ModalFooter';
 
 function QRModal({handleClose, batchIndex}) {
 
@@ -82,6 +83,7 @@ function QRModal({handleClose, batchIndex}) {
                   </button>
                </div>
             </div>
+            <ModalFooter handleClose={handleClose} />
         </Modal>
     </div>
   );

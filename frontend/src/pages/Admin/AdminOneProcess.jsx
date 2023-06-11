@@ -59,7 +59,8 @@ export default function AdminOneProcess(){
         axios.get(`${backend_paths.HASH}/${id}`)
             .then(res => res.data)
             .then(data => {
-                console.log("hash",data)
+                console.log("hash", data)
+                console.log(typeof data)
                 setHash(data.transactionid)
             })
             .catch(err => console.log(err));
@@ -177,10 +178,18 @@ export default function AdminOneProcess(){
         setOpenErrorSnackbar(false);
         setOpenInfoSnackbar(false);
     };
+
+    const setRadioButtonValue = (e)=>{ 
+
+        setForm((previous) => {
+            return {...previous, "verification": e.target.value}
+        }); 
+    }
     
     if(edit && form === undefined){
         setForm(process)
     }
+    console.log(process?.verification)
     return(
         <div className="w-100" style={{textAlign:"left"}}>
            <div className="d-flex flex-row align-items-center justify-content-center m-3">
@@ -207,17 +216,17 @@ export default function AdminOneProcess(){
                 
                 <div className="d-flex flex-column ps-2">
                     <div>
-                        <input type="radio" onChange={ (e)=>{ setForm((previous) => setForm({...previous, "verification": e.target.value})) }} checked={form?.verification=="verified"} id="check" name="hash_icon" value="verified"/>
+                        <input type="radio" onChange={setRadioButtonValue} checked={form?.verification=="verified"} id="check" name="hash_icon" value="verified"/>
                         <label for="check"><FontAwesomeIcon icon={faCircleCheck} className="ps-1" style={{color:"blue"}} /></label>
                     </div>
 
                     <div>
-                        <input type="radio" onChange={ (e)=>{ setForm((previous) => setForm({...previous, "verification": e.target.value})) }} checked={form?.verification=="reported"} id="xmark" name="hash_icon" value="reported"/>
+                        <input type="radio" onChange={setRadioButtonValue} checked={form?.verification=="reported"} id="xmark" name="hash_icon" value="reported"/>
                         <label for="xmark"><FontAwesomeIcon icon={faCircleXmark} className="ps-1" style={{color:"red"}} /></label>
                     </div>
                     
                     <div>
-                        <input type="radio" onChange={ (e)=>{ setForm((previous) => setForm({...previous, "verification": e.target.value})) }} checked={form?.verification=="none"} id="noIcon" name="hash_icon" value="none"/>
+                        <input type="radio" onChange={setRadioButtonValue} checked={form?.verification=="none"} id="noIcon" name="hash_icon" value="none"/>
                         <label for="noIcon" className="ps-1">No icon</label>
                     </div>
                     
